@@ -54,7 +54,8 @@
     }
   },
   "footer": {
-    "text": "Creado para cocineros caseros, blogueros de comida y pequeños negocios de alimentos. Las conversiones automáticas de unidades hacen que calcular costos de recetas sea más rápido que con papel y calculadora."
+    "text": "Creado para cocineros caseros, blogueros de comida y peque\u00f1os negocios de alimentos. Las conversiones autom\u00e1ticas de unidades hacen que calcular costos de recetas sea m\u00e1s r\u00e1pido que con papel y calculadora.",
+    "shareFeedback": "Compartir Comentarios"
   },
   "dialogs": {
     "saveAs": {

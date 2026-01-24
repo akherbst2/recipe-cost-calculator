@@ -54,7 +54,8 @@
     }
   },
   "footer": {
-    "text": "Built for home cooks, food bloggers, and small food businesses. Automatic unit conversions make recipe costing faster than pen and paper."
+    "text": "Built for home cooks, food bloggers, and small food businesses. Automatic unit conversions make recipe costing faster than pen and paper.",
+    "shareFeedback": "Share Feedback"
   },
   "dialogs": {
     "saveAs": {

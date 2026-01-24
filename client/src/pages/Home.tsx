@@ -19,7 +19,7 @@ import { exportToCSV, exportToExcel } from '@/lib/exportRecipe';
 import { deleteRecipe, getSavedRecipes, saveRecipe } from '@/lib/recipeStorage';
 import { Ingredient, SavedRecipe } from '@/lib/types';
 import { calculateIngredientCost, canConvert } from '@/lib/unitConversions';
-import { ChevronDown, Download, FolderOpen, Plus, Save, Trash2 } from 'lucide-react';
+import { ChevronDown, Download, FolderOpen, MessageSquare, Plus, Save, Trash2 } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -459,10 +459,21 @@ export default function Home() {
 
       {/* Footer */}
       <div className="border-t border-border/50 mt-16">
-        <div className="container py-8 text-center text-sm text-muted-foreground">
-          <p>
+        <div className="container py-8 text-center">
+          <p className="text-sm text-muted-foreground mb-4">
             {t('footer.text')}
           </p>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              window.location.href = 'mailto:alyssaherbst@gmail.com?subject=Recipcalc:%20';
+            }}
+            className="text-xs"
+          >
+            <MessageSquare className="h-3.5 w-3.5 mr-2" />
+            {t('footer.shareFeedback')}
+          </Button>
         </div>
       </div>
 

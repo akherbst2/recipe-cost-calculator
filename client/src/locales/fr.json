@@ -54,7 +54,8 @@
     }
   },
   "footer": {
-    "text": "Conçu pour les cuisiniers amateurs, les blogueurs culinaires et les petites entreprises alimentaires. Les conversions d'unités automatiques rendent le calcul des coûts de recettes plus rapide que le papier et la calculatrice."
+    "text": "Con\u00e7u pour les cuisiniers amateurs, les blogueurs culinaires et les petites entreprises alimentaires. Les conversions d'unit\u00e9s automatiques rendent le calcul des co\u00fbts de recettes plus rapide que le papier et la calculatrice.",
+    "shareFeedback": "Partager des Commentaires"
   },
   "dialogs": {
     "saveAs": {
