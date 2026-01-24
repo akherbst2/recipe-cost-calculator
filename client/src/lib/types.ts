@@ -17,3 +17,12 @@ export interface Recipe {
   servings: number;
   costPerServing: number;
 }
+
+export interface SavedRecipe {
+  id: string;
+  name: string;
+  ingredients: Ingredient[];
+  servings: number;
+  batchMultiplier: number;
+  savedAt: string;
+}

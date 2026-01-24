@@ -1,12 +1,15 @@
-/* Design: Organic Modernism with Culinary Warmth
+/** Design: Organic Modernism with Culinary Warmth
    Asymmetric layout, textured backgrounds, warm color palette, gentle animations */
 
 import { Button } from '@/components/ui/button';
 import CostSummary from '@/components/CostSummary';
 import IngredientCard from '@/components/IngredientCard';
-import { Ingredient } from '@/lib/types';
+import LoadRecipeDialog from '@/components/LoadRecipeDialog';
+import SaveRecipeDialog from '@/components/SaveRecipeDialog';
+import { deleteRecipe, getSavedRecipes, saveRecipe } from '@/lib/recipeStorage';
+import { Ingredient, SavedRecipe } from '@/lib/types';
 import { calculateIngredientCost, canConvert } from '@/lib/unitConversions';
-import { Plus } from 'lucide-react';
+import { FolderOpen, Plus, Save } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -15,6 +18,10 @@ export default function Home() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [servings, setServings] = useState<number>(4);
   const [batchMultiplier, setBatchMultiplier] = useState<number>(1);
+  const [savedRecipes, setSavedRecipes] = useState<SavedRecipe[]>([]);
+  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [loadDialogOpen, setLoadDialogOpen] = useState(false);
+  const [currentRecipeId, setCurrentRecipeId] = useState<string | null>(null);
 
   // Calculate total cost whenever ingredients change
   const totalCost = ingredients.reduce((sum, ing) => sum + ing.calculatedCost, 0);
@@ -49,19 +56,20 @@ export default function Home() {
           ) {
             // Check if units are compatible
             if (!canConvert(updated.usedUnit, updated.packageUnit)) {
-              toast.error('Unit mismatch', {
-                description: `Cannot convert ${updated.usedUnit} to ${updated.packageUnit}. Please use compatible units (e.g., both weight or both volume).`,
-              });
-              updated.calculatedCost = 0;
-            } else {
-              updated.calculatedCost = calculateIngredientCost(
-                updated.usedQuantity,
-                updated.usedUnit,
-                updated.packageCost,
-                updated.packageSize,
-                updated.packageUnit
+              toast.error(
+                `Cannot convert ${updated.usedUnit} to ${updated.packageUnit}. Please use compatible units.`,
+                { duration: 4000 }
               );
+              return ing; // Return original if conversion not possible
             }
+
+            updated.calculatedCost = calculateIngredientCost(
+              updated.usedQuantity,
+              updated.usedUnit,
+              updated.packageCost,
+              updated.packageSize,
+              updated.packageUnit
+            );
           } else {
             updated.calculatedCost = 0;
           }
@@ -95,6 +103,11 @@ export default function Home() {
     }
   };
 
+  // Load saved recipes on mount
+  useEffect(() => {
+    setSavedRecipes(getSavedRecipes());
+  }, []);
+
   // Add initial ingredient on mount
   useEffect(() => {
     if (ingredients.length === 0) {
@@ -102,44 +115,113 @@ export default function Home() {
     }
   }, []);
 
+  const handleSaveRecipe = (name: string) => {
+    const recipe: SavedRecipe = {
+      id: currentRecipeId || nanoid(),
+      name,
+      ingredients,
+      servings,
+      batchMultiplier,
+      savedAt: new Date().toISOString(),
+    };
+    
+    try {
+      saveRecipe(recipe);
+      setSavedRecipes(getSavedRecipes());
+      setCurrentRecipeId(recipe.id);
+      toast.success(`Recipe "${name}" saved successfully!`);
+    } catch (error) {
+      toast.error('Failed to save recipe');
+    }
+  };
+
+  const handleLoadRecipe = (recipe: SavedRecipe) => {
+    setIngredients(recipe.ingredients);
+    setServings(recipe.servings);
+    setBatchMultiplier(recipe.batchMultiplier);
+    setCurrentRecipeId(recipe.id);
+    toast.success(`Recipe "${recipe.name}" loaded!`);
+  };
+
+  const handleDeleteRecipe = (id: string) => {
+    const recipe = savedRecipes.find((r) => r.id === id);
+    if (recipe) {
+      try {
+        deleteRecipe(id);
+        setSavedRecipes(getSavedRecipes());
+        if (currentRecipeId === id) {
+          setCurrentRecipeId(null);
+        }
+        toast.success(`Recipe "${recipe.name}" deleted`);
+      } catch (error) {
+        toast.error('Failed to delete recipe');
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen texture-overlay">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-primary/10 via-background to-accent/5 border-b border-border/50">
-        <div className="container py-12 lg:py-16">
-          <div className="max-w-3xl">
-            <h1 className="text-5xl lg:text-6xl font-display font-bold text-foreground mb-4 leading-tight">
-              Recipe Cost Calculator
-            </h1>
-            <p className="text-lg lg:text-xl text-muted-foreground leading-relaxed">
-              Calculate the true cost of your recipes with automatic unit conversions. 
-              Perfect for home cooks, food bloggers, and small food businesses.
-            </p>
-          </div>
+    <div className="min-h-screen flex flex-col bg-background">
+      {/* Hero Section with Textured Background */}
+      <div
+        className="relative bg-gradient-to-br from-primary/10 via-accent/5 to-background border-b border-border/50 overflow-hidden"
+        style={{
+          backgroundImage: 'url(/images/hero-background.png)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundBlendMode: 'soft-light',
+        }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 to-background/95" />
+        <div className="container relative z-10 py-16 md:py-24">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-4 tracking-tight">
+            Recipe Cost Calculator
+          </h1>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
+            Calculate the true cost of your recipes with automatic unit conversions. Perfect for home cooks, food bloggers, and small food businesses.
+          </p>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="container py-8 lg:py-12">
+      <div className="container py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Ingredients Section - 2 columns on desktop */}
           <div className="lg:col-span-2 space-y-6">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between gap-4 flex-wrap">
               <div>
-                <h2 className="text-2xl font-semibold text-foreground mb-1">
+                <h2 className="text-2xl font-heading font-semibold text-foreground mb-1">
                   Ingredients
                 </h2>
                 <p className="text-sm text-muted-foreground">
                   Add all ingredients used in your recipe
                 </p>
               </div>
-              <Button
-                onClick={addIngredient}
-                className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-soft"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Ingredient
-              </Button>
+              <div className="flex flex-wrap gap-2">
+                <Button
+                  onClick={addIngredient}
+                  className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-soft"
+                >
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Ingredient
+                </Button>
+                <Button
+                  onClick={() => setSaveDialogOpen(true)}
+                  variant="outline"
+                  className="shadow-soft"
+                  disabled={ingredients.length === 0}
+                >
+                  <Save className="h-4 w-4 mr-2" />
+                  Save
+                </Button>
+                <Button
+                  onClick={() => setLoadDialogOpen(true)}
+                  variant="outline"
+                  className="shadow-soft"
+                >
+                  <FolderOpen className="h-4 w-4 mr-2" />
+                  Load
+                </Button>
+              </div>
             </div>
 
             {ingredients.length === 0 ? (
@@ -226,6 +308,22 @@ export default function Home() {
           </p>
         </div>
       </div>
+
+      {/* Save Recipe Dialog */}
+      <SaveRecipeDialog
+        open={saveDialogOpen}
+        onOpenChange={setSaveDialogOpen}
+        onSave={handleSaveRecipe}
+      />
+
+      {/* Load Recipe Dialog */}
+      <LoadRecipeDialog
+        open={loadDialogOpen}
+        onOpenChange={setLoadDialogOpen}
+        recipes={savedRecipes}
+        onLoad={handleLoadRecipe}
+        onDelete={handleDeleteRecipe}
+      />
 
       {/* Keyframe animation for cards */}
       <style>{`
