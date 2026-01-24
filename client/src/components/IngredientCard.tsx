@@ -167,11 +167,11 @@ export default function IngredientCard({
         </div>
 
         <div className="flex items-end">
-          <div className="w-full bg-accent/10 rounded-lg p-3 border border-accent/20">
-            <div className="text-xs font-semibold text-accent-foreground/70 uppercase tracking-wide mb-1">
+          <div className="w-full bg-accent/15 rounded-lg p-3 border border-accent/30">
+            <div className="text-xs font-semibold text-foreground/60 uppercase tracking-wide mb-1">
               Cost for this recipe
             </div>
-            <div className="text-2xl font-display font-bold text-accent">
+            <div className="text-2xl font-display font-bold" style={{ color: '#C86F45' }}>
               ${ingredient.calculatedCost.toFixed(2)}
             </div>
           </div>
