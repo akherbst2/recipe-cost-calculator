@@ -33,7 +33,23 @@ export default function IngredientCard({
 }: IngredientCardProps) {
   const { t } = useTranslation();
   const handleChange = (field: keyof Ingredient, value: string | number) => {
-    onUpdate(ingredient.id, { [field]: value });
+    const updates: Partial<Ingredient> = { [field]: value };
+    
+    // Mark package size as manually set when user changes it
+    if (field === 'packageSize' || field === 'packageUnit') {
+      updates.packageSizeManuallySet = true;
+    }
+    
+    // Auto-sync package to quantity if not manually set
+    if ((field === 'usedQuantity' || field === 'usedUnit') && !ingredient.packageSizeManuallySet) {
+      if (field === 'usedQuantity') {
+        updates.packageSize = value as number;
+      } else if (field === 'usedUnit') {
+        updates.packageUnit = value as Unit;
+      }
+    }
+    
+    onUpdate(ingredient.id, updates);
   };
 
   return (
@@ -159,7 +175,6 @@ export default function IngredientCard({
             <Select
               value={ingredient.packageUnit}
               onValueChange={(value) => handleChange('packageUnit', value as Unit)}
-              disabled={!ingredient.packageSize}
             >
               <SelectTrigger className="w-[100px]">
                 <SelectValue />

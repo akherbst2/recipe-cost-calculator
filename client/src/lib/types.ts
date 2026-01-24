@@ -9,6 +9,7 @@ export interface Ingredient {
   packageSize: number;
   packageUnit: Unit;
   calculatedCost: number;
+  packageSizeManuallySet?: boolean;
 }
 
 export interface Recipe {
