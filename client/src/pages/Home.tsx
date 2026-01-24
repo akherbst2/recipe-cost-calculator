@@ -11,6 +11,7 @@ import {
 import CostSummary from '@/components/CostSummary';
 import IngredientCard from '@/components/IngredientCard';
 import LoadRecipeDialog from '@/components/LoadRecipeDialog';
+import SaveAsDialog from '@/components/SaveAsDialog';
 import SaveRecipeDialog from '@/components/SaveRecipeDialog';
 import { exportToCSV, exportToExcel } from '@/lib/exportRecipe';
 import { deleteRecipe, getSavedRecipes, saveRecipe } from '@/lib/recipeStorage';
@@ -26,9 +27,10 @@ export default function Home() {
   const [servings, setServings] = useState<number>(4);
   const [batchMultiplier, setBatchMultiplier] = useState<number>(1);
   const [savedRecipes, setSavedRecipes] = useState<SavedRecipe[]>([]);
-  const [saveDialogOpen, setSaveDialogOpen] = useState(false);
+  const [saveAsDialogOpen, setSaveAsDialogOpen] = useState(false);
   const [loadDialogOpen, setLoadDialogOpen] = useState(false);
   const [currentRecipeId, setCurrentRecipeId] = useState<string | null>(null);
+  const [currentRecipeName, setCurrentRecipeName] = useState<string>('');
 
   // Calculate total cost whenever ingredients change
   const totalCost = ingredients.reduce((sum, ing) => sum + ing.calculatedCost, 0);
@@ -122,9 +124,36 @@ export default function Home() {
     }
   }, []);
 
-  const handleSaveRecipe = (name: string) => {
+  // Handle Save (update existing recipe)
+  const handleSave = () => {
+    if (!currentRecipeId || !currentRecipeName) {
+      // No current recipe, open Save As dialog
+      setSaveAsDialogOpen(true);
+      return;
+    }
+
     const recipe: SavedRecipe = {
-      id: currentRecipeId || nanoid(),
+      id: currentRecipeId,
+      name: currentRecipeName,
+      ingredients,
+      servings,
+      batchMultiplier,
+      savedAt: new Date().toISOString(),
+    };
+    
+    try {
+      saveRecipe(recipe);
+      setSavedRecipes(getSavedRecipes());
+      toast.success(`Recipe "${currentRecipeName}" saved!`);
+    } catch (error) {
+      toast.error('Failed to save recipe');
+    }
+  };
+
+  // Handle Save As (create new recipe)
+  const handleSaveAs = (name: string) => {
+    const recipe: SavedRecipe = {
+      id: nanoid(),
       name,
       ingredients,
       servings,
@@ -136,7 +165,8 @@ export default function Home() {
       saveRecipe(recipe);
       setSavedRecipes(getSavedRecipes());
       setCurrentRecipeId(recipe.id);
-      toast.success(`Recipe "${name}" saved successfully!`);
+      setCurrentRecipeName(name);
+      toast.success(`Recipe "${name}" saved as new recipe!`);
     } catch (error) {
       toast.error('Failed to save recipe');
     }
@@ -147,7 +177,19 @@ export default function Home() {
     setServings(recipe.servings);
     setBatchMultiplier(recipe.batchMultiplier);
     setCurrentRecipeId(recipe.id);
+    setCurrentRecipeName(recipe.name);
     toast.success(`Recipe "${recipe.name}" loaded!`);
+  };
+
+  const handleDuplicateRecipe = (recipe: SavedRecipe) => {
+    setIngredients(recipe.ingredients);
+    setServings(recipe.servings);
+    setBatchMultiplier(recipe.batchMultiplier);
+    setCurrentRecipeId(null);
+    setCurrentRecipeName('');
+    setLoadDialogOpen(false);
+    setSaveAsDialogOpen(true);
+    toast.info(`Duplicating "${recipe.name}" - enter a new name`);
   };
 
   const handleDeleteRecipe = (id: string) => {
@@ -171,6 +213,7 @@ export default function Home() {
     setServings(4);
     setBatchMultiplier(1);
     setCurrentRecipeId(null);
+    setCurrentRecipeName('');
     toast.success('All ingredients cleared');
   };
 
@@ -253,15 +296,27 @@ export default function Home() {
                   <Plus className="h-4 w-4 mr-2" />
                   Add Ingredient
                 </Button>
-                <Button
-                  onClick={() => setSaveDialogOpen(true)}
-                  variant="outline"
-                  className="shadow-soft"
-                  disabled={ingredients.length === 0}
-                >
-                  <Save className="h-4 w-4 mr-2" />
-                  Save
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="shadow-soft"
+                      disabled={ingredients.length === 0}
+                    >
+                      <Save className="h-4 w-4 mr-2" />
+                      Save
+                      <ChevronDown className="h-4 w-4 ml-2" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start">
+                    <DropdownMenuItem onClick={handleSave}>
+                      {currentRecipeId ? `Save "${currentRecipeName}"` : 'Save As...'}
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setSaveAsDialogOpen(true)}>
+                      Save As...
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <Button
                   onClick={() => setLoadDialogOpen(true)}
                   variant="outline"
@@ -388,11 +443,12 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Save Recipe Dialog */}
-      <SaveRecipeDialog
-        open={saveDialogOpen}
-        onOpenChange={setSaveDialogOpen}
-        onSave={handleSaveRecipe}
+      {/* Save As Dialog */}
+      <SaveAsDialog
+        open={saveAsDialogOpen}
+        onOpenChange={setSaveAsDialogOpen}
+        onSave={handleSaveAs}
+        currentName={currentRecipeName}
       />
 
       {/* Load Recipe Dialog */}
@@ -402,6 +458,7 @@ export default function Home() {
         recipes={savedRecipes}
         onLoad={handleLoadRecipe}
         onDelete={handleDeleteRecipe}
+        onDuplicate={handleDuplicateRecipe}
       />
 
       {/* Keyframe animation for cards */}

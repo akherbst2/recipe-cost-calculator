@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { SavedRecipe } from '@/lib/types';
-import { Calendar, DollarSign, Trash2 } from 'lucide-react';
+import { Calendar, Copy, Trash2 } from 'lucide-react';
 
 interface LoadRecipeDialogProps {
   open: boolean;
@@ -22,6 +22,7 @@ interface LoadRecipeDialogProps {
   recipes: SavedRecipe[];
   onLoad: (recipe: SavedRecipe) => void;
   onDelete: (id: string) => void;
+  onDuplicate: (recipe: SavedRecipe) => void;
 }
 
 export default function LoadRecipeDialog({
@@ -30,6 +31,7 @@ export default function LoadRecipeDialog({
   recipes,
   onLoad,
   onDelete,
+  onDuplicate,
 }: LoadRecipeDialogProps) {
   const handleLoad = (recipe: SavedRecipe) => {
     onLoad(recipe);
@@ -84,7 +86,6 @@ export default function LoadRecipeDialog({
                         </h3>
                         <div className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
                           <div className="flex items-center gap-1">
-                            <DollarSign className="h-3.5 w-3.5" />
                             <span>${(totalCost * recipe.batchMultiplier).toFixed(2)}</span>
                           </div>
                           <div className="flex items-center gap-1">
@@ -96,18 +97,32 @@ export default function LoadRecipeDialog({
                           {recipe.ingredients.length} ingredient{recipe.ingredients.length !== 1 ? 's' : ''} • {recipe.servings * recipe.batchMultiplier} serving{recipe.servings * recipe.batchMultiplier !== 1 ? 's' : ''}
                         </div>
                       </div>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onDelete(recipe.id);
-                        }}
-                        aria-label="Delete recipe"
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                      <div className="flex gap-1">
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-foreground hover:bg-accent/30"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDuplicate(recipe);
+                          }}
+                          aria-label="Duplicate recipe"
+                        >
+                          <Copy className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDelete(recipe.id);
+                          }}
+                          aria-label="Delete recipe"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                 );
