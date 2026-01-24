@@ -6,10 +6,11 @@ import CostSummary from '@/components/CostSummary';
 import IngredientCard from '@/components/IngredientCard';
 import LoadRecipeDialog from '@/components/LoadRecipeDialog';
 import SaveRecipeDialog from '@/components/SaveRecipeDialog';
+import { exportToGoogleSheets } from '@/lib/exportToSheets';
 import { deleteRecipe, getSavedRecipes, saveRecipe } from '@/lib/recipeStorage';
 import { Ingredient, SavedRecipe } from '@/lib/types';
 import { calculateIngredientCost, canConvert } from '@/lib/unitConversions';
-import { FolderOpen, Plus, Save, Trash2 } from 'lucide-react';
+import { FileSpreadsheet, FolderOpen, Plus, Save, Trash2 } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -167,6 +168,23 @@ export default function Home() {
     toast.success('All ingredients cleared');
   };
 
+  const handleExportToSheets = () => {
+    const currentRecipe = currentRecipeId
+      ? savedRecipes.find((r) => r.id === currentRecipeId)
+      : null;
+    const recipeName = currentRecipe?.name || 'Untitled Recipe';
+    
+    exportToGoogleSheets(
+      ingredients,
+      totalCost,
+      servings,
+      batchMultiplier,
+      recipeName
+    );
+    
+    toast.success('Recipe exported! CSV downloaded and Google Sheets opened.');
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Hero Section with Textured Background */}
@@ -228,6 +246,15 @@ export default function Home() {
                 >
                   <FolderOpen className="h-4 w-4 mr-2" />
                   Load
+                </Button>
+                <Button
+                  onClick={handleExportToSheets}
+                  variant="outline"
+                  className="shadow-soft"
+                  disabled={ingredients.length === 0}
+                >
+                  <FileSpreadsheet className="h-4 w-4 mr-2" />
+                  Export to Sheets
                 </Button>
                 <Button
                   onClick={handleClearAll}
