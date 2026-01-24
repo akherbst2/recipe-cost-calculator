@@ -1,0 +1,97 @@
+{
+  "hero": {
+    "title": "Recipe Cost Calculator",
+    "subtitle": "Calculate the true cost of your recipes with automatic unit conversions. Perfect for home cooks, food bloggers, and small food businesses."
+  },
+  "ingredients": {
+    "title": "Ingredients",
+    "subtitle": "Add all ingredients used in your recipe",
+    "addButton": "Add Ingredient",
+    "saveButton": "Save",
+    "saveAs": "Save As...",
+    "saveRecipe": "Save \"{{name}}\"",
+    "loadButton": "Load",
+    "exportButton": "Export",
+    "exportCSV": "Export as CSV",
+    "exportExcel": "Export as Excel",
+    "clearButton": "Clear All",
+    "ingredientName": "Ingredient Name",
+    "ingredientPlaceholder": "e.g., Pasta, Onions, Olive Oil",
+    "quantityUsed": "Quantity Used",
+    "packageCost": "Package Cost",
+    "packageSize": "Package Size",
+    "costForRecipe": "Cost for this recipe",
+    "duplicateHint": "Duplicate ingredient",
+    "deleteHint": "Delete ingredient"
+  },
+  "costSummary": {
+    "totalCost": "Total Cost",
+    "totalCostDesc": "Sum of all ingredients",
+    "servingsPerRecipe": "Servings Per Recipe",
+    "batchesToMake": "Batches to Make",
+    "batchesDesc": "For caterers: multiply recipe for large events",
+    "costPerServing": "Cost Per Serving",
+    "costPerServingCalc": "{{cost}} ÷ {{servings}} servings",
+    "batchMultiplier": "× {{batches}} batches"
+  },
+  "tips": {
+    "tip": "💡 Tip: Add all your ingredients above to see automatic cost calculations with unit conversions."
+  },
+  "examples": {
+    "title": "How It Works",
+    "pasta": {
+      "title": "Example: Pasta",
+      "description": "Buy 1 lb pasta for $1.49, use 1/2 lb in recipe → App calculates $0.75"
+    },
+    "onions": {
+      "title": "Example: Onions",
+      "description": "Buy 6 onions for $1.69, use 1 onion → App calculates $0.28"
+    }
+  },
+  "footer": {
+    "text": "Built for home cooks, food bloggers, and small food businesses. Automatic unit conversions make recipe costing faster than pen and paper."
+  },
+  "dialogs": {
+    "saveAs": {
+      "title": "Save Recipe As",
+      "description": "Enter a new name for this recipe. This will create a new saved recipe.",
+      "recipeName": "Recipe Name",
+      "placeholder": "e.g., Grandma's Apple Pie",
+      "cancel": "Cancel",
+      "save": "Save As New Recipe"
+    },
+    "load": {
+      "title": "Load Recipe",
+      "description": "Select a saved recipe to load its ingredients and settings.",
+      "noRecipes": "No saved recipes yet.",
+      "noRecipesHint": "Create a recipe and click \"Save Recipe\" to save it.",
+      "ingredient": "ingredient",
+      "ingredients": "ingredients",
+      "serving": "serving",
+      "servings": "servings"
+    }
+  },
+  "toasts": {
+    "recipeSaved": "Recipe \"{{name}}\" saved!",
+    "recipeSavedAs": "Recipe \"{{name}}\" saved as new recipe!",
+    "recipeLoaded": "Recipe \"{{name}}\" loaded!",
+    "recipeDuplicate": "Duplicating \"{{name}}\" - enter a new name",
+    "recipeDeleted": "Recipe \"{{name}}\" deleted",
+    "recipeExportedCSV": "Recipe exported as CSV!",
+    "recipeExportedExcel": "Recipe exported as Excel!",
+    "allCleared": "All ingredients cleared",
+    "saveFailed": "Failed to save recipe",
+    "deleteFailed": "Failed to delete recipe"
+  },
+  "units": {
+    "tsp": "tsp",
+    "tbsp": "tbsp",
+    "cup": "cup",
+    "oz": "oz",
+    "lb": "lb",
+    "g": "g",
+    "kg": "kg",
+    "ml": "ml",
+    "L": "L"
+  }
+}

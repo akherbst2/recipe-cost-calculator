@@ -14,6 +14,7 @@ import {
 import { Ingredient } from '@/lib/types';
 import { formatUnit, Unit, unitCategories } from '@/lib/unitConversions';
 import { Copy, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface IngredientCardProps {
   ingredient: Ingredient;
@@ -30,6 +31,7 @@ export default function IngredientCard({
   onDuplicate,
   index,
 }: IngredientCardProps) {
+  const { t } = useTranslation();
   const handleChange = (field: keyof Ingredient, value: string | number) => {
     onUpdate(ingredient.id, { [field]: value });
   };
@@ -45,13 +47,13 @@ export default function IngredientCard({
       <div className="flex items-start justify-between mb-4">
         <div className="flex-1">
           <Label htmlFor={`name-${ingredient.id}`} className="text-sm font-semibold text-foreground/80 mb-2 block">
-            Ingredient Name
+            {t('ingredients.ingredientName')}
           </Label>
           <Input
             id={`name-${ingredient.id}`}
             value={ingredient.name}
             onChange={(e) => handleChange('name', e.target.value)}
-            placeholder="e.g., Pasta, Onions, Olive Oil"
+            placeholder={t('ingredients.ingredientPlaceholder')}
             className="text-base font-medium"
           />
         </div>
@@ -61,7 +63,7 @@ export default function IngredientCard({
             size="icon"
             onClick={() => onDuplicate(ingredient.id)}
             className="text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-            aria-label="Duplicate ingredient"
+            aria-label={t('ingredients.duplicateHint')}
           >
             <Copy className="h-4 w-4" />
           </Button>
@@ -70,7 +72,7 @@ export default function IngredientCard({
             size="icon"
             onClick={() => onDelete(ingredient.id)}
             className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
-            aria-label="Delete ingredient"
+            aria-label={t('ingredients.deleteHint')}
           >
             <Trash2 className="h-4 w-4" />
           </Button>
@@ -80,7 +82,7 @@ export default function IngredientCard({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
         <div>
           <Label htmlFor={`used-qty-${ingredient.id}`} className="text-sm font-semibold text-foreground/80 mb-2 block">
-            Quantity Used
+            {t('ingredients.quantityUsed')}
           </Label>
           <div className="flex gap-2">
             <Input
@@ -120,7 +122,7 @@ export default function IngredientCard({
 
         <div>
           <Label htmlFor={`pkg-cost-${ingredient.id}`} className="text-sm font-semibold text-foreground/80 mb-2 block">
-            Package Cost
+            {t('ingredients.packageCost')}
           </Label>
           <div className="relative">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
@@ -141,7 +143,7 @@ export default function IngredientCard({
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div>
           <Label htmlFor={`pkg-size-${ingredient.id}`} className="text-sm font-semibold text-foreground/80 mb-2 block">
-            Package Size
+            {t('ingredients.packageSize')}
           </Label>
           <div className="flex gap-2">
             <Input
@@ -182,7 +184,7 @@ export default function IngredientCard({
         <div className="flex items-end">
           <div className="w-full bg-accent/15 rounded-lg p-3 border border-accent/30">
             <div className="text-xs font-semibold text-foreground/60 uppercase tracking-wide mb-1">
-              Cost for this recipe
+              {t('ingredients.costForRecipe')}
             </div>
             <div className="text-2xl font-display font-bold" style={{ color: '#C86F45' }}>
               ${ingredient.calculatedCost.toFixed(2)}

@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import AdSenseAd from '@/components/AdSenseAd';
 import CostSummary from '@/components/CostSummary';
+import LanguageSelector from '@/components/LanguageSelector';
 import IngredientCard from '@/components/IngredientCard';
 import LoadRecipeDialog from '@/components/LoadRecipeDialog';
 import SaveAsDialog from '@/components/SaveAsDialog';
@@ -21,9 +22,11 @@ import { calculateIngredientCost, canConvert } from '@/lib/unitConversions';
 import { ChevronDown, Download, FolderOpen, Plus, Save, Trash2 } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
 export default function Home() {
+  const { t } = useTranslation();
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [servings, setServings] = useState<number>(4);
   const [batchMultiplier, setBatchMultiplier] = useState<number>(1);
@@ -145,9 +148,9 @@ export default function Home() {
     try {
       saveRecipe(recipe);
       setSavedRecipes(getSavedRecipes());
-      toast.success(`Recipe "${currentRecipeName}" saved!`);
+      toast.success(t('toasts.recipeSaved', { name: currentRecipeName }));
     } catch (error) {
-      toast.error('Failed to save recipe');
+      toast.error(t('toasts.saveFailed'));
     }
   };
 
@@ -167,9 +170,9 @@ export default function Home() {
       setSavedRecipes(getSavedRecipes());
       setCurrentRecipeId(recipe.id);
       setCurrentRecipeName(name);
-      toast.success(`Recipe "${name}" saved as new recipe!`);
+      toast.success(t('toasts.recipeSavedAs', { name }));
     } catch (error) {
-      toast.error('Failed to save recipe');
+      toast.error(t('toasts.saveFailed'));
     }
   };
 
@@ -179,7 +182,7 @@ export default function Home() {
     setBatchMultiplier(recipe.batchMultiplier);
     setCurrentRecipeId(recipe.id);
     setCurrentRecipeName(recipe.name);
-    toast.success(`Recipe "${recipe.name}" loaded!`);
+    toast.success(t('toasts.recipeLoaded', { name: recipe.name }));
   };
 
   const handleDuplicateRecipe = (recipe: SavedRecipe) => {
@@ -190,7 +193,7 @@ export default function Home() {
     setCurrentRecipeName('');
     setLoadDialogOpen(false);
     setSaveAsDialogOpen(true);
-    toast.info(`Duplicating "${recipe.name}" - enter a new name`);
+    toast.info(t('toasts.recipeDuplicate', { name: recipe.name }));
   };
 
   const handleDeleteRecipe = (id: string) => {
@@ -202,9 +205,9 @@ export default function Home() {
         if (currentRecipeId === id) {
           setCurrentRecipeId(null);
         }
-        toast.success(`Recipe "${recipe.name}" deleted`);
+        toast.success(t('toasts.recipeDeleted', { name: recipe.name }));
       } catch (error) {
-        toast.error('Failed to delete recipe');
+        toast.error(t('toasts.deleteFailed'));
       }
     }
   };
@@ -215,7 +218,7 @@ export default function Home() {
     setBatchMultiplier(1);
     setCurrentRecipeId(null);
     setCurrentRecipeName('');
-    toast.success('All ingredients cleared');
+    toast.success(t('toasts.allCleared'));
   };
 
   const handleExportCSV = () => {
@@ -232,7 +235,7 @@ export default function Home() {
       recipeName
     );
     
-    toast.success('Recipe exported as CSV!');
+    toast.success(t('toasts.recipeExportedCSV'));
   };
 
   const handleExportExcel = () => {
@@ -249,7 +252,7 @@ export default function Home() {
       recipeName
     );
     
-    toast.success('Recipe exported as Excel!');
+    toast.success(t('toasts.recipeExportedExcel'));
   };
 
   return (
@@ -266,11 +269,14 @@ export default function Home() {
       >
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 to-background/95" />
         <div className="container relative z-10 py-16 md:py-24">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-foreground mb-4 tracking-tight">
-            Recipe Cost Calculator
-          </h1>
+          <div className="flex items-center justify-between gap-4 mb-4">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-foreground tracking-tight">
+              {t('hero.title')}
+            </h1>
+            <LanguageSelector />
+          </div>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-            Calculate the true cost of your recipes with automatic unit conversions. Perfect for home cooks, food bloggers, and small food businesses.
+            {t('hero.subtitle')}
           </p>
         </div>
       </div>
@@ -292,10 +298,10 @@ export default function Home() {
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div>
                 <h2 className="text-2xl font-heading font-semibold text-foreground mb-1">
-                  Ingredients
+                  {t('ingredients.title')}
                 </h2>
                 <p className="text-sm text-muted-foreground">
-                  Add all ingredients used in your recipe
+                  {t('ingredients.subtitle')}
                 </p>
               </div>
               <div className="flex flex-wrap gap-2">
@@ -304,7 +310,7 @@ export default function Home() {
                   className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-soft"
                 >
                   <Plus className="h-4 w-4 mr-2" />
-                  Add Ingredient
+                  {t('ingredients.addButton')}
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -314,16 +320,16 @@ export default function Home() {
                       disabled={ingredients.length === 0}
                     >
                       <Save className="h-4 w-4 mr-2" />
-                      Save
+                      {t('ingredients.saveButton')}
                       <ChevronDown className="h-4 w-4 ml-2" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
                     <DropdownMenuItem onClick={handleSave}>
-                      {currentRecipeId ? `Save "${currentRecipeName}"` : 'Save As...'}
+                      {currentRecipeId ? t('ingredients.saveRecipe', { name: currentRecipeName }) : t('ingredients.saveAs')}
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={() => setSaveAsDialogOpen(true)}>
-                      Save As...
+                      {t('ingredients.saveAs')}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -333,7 +339,7 @@ export default function Home() {
                   className="shadow-soft"
                 >
                   <FolderOpen className="h-4 w-4 mr-2" />
-                  Load
+                  {t('ingredients.loadButton')}
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -343,16 +349,16 @@ export default function Home() {
                       disabled={ingredients.length === 0}
                     >
                       <Download className="h-4 w-4 mr-2" />
-                      Export
+                      {t('ingredients.exportButton')}
                       <ChevronDown className="h-4 w-4 ml-2" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem onClick={handleExportCSV}>
-                      Export as CSV
+                      {t('ingredients.exportCSV')}
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleExportExcel}>
-                      Export as Excel
+                      {t('ingredients.exportExcel')}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -363,7 +369,7 @@ export default function Home() {
                   disabled={ingredients.length === 0}
                 >
                   <Trash2 className="h-4 w-4 mr-2" />
-                  Clear All
+                  {t('ingredients.clearButton')}
                 </Button>
               </div>
             </div>
@@ -418,25 +424,25 @@ export default function Home() {
         {/* Example Use Cases */}
         <div className="mt-16 max-w-4xl mx-auto">
           <h3 className="text-2xl font-semibold text-foreground mb-6 text-center">
-            How It Works
+            {t('examples.title')}
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="bg-card rounded-[1.25rem] p-6 shadow-soft border border-border/50">
               <div className="text-3xl mb-3">🍝</div>
               <h4 className="text-lg font-semibold text-foreground mb-2">
-                Example: Pasta
+                {t('examples.pasta.title')}
               </h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Buy 1 lb pasta for $1.49, use 1/2 lb in recipe → App calculates <span className="font-semibold text-accent">$0.75</span>
+                {t('examples.pasta.description')}
               </p>
             </div>
             <div className="bg-card rounded-[1.25rem] p-6 shadow-soft border border-border/50">
               <div className="text-3xl mb-3">🧅</div>
               <h4 className="text-lg font-semibold text-foreground mb-2">
-                Example: Onions
+                {t('examples.onions.title')}
               </h4>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                Buy 6 onions for $1.69, use 1 onion → App calculates <span className="font-semibold text-accent">$0.28</span>
+                {t('examples.onions.description')}
               </p>
             </div>
           </div>
@@ -455,8 +461,7 @@ export default function Home() {
       <div className="border-t border-border/50 mt-16">
         <div className="container py-8 text-center text-sm text-muted-foreground">
           <p>
-            Built for home cooks, food bloggers, and small food businesses. 
-            Automatic unit conversions make recipe costing faster than pen and paper.
+            {t('footer.text')}
           </p>
         </div>
       </div>

@@ -1,0 +1,97 @@
+{
+  "hero": {
+    "title": "Calculadora de Costos de Recetas",
+    "subtitle": "Calcula el costo real de tus recetas con conversiones automáticas de unidades. Perfecto para cocineros caseros, blogueros de comida y pequeños negocios de alimentos."
+  },
+  "ingredients": {
+    "title": "Ingredientes",
+    "subtitle": "Agrega todos los ingredientes usados en tu receta",
+    "addButton": "Agregar Ingrediente",
+    "saveButton": "Guardar",
+    "saveAs": "Guardar Como...",
+    "saveRecipe": "Guardar \"{{name}}\"",
+    "loadButton": "Cargar",
+    "exportButton": "Exportar",
+    "exportCSV": "Exportar como CSV",
+    "exportExcel": "Exportar como Excel",
+    "clearButton": "Limpiar Todo",
+    "ingredientName": "Nombre del Ingrediente",
+    "ingredientPlaceholder": "ej., Pasta, Cebollas, Aceite de Oliva",
+    "quantityUsed": "Cantidad Usada",
+    "packageCost": "Costo del Paquete",
+    "packageSize": "Tamaño del Paquete",
+    "costForRecipe": "Costo para esta receta",
+    "duplicateHint": "Duplicar ingrediente",
+    "deleteHint": "Eliminar ingrediente"
+  },
+  "costSummary": {
+    "totalCost": "Costo Total",
+    "totalCostDesc": "Suma de todos los ingredientes",
+    "servingsPerRecipe": "Porciones por Receta",
+    "batchesToMake": "Lotes a Preparar",
+    "batchesDesc": "Para catering: multiplica la receta para eventos grandes",
+    "costPerServing": "Costo por Porción",
+    "costPerServingCalc": "{{cost}} ÷ {{servings}} porciones",
+    "batchMultiplier": "× {{batches}} lotes"
+  },
+  "tips": {
+    "tip": "💡 Consejo: Agrega todos tus ingredientes arriba para ver cálculos automáticos de costos con conversiones de unidades."
+  },
+  "examples": {
+    "title": "Cómo Funciona",
+    "pasta": {
+      "title": "Ejemplo: Pasta",
+      "description": "Compra 1 lb de pasta por $1.49, usa 1/2 lb en la receta → La app calcula $0.75"
+    },
+    "onions": {
+      "title": "Ejemplo: Cebollas",
+      "description": "Compra 6 cebollas por $1.69, usa 1 cebolla → La app calcula $0.28"
+    }
+  },
+  "footer": {
+    "text": "Creado para cocineros caseros, blogueros de comida y pequeños negocios de alimentos. Las conversiones automáticas de unidades hacen que calcular costos de recetas sea más rápido que con papel y calculadora."
+  },
+  "dialogs": {
+    "saveAs": {
+      "title": "Guardar Receta Como",
+      "description": "Ingresa un nuevo nombre para esta receta. Esto creará una nueva receta guardada.",
+      "recipeName": "Nombre de la Receta",
+      "placeholder": "ej., Pastel de Manzana de la Abuela",
+      "cancel": "Cancelar",
+      "save": "Guardar Como Nueva Receta"
+    },
+    "load": {
+      "title": "Cargar Receta",
+      "description": "Selecciona una receta guardada para cargar sus ingredientes y configuraciones.",
+      "noRecipes": "Aún no hay recetas guardadas.",
+      "noRecipesHint": "Crea una receta y haz clic en \"Guardar Receta\" para guardarla.",
+      "ingredient": "ingrediente",
+      "ingredients": "ingredientes",
+      "serving": "porción",
+      "servings": "porciones"
+    }
+  },
+  "toasts": {
+    "recipeSaved": "¡Receta \"{{name}}\" guardada!",
+    "recipeSavedAs": "¡Receta \"{{name}}\" guardada como nueva receta!",
+    "recipeLoaded": "¡Receta \"{{name}}\" cargada!",
+    "recipeDuplicate": "Duplicando \"{{name}}\" - ingresa un nuevo nombre",
+    "recipeDeleted": "Receta \"{{name}}\" eliminada",
+    "recipeExportedCSV": "¡Receta exportada como CSV!",
+    "recipeExportedExcel": "¡Receta exportada como Excel!",
+    "allCleared": "Todos los ingredientes eliminados",
+    "saveFailed": "Error al guardar la receta",
+    "deleteFailed": "Error al eliminar la receta"
+  },
+  "units": {
+    "tsp": "cdta",
+    "tbsp": "cda",
+    "cup": "taza",
+    "oz": "oz",
+    "lb": "lb",
+    "g": "g",
+    "kg": "kg",
+    "ml": "ml",
+    "L": "L"
+  }
+}

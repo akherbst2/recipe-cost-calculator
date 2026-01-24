@@ -1,0 +1,97 @@
+{
+  "hero": {
+    "title": "Calculateur de Coût de Recettes",
+    "subtitle": "Calculez le coût réel de vos recettes avec des conversions d'unités automatiques. Parfait pour les cuisiniers amateurs, les blogueurs culinaires et les petites entreprises alimentaires."
+  },
+  "ingredients": {
+    "title": "Ingrédients",
+    "subtitle": "Ajoutez tous les ingrédients utilisés dans votre recette",
+    "addButton": "Ajouter un Ingrédient",
+    "saveButton": "Enregistrer",
+    "saveAs": "Enregistrer Sous...",
+    "saveRecipe": "Enregistrer \"{{name}}\"",
+    "loadButton": "Charger",
+    "exportButton": "Exporter",
+    "exportCSV": "Exporter en CSV",
+    "exportExcel": "Exporter en Excel",
+    "clearButton": "Tout Effacer",
+    "ingredientName": "Nom de l'Ingrédient",
+    "ingredientPlaceholder": "ex., Pâtes, Oignons, Huile d'Olive",
+    "quantityUsed": "Quantité Utilisée",
+    "packageCost": "Coût du Paquet",
+    "packageSize": "Taille du Paquet",
+    "costForRecipe": "Coût pour cette recette",
+    "duplicateHint": "Dupliquer l'ingrédient",
+    "deleteHint": "Supprimer l'ingrédient"
+  },
+  "costSummary": {
+    "totalCost": "Coût Total",
+    "totalCostDesc": "Somme de tous les ingrédients",
+    "servingsPerRecipe": "Portions par Recette",
+    "batchesToMake": "Lots à Préparer",
+    "batchesDesc": "Pour les traiteurs : multipliez la recette pour les grands événements",
+    "costPerServing": "Coût par Portion",
+    "costPerServingCalc": "{{cost}} ÷ {{servings}} portions",
+    "batchMultiplier": "× {{batches}} lots"
+  },
+  "tips": {
+    "tip": "💡 Astuce : Ajoutez tous vos ingrédients ci-dessus pour voir les calculs de coûts automatiques avec conversions d'unités."
+  },
+  "examples": {
+    "title": "Comment Ça Marche",
+    "pasta": {
+      "title": "Exemple : Pâtes",
+      "description": "Achetez 1 lb de pâtes pour 1,49 $, utilisez 1/2 lb dans la recette → L'app calcule 0,75 $"
+    },
+    "onions": {
+      "title": "Exemple : Oignons",
+      "description": "Achetez 6 oignons pour 1,69 $, utilisez 1 oignon → L'app calcule 0,28 $"
+    }
+  },
+  "footer": {
+    "text": "Conçu pour les cuisiniers amateurs, les blogueurs culinaires et les petites entreprises alimentaires. Les conversions d'unités automatiques rendent le calcul des coûts de recettes plus rapide que le papier et la calculatrice."
+  },
+  "dialogs": {
+    "saveAs": {
+      "title": "Enregistrer la Recette Sous",
+      "description": "Entrez un nouveau nom pour cette recette. Cela créera une nouvelle recette enregistrée.",
+      "recipeName": "Nom de la Recette",
+      "placeholder": "ex., Tarte aux Pommes de Grand-mère",
+      "cancel": "Annuler",
+      "save": "Enregistrer Comme Nouvelle Recette"
+    },
+    "load": {
+      "title": "Charger une Recette",
+      "description": "Sélectionnez une recette enregistrée pour charger ses ingrédients et paramètres.",
+      "noRecipes": "Aucune recette enregistrée pour le moment.",
+      "noRecipesHint": "Créez une recette et cliquez sur \"Enregistrer la Recette\" pour l'enregistrer.",
+      "ingredient": "ingrédient",
+      "ingredients": "ingrédients",
+      "serving": "portion",
+      "servings": "portions"
+    }
+  },
+  "toasts": {
+    "recipeSaved": "Recette \"{{name}}\" enregistrée !",
+    "recipeSavedAs": "Recette \"{{name}}\" enregistrée comme nouvelle recette !",
+    "recipeLoaded": "Recette \"{{name}}\" chargée !",
+    "recipeDuplicate": "Duplication de \"{{name}}\" - entrez un nouveau nom",
+    "recipeDeleted": "Recette \"{{name}}\" supprimée",
+    "recipeExportedCSV": "Recette exportée en CSV !",
+    "recipeExportedExcel": "Recette exportée en Excel !",
+    "allCleared": "Tous les ingrédients effacés",
+    "saveFailed": "Échec de l'enregistrement de la recette",
+    "deleteFailed": "Échec de la suppression de la recette"
+  },
+  "units": {
+    "tsp": "c.c.",
+    "tbsp": "c.s.",
+    "cup": "tasse",
+    "oz": "oz",
+    "lb": "lb",
+    "g": "g",
+    "kg": "kg",
+    "ml": "ml",
+    "L": "L"
+  }
+}

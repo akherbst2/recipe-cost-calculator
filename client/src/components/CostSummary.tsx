@@ -4,6 +4,7 @@
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface CostSummaryProps {
   totalCost: number;
@@ -20,6 +21,7 @@ export default function CostSummary({
   onServingsChange,
   onBatchMultiplierChange,
 }: CostSummaryProps) {
+  const { t } = useTranslation();
   const [animatedTotal, setAnimatedTotal] = useState(totalCost);
   const [animatedPerServing, setAnimatedPerServing] = useState(
     servings > 0 ? totalCost / servings : 0
@@ -86,13 +88,13 @@ export default function CostSummary({
         />
         <div className="relative z-10">
           <div className="text-sm font-semibold text-primary uppercase tracking-wide mb-2">
-            Total Cost {batchMultiplier > 1 ? `(×${batchMultiplier})` : ''}
+            {t('costSummary.totalCost')} {batchMultiplier > 1 ? t('costSummary.batchMultiplier', { batches: batchMultiplier }) : ''}
           </div>
           <div className="text-6xl font-display font-bold text-primary mb-1">
             ${(animatedTotal * batchMultiplier).toFixed(2)}
           </div>
           <div className="text-sm text-muted-foreground">
-            {batchMultiplier > 1 ? `${totalServings} servings (${batchMultiplier} batches)` : 'Sum of all ingredients'}
+            {batchMultiplier > 1 ? `${totalServings} ${t('dialogs.load.servings')} (${batchMultiplier} ${t('costSummary.batchesToMake').toLowerCase()})` : t('costSummary.totalCostDesc')}
           </div>
         </div>
       </div>
@@ -101,7 +103,7 @@ export default function CostSummary({
       <div className="bg-card rounded-[1.25rem] p-6 shadow-soft border border-border/50 space-y-4">
         <div>
           <Label htmlFor="servings" className="text-sm font-semibold text-foreground/80 mb-3 block">
-            Servings Per Recipe
+            {t('costSummary.servingsPerRecipe')}
           </Label>
           <Input
             id="servings"
@@ -116,7 +118,7 @@ export default function CostSummary({
         </div>
         <div>
           <Label htmlFor="batch-multiplier" className="text-sm font-semibold text-foreground/80 mb-3 block">
-            Batches to Make
+            {t('costSummary.batchesToMake')}
           </Label>
           <Input
             id="batch-multiplier"
@@ -129,7 +131,7 @@ export default function CostSummary({
             className="text-lg font-medium"
           />
           <p className="text-xs text-muted-foreground mt-2">
-            For caterers: multiply recipe for large events
+            {t('costSummary.batchesDesc')}
           </p>
         </div>
       </div>
@@ -137,20 +139,20 @@ export default function CostSummary({
       {/* Cost Per Serving - Second Most Prominent */}
       <div className="bg-gradient-to-br from-accent/20 via-accent/10 to-primary/10 rounded-[1.5rem] p-8 shadow-soft-lg border border-accent/20">
         <div className="text-sm font-semibold text-accent uppercase tracking-wide mb-2">
-          Cost Per Serving
+          {t('costSummary.costPerServing')}
         </div>
         <div className="text-5xl font-display font-bold text-accent mb-1">
           ${animatedPerServing.toFixed(2)}
         </div>
         <div className="text-sm text-muted-foreground">
-          {totalServings > 0 ? `${scaledTotalCost.toFixed(2)} ÷ ${totalServings} servings` : 'Enter servings above'}
+          {totalServings > 0 ? t('costSummary.costPerServingCalc', { cost: scaledTotalCost.toFixed(2), servings: totalServings }) : 'Enter servings above'}
         </div>
       </div>
 
       {/* Helper Text */}
       <div className="bg-muted/50 rounded-lg p-4 text-sm text-muted-foreground">
         <p className="leading-relaxed">
-          💡 <span className="font-semibold">Tip:</span> Add all your ingredients above to see automatic cost calculations with unit conversions.
+          {t('tips.tip')}
         </p>
       </div>
     </div>
