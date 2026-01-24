@@ -57,6 +57,7 @@
     "text": "Built for home cooks, food bloggers, and small food businesses. Automatic unit conversions make recipe costing faster than pen and paper.",
     "shareFeedback": "Share Feedback"
   },
+  "ingredient": "Ingredient",
   "dialogs": {
     "saveAs": {
       "title": "Save Recipe As",
@@ -92,6 +93,10 @@
     "deleteFailed": "Failed to delete recipe",
     "noIngredients": "Please add at least one ingredient before saving",
     "emptyIngredientName": "Please fill in all ingredient names",
+    "emptyIngredientNameSpecific": "Please enter a name for {{ingredient}}",
+    "missingQuantityUsed": "{{ingredient}}: Please enter quantity used",
+    "missingPackageCost": "{{ingredient}}: Please enter package cost",
+    "missingPackageSize": "{{ingredient}}: Please enter package size",
     "missingRequiredFields": "Please fill in quantity, cost, and package size for all ingredients"
   },
   "units": {

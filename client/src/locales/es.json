@@ -57,6 +57,7 @@
     "text": "Creado para cocineros caseros, blogueros de comida y peque\u00f1os negocios de alimentos. Las conversiones autom\u00e1ticas de unidades hacen que calcular costos de recetas sea m\u00e1s r\u00e1pido que con papel y calculadora.",
     "shareFeedback": "Compartir Comentarios"
   },
+  "ingredient": "Ingrediente",
   "dialogs": {
     "saveAs": {
       "title": "Guardar Receta Como",
@@ -92,6 +93,10 @@
     "deleteFailed": "Error al eliminar la receta",
     "noIngredients": "Por favor agrega al menos un ingrediente antes de guardar",
     "emptyIngredientName": "Por favor completa todos los nombres de ingredientes",
+    "emptyIngredientNameSpecific": "Por favor ingresa un nombre para {{ingredient}}",
+    "missingQuantityUsed": "{{ingredient}}: Por favor ingresa la cantidad usada",
+    "missingPackageCost": "{{ingredient}}: Por favor ingresa el costo del paquete",
+    "missingPackageSize": "{{ingredient}}: Por favor ingresa el tamaño del paquete",
     "missingRequiredFields": "Por favor completa cantidad, costo y tamaño del paquete para todos los ingredientes"
   },
   "units": {

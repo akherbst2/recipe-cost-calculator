@@ -136,22 +136,34 @@ export default function Home() {
       return false;
     }
 
-    // Check for empty ingredient names
-    const emptyNames = ingredients.filter(ing => !ing.name.trim());
-    if (emptyNames.length > 0) {
-      toast.error(t('toasts.emptyIngredientName'));
-      return false;
-    }
-
-    // Check for missing required fields
-    const invalidIngredients = ingredients.filter(ing => 
-      ing.usedQuantity <= 0 || 
-      ing.packageCost <= 0 || 
-      ing.packageSize <= 0
-    );
-    if (invalidIngredients.length > 0) {
-      toast.error(t('toasts.missingRequiredFields'));
-      return false;
+    // Check each ingredient for validation issues
+    for (let i = 0; i < ingredients.length; i++) {
+      const ing = ingredients[i];
+      const ingredientLabel = ing.name.trim() || `${t('ingredient')} ${i + 1}`;
+      
+      // Check for empty ingredient name
+      if (!ing.name.trim()) {
+        toast.error(t('toasts.emptyIngredientNameSpecific', { ingredient: ingredientLabel }));
+        return false;
+      }
+      
+      // Check for missing quantity used
+      if (ing.usedQuantity <= 0) {
+        toast.error(t('toasts.missingQuantityUsed', { ingredient: ingredientLabel }));
+        return false;
+      }
+      
+      // Check for missing package cost
+      if (ing.packageCost <= 0) {
+        toast.error(t('toasts.missingPackageCost', { ingredient: ingredientLabel }));
+        return false;
+      }
+      
+      // Check for missing package size
+      if (ing.packageSize <= 0) {
+        toast.error(t('toasts.missingPackageSize', { ingredient: ingredientLabel }));
+        return false;
+      }
     }
 
     return true;

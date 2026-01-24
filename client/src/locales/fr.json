@@ -57,6 +57,7 @@
     "text": "Con\u00e7u pour les cuisiniers amateurs, les blogueurs culinaires et les petites entreprises alimentaires. Les conversions d'unit\u00e9s automatiques rendent le calcul des co\u00fbts de recettes plus rapide que le papier et la calculatrice.",
     "shareFeedback": "Partager des Commentaires"
   },
+  "ingredient": "Ingrédient",
   "dialogs": {
     "saveAs": {
       "title": "Enregistrer la Recette Sous",
@@ -92,6 +93,10 @@
     "deleteFailed": "Échec de la suppression de la recette",
     "noIngredients": "Veuillez ajouter au moins un ingrédient avant d'enregistrer",
     "emptyIngredientName": "Veuillez remplir tous les noms d'ingrédients",
+    "emptyIngredientNameSpecific": "Veuillez entrer un nom pour {{ingredient}}",
+    "missingQuantityUsed": "{{ingredient}} : Veuillez entrer la quantité utilisée",
+    "missingPackageCost": "{{ingredient}} : Veuillez entrer le coût du paquet",
+    "missingPackageSize": "{{ingredient}} : Veuillez entrer la taille du paquet",
     "missingRequiredFields": "Veuillez remplir la quantité, le coût et la taille du paquet pour tous les ingrédients"
   },
   "units": {
