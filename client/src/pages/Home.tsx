@@ -44,10 +44,10 @@ export default function Home() {
       id: nanoid(),
       name: '',
       usedQuantity: 0,
-      usedUnit: 'cup',
+      usedUnit: 'unit',
       packageCost: 0,
       packageSize: 0,
-      packageUnit: 'cup',
+      packageUnit: 'unit',
       calculatedCost: 0,
     };
     setIngredients([...ingredients, newIngredient]);

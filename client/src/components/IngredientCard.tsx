@@ -159,6 +159,7 @@ export default function IngredientCard({
             <Select
               value={ingredient.packageUnit}
               onValueChange={(value) => handleChange('packageUnit', value as Unit)}
+              disabled={!ingredient.packageSize}
             >
               <SelectTrigger className="w-[100px]">
                 <SelectValue />
