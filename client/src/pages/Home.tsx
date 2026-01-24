@@ -9,7 +9,7 @@ import SaveRecipeDialog from '@/components/SaveRecipeDialog';
 import { deleteRecipe, getSavedRecipes, saveRecipe } from '@/lib/recipeStorage';
 import { Ingredient, SavedRecipe } from '@/lib/types';
 import { calculateIngredientCost, canConvert } from '@/lib/unitConversions';
-import { FolderOpen, Plus, Save } from 'lucide-react';
+import { FolderOpen, Plus, Save, Trash2 } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -159,6 +159,14 @@ export default function Home() {
     }
   };
 
+  const handleClearAll = () => {
+    setIngredients([]);
+    setServings(4);
+    setBatchMultiplier(1);
+    setCurrentRecipeId(null);
+    toast.success('All ingredients cleared');
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Hero Section with Textured Background */}
@@ -220,6 +228,15 @@ export default function Home() {
                 >
                   <FolderOpen className="h-4 w-4 mr-2" />
                   Load
+                </Button>
+                <Button
+                  onClick={handleClearAll}
+                  variant="outline"
+                  className="shadow-soft text-destructive hover:text-destructive hover:bg-destructive/10"
+                  disabled={ingredients.length === 0}
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  Clear All
                 </Button>
               </div>
             </div>
