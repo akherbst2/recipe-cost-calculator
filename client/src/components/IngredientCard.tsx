@@ -35,18 +35,25 @@ export default function IngredientCard({
   const handleChange = (field: keyof Ingredient, value: string | number) => {
     const updates: Partial<Ingredient> = { [field]: value };
     
-    // Mark package size as manually set when user changes it
-    if (field === 'packageSize' || field === 'packageUnit') {
+    // Mark package size as manually set when user changes it (but not package unit)
+    if (field === 'packageSize') {
       updates.packageSizeManuallySet = true;
     }
     
+    // When user changes quantity used unit, reset package unit to match and resume auto-sync
+    if (field === 'usedUnit') {
+      updates.packageUnit = value as Unit;
+      updates.packageSizeManuallySet = false;
+    }
+    
     // Auto-sync package to quantity if not manually set
-    if ((field === 'usedQuantity' || field === 'usedUnit') && !ingredient.packageSizeManuallySet) {
-      if (field === 'usedQuantity') {
-        updates.packageSize = value as number;
-      } else if (field === 'usedUnit') {
-        updates.packageUnit = value as Unit;
-      }
+    if (field === 'usedQuantity' && !ingredient.packageSizeManuallySet) {
+      updates.packageSize = value as number;
+    }
+    
+    // Mark package unit as manually set only when user explicitly changes it
+    if (field === 'packageUnit') {
+      updates.packageSizeManuallySet = true;
     }
     
     onUpdate(ingredient.id, updates);
