@@ -8,6 +8,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import AdSenseAd from '@/components/AdSenseAd';
 import CostSummary from '@/components/CostSummary';
 import IngredientCard from '@/components/IngredientCard';
 import LoadRecipeDialog from '@/components/LoadRecipeDialog';
@@ -274,6 +275,15 @@ export default function Home() {
         </div>
       </div>
 
+      {/* Top Banner Ad */}
+      <div className="container py-6">
+        <AdSenseAd 
+          adSlot="1234567890" 
+          adFormat="horizontal"
+          className="max-w-4xl mx-auto"
+        />
+      </div>
+
       {/* Main Content */}
       <div className="container py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -430,6 +440,14 @@ export default function Home() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Bottom Banner Ad */}
+        <div className="mt-16 max-w-4xl mx-auto">
+          <AdSenseAd 
+            adSlot="0987654321" 
+            adFormat="horizontal"
+          />
         </div>
       </div>
 
