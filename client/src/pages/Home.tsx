@@ -1,6 +1,7 @@
 /** Design: Organic Modernism with Culinary Warmth
    Asymmetric layout, textured backgrounds, warm color palette, gentle animations */
 
+import { useAuth } from '@/_core/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -24,9 +25,15 @@ import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
+import { useEventLogger } from '@/hooks/useEventLogger';
 
 export default function Home() {
+  // The userAuth hooks provides authentication state
+  // To implement login/logout functionality, simply call logout() or redirect to getLoginUrl()
+  let { user, loading, error, isAuthenticated, logout } = useAuth();
+
   const { t } = useTranslation();
+  const { logEvent } = useEventLogger();
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [servings, setServings] = useState<number>(4);
   const [batchMultiplier, setBatchMultiplier] = useState<number>(1);
@@ -51,6 +58,12 @@ export default function Home() {
       calculatedCost: 0,
     };
     setIngredients([...ingredients, newIngredient]);
+    
+    // Log event
+    logEvent('ingredient_add', {
+      ingredientId: newIngredient.id,
+      language: t('language'),
+    });
   };
 
   const updateIngredient = (id: string, updates: Partial<Ingredient>) => {
@@ -97,8 +110,18 @@ export default function Home() {
   };
 
   const deleteIngredient = (id: string) => {
+    const ingredient = ingredients.find((ing) => ing.id === id);
     setIngredients((prev) => prev.filter((ing) => ing.id !== id));
     toast.success('Ingredient removed');
+    
+    // Log event
+    if (ingredient) {
+      logEvent('ingredient_delete', {
+        ingredientId: id,
+        ingredientName: ingredient.name,
+        language: t('language'),
+      });
+    }
   };
 
   const duplicateIngredient = (id: string) => {
@@ -113,6 +136,14 @@ export default function Home() {
         return [...prev.slice(0, index + 1), duplicated, ...prev.slice(index + 1)];
       });
       toast.success('Ingredient duplicated');
+      
+      // Log event
+      logEvent('ingredient_duplicate', {
+        originalId: id,
+        duplicatedId: duplicated.id,
+        ingredientName: ingredient.name,
+        language: t('language'),
+      });
     }
   };
 
@@ -195,6 +226,17 @@ export default function Home() {
       saveRecipe(recipe);
       setSavedRecipes(getSavedRecipes());
       toast.success(t('toasts.recipeSaved', { name: currentRecipeName }));
+      
+      // Log event
+      logEvent('recipe_save', {
+        recipeId: currentRecipeId,
+        recipeName: currentRecipeName,
+        ingredientCount: ingredients.length,
+        totalCost,
+        servings,
+        batchMultiplier,
+        language: t('language'),
+      });
     } catch (error) {
       toast.error(t('toasts.saveFailed'));
     }
@@ -222,6 +264,17 @@ export default function Home() {
       setCurrentRecipeId(recipe.id);
       setCurrentRecipeName(name);
       toast.success(t('toasts.recipeSavedAs', { name }));
+      
+      // Log event
+      logEvent('recipe_save_as', {
+        recipeId: recipe.id,
+        recipeName: name,
+        ingredientCount: ingredients.length,
+        totalCost,
+        servings,
+        batchMultiplier,
+        language: t('language'),
+      });
     } catch (error) {
       toast.error(t('toasts.saveFailed'));
     }
@@ -234,6 +287,14 @@ export default function Home() {
     setCurrentRecipeId(recipe.id);
     setCurrentRecipeName(recipe.name);
     toast.success(t('toasts.recipeLoaded', { name: recipe.name }));
+    
+    // Log event
+    logEvent('recipe_load', {
+      recipeId: recipe.id,
+      recipeName: recipe.name,
+      ingredientCount: recipe.ingredients.length,
+      language: t('language'),
+    });
   };
 
   const handleDuplicateRecipe = (recipe: SavedRecipe) => {
@@ -264,12 +325,19 @@ export default function Home() {
   };
 
   const handleClearAll = () => {
+    const ingredientCount = ingredients.length;
     setIngredients([]);
     setServings(4);
     setBatchMultiplier(1);
     setCurrentRecipeId(null);
     setCurrentRecipeName('');
     toast.success(t('toasts.allCleared'));
+    
+    // Log event
+    logEvent('clear_all', {
+      ingredientCount,
+      language: t('language'),
+    });
   };
 
   const handleExportCSV = () => {
@@ -287,6 +355,14 @@ export default function Home() {
     );
     
     toast.success(t('toasts.recipeExportedCSV'));
+    
+    // Log event
+    logEvent('export_csv', {
+      recipeName,
+      ingredientCount: ingredients.length,
+      totalCost,
+      language: t('language'),
+    });
   };
 
   const handleExportExcel = () => {
@@ -304,6 +380,14 @@ export default function Home() {
     );
     
     toast.success(t('toasts.recipeExportedExcel'));
+    
+    // Log event
+    logEvent('export_excel', {
+      recipeName,
+      ingredientCount: ingredients.length,
+      totalCost,
+      language: t('language'),
+    });
   };
 
   return (
