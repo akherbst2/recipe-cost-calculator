@@ -32,6 +32,7 @@
   "costSummary": {
     "totalCost": "Total Cost",
     "totalCostDesc": "Sum of all ingredients",
+    "fillAllFields": "Fill all ingredient fields to calculate cost",
     "servingsPerRecipe": "Servings Per Recipe",
     "batchesToMake": "Batches to Make",
     "batchesDesc": "For caterers: multiply recipe for large events",

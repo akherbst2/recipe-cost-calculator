@@ -32,6 +32,7 @@
   "costSummary": {
     "totalCost": "Coût Total",
     "totalCostDesc": "Somme de tous les ingrédients",
+    "fillAllFields": "Remplissez tous les champs de l'ingrédient pour calculer le coût",
     "servingsPerRecipe": "Portions par Recette",
     "batchesToMake": "Lots à Préparer",
     "batchesDesc": "Pour les traiteurs : multipliez la recette pour les grands événements",

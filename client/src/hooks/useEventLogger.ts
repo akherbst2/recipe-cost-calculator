@@ -1,11 +1,13 @@
 import { trpc } from '@/lib/trpc';
 import { useCallback, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Hook for logging events to the backend
  * Automatically generates and maintains a session ID for anonymous users
  */
 export function useEventLogger() {
+  const { i18n } = useTranslation();
   const sessionIdRef = useRef<string | null>(null);
   const logMutation = trpc.events.log.useMutation();
 
@@ -29,10 +31,13 @@ export function useEventLogger() {
       logMutation.mutate({
         eventType,
         sessionId: sessionIdRef.current,
-        eventData,
+        eventData: {
+          ...eventData,
+          language: i18n.language, // Capture actual language code (en, es, fr)
+        },
       });
     },
-    [logMutation]
+    [logMutation, i18n.language]
   );
 
   return { logEvent };

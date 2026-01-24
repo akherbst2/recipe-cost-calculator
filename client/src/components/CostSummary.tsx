@@ -94,7 +94,13 @@ export default function CostSummary({
             ${(animatedTotal * batchMultiplier).toFixed(2)}
           </div>
           <div className="text-sm text-muted-foreground">
-            {batchMultiplier > 1 ? `${totalServings} ${t('dialogs.load.servings')} (${batchMultiplier} ${t('costSummary.batchesToMake').toLowerCase()})` : t('costSummary.totalCostDesc')}
+            {totalCost === 0 ? (
+              <span className="italic">{t('costSummary.fillAllFields')}</span>
+            ) : batchMultiplier > 1 ? (
+              `${totalServings} ${t('dialogs.load.servings')} (${batchMultiplier} ${t('costSummary.batchesToMake').toLowerCase()})`
+            ) : (
+              t('costSummary.totalCostDesc')
+            )}
           </div>
         </div>
       </div>
@@ -145,7 +151,13 @@ export default function CostSummary({
           ${animatedPerServing.toFixed(2)}
         </div>
         <div className="text-sm text-muted-foreground">
-          {totalServings > 0 ? t('costSummary.costPerServingCalc', { cost: scaledTotalCost.toFixed(2), servings: totalServings }) : 'Enter servings above'}
+          {costPerServing === 0 ? (
+            <span className="italic">{t('costSummary.fillAllFields')}</span>
+          ) : totalServings > 0 ? (
+            t('costSummary.costPerServingCalc', { cost: scaledTotalCost.toFixed(2), servings: totalServings })
+          ) : (
+            'Enter servings above'
+          )}
         </div>
       </div>
 

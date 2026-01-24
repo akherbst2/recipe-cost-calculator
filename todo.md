@@ -17,3 +17,17 @@
 - [x] Investigate why multiple events are logged for single actions
 - [x] Fix the over-logging (moved logging from inside setState to useEffect)
 - [x] Test and verify only one event per action
+
+## Comprehensive Stress Testing
+- [x] Test ingredient add/edit/delete/duplicate with logging verification
+- [x] Test all language translations (English/Spanish/French)
+- [x] Test recipe save/load/delete flows
+- [x] Test unit conversions and edge cases
+- [x] Test export functionality (CSV/Excel)
+- [x] Identify any confusing UI elements or flows
+- [x] Create comprehensive stress test report
+
+## UX Improvements from Stress Test
+- [x] Fix language code in event logging to capture actual codes (en, es, fr)
+- [x] Add empty cost explanation when total is $0.00
+- [x] Test both fixes to verify improvements

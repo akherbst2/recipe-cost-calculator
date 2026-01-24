@@ -32,6 +32,7 @@
   "costSummary": {
     "totalCost": "Costo Total",
     "totalCostDesc": "Suma de todos los ingredientes",
+    "fillAllFields": "Completa todos los campos del ingrediente para calcular el costo",
     "servingsPerRecipe": "Porciones por Receta",
     "batchesToMake": "Lotes a Preparar",
     "batchesDesc": "Para catering: multiplica la receta para eventos grandes",
