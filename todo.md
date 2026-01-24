@@ -37,3 +37,7 @@
 - [x] Update page title to 30-60 characters (now 52 chars)
 - [x] Add meta description (50-160 characters, now 152 chars)
 - [x] Test SEO improvements
+
+## AdSense Setup
+- [x] Create ads.txt file with Google AdSense publisher ID
+- [x] Test ads.txt file accessibility at root URL
