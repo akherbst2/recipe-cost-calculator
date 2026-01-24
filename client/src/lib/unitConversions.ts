@@ -96,18 +96,24 @@ export function calculateIngredientCost(
   return ingredientCost;
 }
 
-export function formatUnit(unit: Unit): string {
-  const labels: Record<Unit, string> = {
-    'tsp': 'tsp',
-    'tbsp': 'tbsp',
-    'cup': 'cup',
-    'oz': 'oz',
-    'lb': 'lb',
-    'g': 'g',
-    'kg': 'kg',
-    'ml': 'ml',
-    'L': 'L',
-    'unit': 'unit'
-  };
-  return labels[unit];
+export function formatUnit(unit: Unit, t?: (key: string) => string): string {
+  if (!t) {
+    // Fallback to English if no translation function provided
+    const labels: Record<Unit, string> = {
+      'tsp': 'tsp',
+      'tbsp': 'tbsp',
+      'cup': 'cup',
+      'oz': 'oz',
+      'lb': 'lb',
+      'g': 'g',
+      'kg': 'kg',
+      'ml': 'ml',
+      'L': 'L',
+      'unit': 'unit'
+    };
+    return labels[unit];
+  }
+  
+  // Use translation function
+  return t(`units.${unit}`);
 }

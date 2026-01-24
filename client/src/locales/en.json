@@ -92,6 +92,10 @@
     "g": "g",
     "kg": "kg",
     "ml": "ml",
-    "L": "L"
+    "L": "L",
+    "unit": "unit",
+    "volume": "Volume",
+    "weight": "Weight",
+    "count": "Count"
   }
 }
