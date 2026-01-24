@@ -2,16 +2,21 @@
    Asymmetric layout, textured backgrounds, warm color palette, gentle animations */
 
 import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import CostSummary from '@/components/CostSummary';
 import IngredientCard from '@/components/IngredientCard';
-import ExportInstructionsDialog from '@/components/ExportInstructionsDialog';
 import LoadRecipeDialog from '@/components/LoadRecipeDialog';
 import SaveRecipeDialog from '@/components/SaveRecipeDialog';
-import { exportToGoogleSheets } from '@/lib/exportToSheets';
+import { exportToCSV, exportToExcel } from '@/lib/exportRecipe';
 import { deleteRecipe, getSavedRecipes, saveRecipe } from '@/lib/recipeStorage';
 import { Ingredient, SavedRecipe } from '@/lib/types';
 import { calculateIngredientCost, canConvert } from '@/lib/unitConversions';
-import { FileSpreadsheet, FolderOpen, Plus, Save, Trash2 } from 'lucide-react';
+import { ChevronDown, Download, FolderOpen, Plus, Save, Trash2 } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -23,8 +28,6 @@ export default function Home() {
   const [savedRecipes, setSavedRecipes] = useState<SavedRecipe[]>([]);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [loadDialogOpen, setLoadDialogOpen] = useState(false);
-  const [exportDialogOpen, setExportDialogOpen] = useState(false);
-  const [exportedFileName, setExportedFileName] = useState('');
   const [currentRecipeId, setCurrentRecipeId] = useState<string | null>(null);
 
   // Calculate total cost whenever ingredients change
@@ -171,14 +174,13 @@ export default function Home() {
     toast.success('All ingredients cleared');
   };
 
-  const handleExportToSheets = () => {
+  const handleExportCSV = () => {
     const currentRecipe = currentRecipeId
       ? savedRecipes.find((r) => r.id === currentRecipeId)
       : null;
     const recipeName = currentRecipe?.name || 'Untitled Recipe';
-    const fileName = `${recipeName.replace(/[^a-z0-9]/gi, '_')}_cost_breakdown.csv`;
     
-    exportToGoogleSheets(
+    exportToCSV(
       ingredients,
       totalCost,
       servings,
@@ -186,8 +188,24 @@ export default function Home() {
       recipeName
     );
     
-    setExportedFileName(fileName);
-    setExportDialogOpen(true);
+    toast.success('Recipe exported as CSV!');
+  };
+
+  const handleExportExcel = () => {
+    const currentRecipe = currentRecipeId
+      ? savedRecipes.find((r) => r.id === currentRecipeId)
+      : null;
+    const recipeName = currentRecipe?.name || 'Untitled Recipe';
+    
+    exportToExcel(
+      ingredients,
+      totalCost,
+      servings,
+      batchMultiplier,
+      recipeName
+    );
+    
+    toast.success('Recipe exported as Excel!');
   };
 
   return (
@@ -252,15 +270,27 @@ export default function Home() {
                   <FolderOpen className="h-4 w-4 mr-2" />
                   Load
                 </Button>
-                <Button
-                  onClick={handleExportToSheets}
-                  variant="outline"
-                  className="shadow-soft"
-                  disabled={ingredients.length === 0}
-                >
-                  <FileSpreadsheet className="h-4 w-4 mr-2" />
-                  Export to Sheets
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="shadow-soft"
+                      disabled={ingredients.length === 0}
+                    >
+                      <Download className="h-4 w-4 mr-2" />
+                      Export
+                      <ChevronDown className="h-4 w-4 ml-2" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={handleExportCSV}>
+                      Export as CSV
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleExportExcel}>
+                      Export as Excel
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <Button
                   onClick={handleClearAll}
                   variant="outline"
@@ -372,13 +402,6 @@ export default function Home() {
         recipes={savedRecipes}
         onLoad={handleLoadRecipe}
         onDelete={handleDeleteRecipe}
-      />
-
-      {/* Export Instructions Dialog */}
-      <ExportInstructionsDialog
-        open={exportDialogOpen}
-        onOpenChange={setExportDialogOpen}
-        fileName={exportedFileName}
       />
 
       {/* Keyframe animation for cards */}
