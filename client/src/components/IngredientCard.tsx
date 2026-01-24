@@ -12,9 +12,10 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Ingredient } from '@/lib/types';
-import { formatUnit, Unit, unitCategories } from '@/lib/unitConversions';
+import { formatUnit, getUnitCategory, Unit, unitCategories } from '@/lib/unitConversions';
 import { Copy, Trash2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
 
 interface IngredientCardProps {
   ingredient: Ingredient;
@@ -40,10 +41,26 @@ export default function IngredientCard({
       updates.packageSizeManuallySet = true;
     }
     
-    // When user changes quantity used unit, reset package unit to match and resume auto-sync
+    // When user changes quantity used unit, check for category switch
     if (field === 'usedUnit') {
-      updates.packageUnit = value as Unit;
-      updates.packageSizeManuallySet = false;
+      const oldCategory = getUnitCategory(ingredient.usedUnit);
+      const newCategory = getUnitCategory(value as Unit);
+      
+      if (oldCategory !== newCategory) {
+        // Category switch detected - reset package unit and size
+        const defaultPackageUnit = newCategory === 'volume' ? 'cup' : newCategory === 'weight' ? 'lb' : 'unit';
+        updates.packageUnit = defaultPackageUnit as Unit;
+        updates.packageSize = 0;
+        updates.packageSizeManuallySet = false;
+        
+        // Show toast notification
+        const categoryName = t(`units.category${newCategory.charAt(0).toUpperCase() + newCategory.slice(1)}`);
+        toast.info(t('toasts.unitCategorySwitched', { category: categoryName }));
+      } else {
+        // Same category - just update package unit to match
+        updates.packageUnit = value as Unit;
+        updates.packageSizeManuallySet = false;
+      }
     }
     
     // Auto-sync package to quantity if not manually set
@@ -51,9 +68,19 @@ export default function IngredientCard({
       updates.packageSize = value as number;
     }
     
-    // Mark package unit as manually set only when user explicitly changes it
+    // When user changes package unit, check for category mismatch
     if (field === 'packageUnit') {
-      updates.packageSizeManuallySet = true;
+      const usedCategory = getUnitCategory(ingredient.usedUnit);
+      const newPackageCategory = getUnitCategory(value as Unit);
+      
+      if (usedCategory !== newPackageCategory) {
+        // Incompatible - reset to compatible unit
+        const defaultPackageUnit = usedCategory === 'volume' ? 'cup' : usedCategory === 'weight' ? 'lb' : 'unit';
+        updates.packageUnit = defaultPackageUnit as Unit;
+        toast.warning(t('toasts.incompatibleUnit'));
+      } else {
+        updates.packageSizeManuallySet = true;
+      }
     }
     
     onUpdate(ingredient.id, updates);

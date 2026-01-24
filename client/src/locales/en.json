@@ -78,6 +78,8 @@
     }
   },
   "toasts": {
+    "unitCategorySwitched": "Switched to {{category}} units. Package unit updated to match.",
+    "incompatibleUnit": "Package unit must match quantity used type.",
     "recipeSaved": "Recipe \"{{name}}\" saved!",
     "recipeSavedAs": "Recipe \"{{name}}\" saved as new recipe!",
     "recipeLoaded": "Recipe \"{{name}}\" loaded!",
@@ -90,6 +92,9 @@
     "deleteFailed": "Failed to delete recipe"
   },
   "units": {
+    "categoryVolume": "volume",
+    "categoryWeight": "weight",
+    "categoryCount": "count",
     "tsp": "tsp",
     "tbsp": "tbsp",
     "cup": "cup",

@@ -78,6 +78,8 @@
     }
   },
   "toasts": {
+    "unitCategorySwitched": "Basculé vers les unités de {{category}}. Unité du paquet mise à jour.",
+    "incompatibleUnit": "L'unité du paquet doit correspondre au type de quantité utilisée.",
     "recipeSaved": "Recette \"{{name}}\" enregistrée !",
     "recipeSavedAs": "Recette \"{{name}}\" enregistrée comme nouvelle recette !",
     "recipeLoaded": "Recette \"{{name}}\" chargée !",
@@ -90,6 +92,9 @@
     "deleteFailed": "Échec de la suppression de la recette"
   },
   "units": {
+    "categoryVolume": "volume",
+    "categoryWeight": "poids",
+    "categoryCount": "quantité",
     "tsp": "c.c.",
     "tbsp": "c.s.",
     "cup": "tasse",
