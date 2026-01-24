@@ -325,9 +325,11 @@ export default function Home() {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start">
-                    <DropdownMenuItem onClick={handleSave}>
-                      {currentRecipeId ? t('ingredients.saveRecipe', { name: currentRecipeName }) : t('ingredients.saveAs')}
-                    </DropdownMenuItem>
+                    {currentRecipeId && (
+                      <DropdownMenuItem onClick={handleSave}>
+                        {t('ingredients.saveRecipe', { name: currentRecipeName })}
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem onClick={() => setSaveAsDialogOpen(true)}>
                       {t('ingredients.saveAs')}
                     </DropdownMenuItem>
