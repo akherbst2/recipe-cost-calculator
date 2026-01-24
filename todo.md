@@ -12,3 +12,8 @@
 - [x] Update ingredient_add event to include complete ingredient details
 - [x] Update ingredient_edit event to track field changes with before/after values
 - [x] Test and verify ingredient data is fully readable in database
+
+## Fix Over-Logging Issue
+- [x] Investigate why multiple events are logged for single actions
+- [x] Fix the over-logging (moved logging from inside setState to useEffect)
+- [x] Test and verify only one event per action

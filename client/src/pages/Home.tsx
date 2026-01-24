@@ -22,7 +22,7 @@ import { Ingredient, SavedRecipe } from '@/lib/types';
 import { calculateIngredientCost, canConvert } from '@/lib/unitConversions';
 import { ChevronDown, Download, FolderOpen, MessageSquare, Plus, Save, Trash2 } from 'lucide-react';
 import { nanoid } from 'nanoid';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { useEventLogger } from '@/hooks/useEventLogger';
@@ -35,6 +35,7 @@ export default function Home() {
   const { t } = useTranslation();
   const { logEvent } = useEventLogger();
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
+  const prevIngredientsRef = useRef<Ingredient[]>([]);
   const [servings, setServings] = useState<number>(4);
   const [batchMultiplier, setBatchMultiplier] = useState<number>(1);
   const [savedRecipes, setSavedRecipes] = useState<SavedRecipe[]>([]);
@@ -111,20 +112,6 @@ export default function Home() {
           updated.calculatedCost = 0;
         }
         
-        // Log ingredient edit event with complete details
-        logEvent('ingredient_edit', {
-          ingredientId: updated.id,
-          ingredientName: updated.name,
-          usedQuantity: updated.usedQuantity,
-          usedUnit: updated.usedUnit,
-          packageCost: updated.packageCost,
-          packageSize: updated.packageSize,
-          packageUnit: updated.packageUnit,
-          calculatedCost: updated.calculatedCost,
-          changedFields: Object.keys(updates),
-          language: t('language'),
-        });
-        
         return updated;
       })
     );
@@ -185,6 +172,58 @@ export default function Home() {
       addIngredient();
     }
   }, []);
+
+  // Log ingredient edits with debouncing to avoid logging every keystroke
+  useEffect(() => {
+    if (prevIngredientsRef.current.length === 0) {
+      // First render, just store current ingredients
+      prevIngredientsRef.current = ingredients;
+      return;
+    }
+
+    // Check if this is an edit (same length, different values)
+    if (prevIngredientsRef.current.length === ingredients.length) {
+      // Debounce: wait 1 second before logging to batch rapid changes
+      const timeoutId = setTimeout(() => {
+        ingredients.forEach((ing, index) => {
+          const prevIng = prevIngredientsRef.current[index];
+          if (prevIng && prevIng.id === ing.id) {
+            // Check if any field changed
+            const hasChanges = 
+              prevIng.name !== ing.name ||
+              prevIng.usedQuantity !== ing.usedQuantity ||
+              prevIng.usedUnit !== ing.usedUnit ||
+              prevIng.packageCost !== ing.packageCost ||
+              prevIng.packageSize !== ing.packageSize ||
+              prevIng.packageUnit !== ing.packageUnit;
+
+            if (hasChanges) {
+              // Log the edit event
+              logEvent('ingredient_edit', {
+                ingredientId: ing.id,
+                ingredientName: ing.name,
+                usedQuantity: ing.usedQuantity,
+                usedUnit: ing.usedUnit,
+                packageCost: ing.packageCost,
+                packageSize: ing.packageSize,
+                packageUnit: ing.packageUnit,
+                calculatedCost: ing.calculatedCost,
+                language: t('language'),
+              });
+            }
+          }
+        });
+        
+        // Update ref after logging
+        prevIngredientsRef.current = ingredients;
+      }, 1000); // Wait 1 second of inactivity
+
+      return () => clearTimeout(timeoutId);
+    } else {
+      // Length changed (add/delete), just update ref
+      prevIngredientsRef.current = ingredients;
+    }
+  }, [ingredients, logEvent, t]);
 
   // Validate recipe data before saving
   const validateRecipe = (): boolean => {
