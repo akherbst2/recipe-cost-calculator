@@ -54,15 +54,14 @@ export function exportToGoogleSheets(
     .map((row) => row.map((cell) => `"${cell}"`).join(','))
     .join('\n');
   
-  // Create a Google Sheets import URL
-  // This creates a CSV that can be imported to Google Sheets
+  // Create a blob and download link
   const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
   const url = URL.createObjectURL(blob);
   
   // Create download link
   const link = document.createElement('a');
   link.href = url;
-  link.download = `${recipeName || 'recipe'}_cost_breakdown.csv`;
+  link.download = `${(recipeName || 'recipe').replace(/[^a-z0-9]/gi, '_')}_cost_breakdown.csv`;
   link.style.display = 'none';
   
   document.body.appendChild(link);
@@ -72,8 +71,11 @@ export function exportToGoogleSheets(
   // Clean up
   URL.revokeObjectURL(url);
   
-  // Open Google Sheets import page in new tab
+  // Open Google Sheets import page with instructions
   setTimeout(() => {
-    window.open('https://sheets.google.com/create', '_blank');
+    // Open Google Sheets with the import dialog
+    window.open('https://docs.google.com/spreadsheets/create', '_blank');
   }, 500);
+  
+  return true;
 }

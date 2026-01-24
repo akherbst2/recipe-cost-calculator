@@ -4,6 +4,7 @@
 import { Button } from '@/components/ui/button';
 import CostSummary from '@/components/CostSummary';
 import IngredientCard from '@/components/IngredientCard';
+import ExportInstructionsDialog from '@/components/ExportInstructionsDialog';
 import LoadRecipeDialog from '@/components/LoadRecipeDialog';
 import SaveRecipeDialog from '@/components/SaveRecipeDialog';
 import { exportToGoogleSheets } from '@/lib/exportToSheets';
@@ -22,6 +23,8 @@ export default function Home() {
   const [savedRecipes, setSavedRecipes] = useState<SavedRecipe[]>([]);
   const [saveDialogOpen, setSaveDialogOpen] = useState(false);
   const [loadDialogOpen, setLoadDialogOpen] = useState(false);
+  const [exportDialogOpen, setExportDialogOpen] = useState(false);
+  const [exportedFileName, setExportedFileName] = useState('');
   const [currentRecipeId, setCurrentRecipeId] = useState<string | null>(null);
 
   // Calculate total cost whenever ingredients change
@@ -173,6 +176,7 @@ export default function Home() {
       ? savedRecipes.find((r) => r.id === currentRecipeId)
       : null;
     const recipeName = currentRecipe?.name || 'Untitled Recipe';
+    const fileName = `${recipeName.replace(/[^a-z0-9]/gi, '_')}_cost_breakdown.csv`;
     
     exportToGoogleSheets(
       ingredients,
@@ -182,7 +186,8 @@ export default function Home() {
       recipeName
     );
     
-    toast.success('Recipe exported! CSV downloaded and Google Sheets opened.');
+    setExportedFileName(fileName);
+    setExportDialogOpen(true);
   };
 
   return (
@@ -367,6 +372,13 @@ export default function Home() {
         recipes={savedRecipes}
         onLoad={handleLoadRecipe}
         onDelete={handleDeleteRecipe}
+      />
+
+      {/* Export Instructions Dialog */}
+      <ExportInstructionsDialog
+        open={exportDialogOpen}
+        onOpenChange={setExportDialogOpen}
+        fileName={exportedFileName}
       />
 
       {/* Keyframe animation for cards */}
