@@ -467,7 +467,7 @@ export default function Home() {
             variant="outline"
             size="sm"
             onClick={() => {
-              window.location.href = 'mailto:alyssaherbst@gmail.com?subject=Recipcalc:%20';
+              window.location.href = 'mailto:alyssaherbst+recipcalc@gmail.com?subject=Recipcalc:%20';
             }}
             className="text-xs"
           >
