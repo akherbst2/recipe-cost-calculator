@@ -22,7 +22,12 @@
     "packageSize": "Package Size",
     "costForRecipe": "Cost for this recipe",
     "duplicateHint": "Duplicate ingredient",
-    "deleteHint": "Delete ingredient"
+    "deleteHint": "Delete ingredient",
+    "emptyState": {
+      "title": "No ingredients yet",
+      "description": "Start by adding your first ingredient to calculate recipe costs",
+      "button": "Add First Ingredient"
+    }
   },
   "costSummary": {
     "totalCost": "Total Cost",

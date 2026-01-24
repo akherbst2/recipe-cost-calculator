@@ -22,7 +22,12 @@
     "packageSize": "Taille du Paquet",
     "costForRecipe": "Coût pour cette recette",
     "duplicateHint": "Dupliquer l'ingrédient",
-    "deleteHint": "Supprimer l'ingrédient"
+    "deleteHint": "Supprimer l'ingrédient",
+    "emptyState": {
+      "title": "Aucun ingrédient pour le moment",
+      "description": "Commencez par ajouter votre premier ingrédient pour calculer les coûts de la recette",
+      "button": "Ajouter le Premier Ingrédient"
+    }
   },
   "costSummary": {
     "totalCost": "Coût Total",

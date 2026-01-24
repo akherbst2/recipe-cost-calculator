@@ -15,6 +15,7 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { SavedRecipe } from '@/lib/types';
 import { Calendar, Copy, Trash2 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface LoadRecipeDialogProps {
   open: boolean;
@@ -33,6 +34,8 @@ export default function LoadRecipeDialog({
   onDelete,
   onDuplicate,
 }: LoadRecipeDialogProps) {
+  const { t, i18n } = useTranslation();
+  
   const handleLoad = (recipe: SavedRecipe) => {
     onLoad(recipe);
     onOpenChange(false);
@@ -40,7 +43,8 @@ export default function LoadRecipeDialog({
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
+    const locale = i18n.language === 'es' ? 'es-ES' : i18n.language === 'fr' ? 'fr-FR' : 'en-US';
+    return date.toLocaleDateString(locale, {
       month: 'short',
       day: 'numeric',
       year: 'numeric',
@@ -55,17 +59,17 @@ export default function LoadRecipeDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="font-heading text-2xl">Load Recipe</DialogTitle>
+          <DialogTitle className="font-heading text-2xl">{t('dialogs.load.title')}</DialogTitle>
           <DialogDescription>
-            Select a saved recipe to load its ingredients and settings.
+            {t('dialogs.load.description')}
           </DialogDescription>
         </DialogHeader>
 
         {recipes.length === 0 ? (
           <div className="py-8 text-center text-muted-foreground">
-            <p>No saved recipes yet.</p>
+            <p>{t('dialogs.load.noRecipes')}</p>
             <p className="text-sm mt-2">
-              Create a recipe and click "Save Recipe" to save it.
+              {t('dialogs.load.noRecipesHint')}
             </p>
           </div>
         ) : (
@@ -94,7 +98,7 @@ export default function LoadRecipeDialog({
                           </div>
                         </div>
                         <div className="text-xs text-muted-foreground mt-1">
-                          {recipe.ingredients.length} ingredient{recipe.ingredients.length !== 1 ? 's' : ''} • {recipe.servings * recipe.batchMultiplier} serving{recipe.servings * recipe.batchMultiplier !== 1 ? 's' : ''}
+                          {recipe.ingredients.length} {recipe.ingredients.length === 1 ? t('dialogs.load.ingredient') : t('dialogs.load.ingredients')} • {recipe.servings * recipe.batchMultiplier} {recipe.servings * recipe.batchMultiplier === 1 ? t('dialogs.load.serving') : t('dialogs.load.servings')}
                         </div>
                       </div>
                       <div className="flex gap-1">

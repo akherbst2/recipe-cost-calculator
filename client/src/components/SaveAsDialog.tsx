@@ -16,6 +16,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface SaveAsDialogProps {
   open: boolean;
@@ -30,6 +31,7 @@ export default function SaveAsDialog({
   onSave,
   currentName = '',
 }: SaveAsDialogProps) {
+  const { t } = useTranslation();
   const [recipeName, setRecipeName] = useState(currentName);
 
   const handleSave = () => {
@@ -51,17 +53,17 @@ export default function SaveAsDialog({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="font-heading text-2xl">Save Recipe As</DialogTitle>
+          <DialogTitle className="font-heading text-2xl">{t('dialogs.saveAs.title')}</DialogTitle>
           <DialogDescription>
-            Enter a new name for this recipe. This will create a new saved recipe.
+            {t('dialogs.saveAs.description')}
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label htmlFor="recipe-name">Recipe Name</Label>
+            <Label htmlFor="recipe-name">{t('dialogs.saveAs.recipeName')}</Label>
             <Input
               id="recipe-name"
-              placeholder="e.g., Grandma's Apple Pie"
+              placeholder={t('dialogs.saveAs.placeholder')}
               value={recipeName}
               onChange={(e) => setRecipeName(e.target.value)}
               onKeyDown={(e) => {
@@ -78,14 +80,14 @@ export default function SaveAsDialog({
             variant="outline"
             onClick={() => handleOpenChange(false)}
           >
-            Cancel
+            {t('dialogs.saveAs.cancel')}
           </Button>
           <Button
             onClick={handleSave}
             disabled={!recipeName.trim()}
             className="bg-primary hover:bg-primary/90"
           >
-            Save As New Recipe
+            {t('dialogs.saveAs.save')}
           </Button>
         </DialogFooter>
       </DialogContent>

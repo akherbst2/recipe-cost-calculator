@@ -379,17 +379,17 @@ export default function Home() {
                 <div className="max-w-sm mx-auto">
                   <div className="text-4xl mb-4">🥘</div>
                   <h3 className="text-xl font-semibold text-foreground mb-2">
-                    No ingredients yet
+                    {t('ingredients.emptyState.title')}
                   </h3>
                   <p className="text-muted-foreground mb-6">
-                    Start by adding your first ingredient to calculate recipe costs
+                    {t('ingredients.emptyState.description')}
                   </p>
                   <Button
                     onClick={addIngredient}
                     className="bg-primary hover:bg-primary/90 text-primary-foreground"
                   >
                     <Plus className="h-4 w-4 mr-2" />
-                    Add First Ingredient
+                    {t('ingredients.emptyState.button')}
                   </Button>
                 </div>
               </div>
