@@ -14,6 +14,7 @@ import { toast } from 'sonner';
 export default function Home() {
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const [servings, setServings] = useState<number>(4);
+  const [batchMultiplier, setBatchMultiplier] = useState<number>(1);
 
   // Calculate total cost whenever ingredients change
   const totalCost = ingredients.reduce((sum, ing) => sum + ing.calculatedCost, 0);
@@ -77,6 +78,21 @@ export default function Home() {
   const deleteIngredient = (id: string) => {
     setIngredients((prev) => prev.filter((ing) => ing.id !== id));
     toast.success('Ingredient removed');
+  };
+
+  const duplicateIngredient = (id: string) => {
+    const ingredient = ingredients.find((ing) => ing.id === id);
+    if (ingredient) {
+      const duplicated: Ingredient = {
+        ...ingredient,
+        id: nanoid(),
+      };
+      setIngredients((prev) => {
+        const index = prev.findIndex((ing) => ing.id === id);
+        return [...prev.slice(0, index + 1), duplicated, ...prev.slice(index + 1)];
+      });
+      toast.success('Ingredient duplicated');
+    }
   };
 
   // Add initial ingredient on mount
@@ -153,6 +169,7 @@ export default function Home() {
                     ingredient={ingredient}
                     onUpdate={updateIngredient}
                     onDelete={deleteIngredient}
+                    onDuplicate={duplicateIngredient}
                     index={index}
                   />
                 ))}
@@ -165,7 +182,9 @@ export default function Home() {
             <CostSummary
               totalCost={totalCost}
               servings={servings}
+              batchMultiplier={batchMultiplier}
               onServingsChange={setServings}
+              onBatchMultiplierChange={setBatchMultiplier}
             />
           </div>
         </div>

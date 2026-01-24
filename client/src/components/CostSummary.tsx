@@ -8,20 +8,26 @@ import { useEffect, useState } from 'react';
 interface CostSummaryProps {
   totalCost: number;
   servings: number;
+  batchMultiplier: number;
   onServingsChange: (servings: number) => void;
+  onBatchMultiplierChange: (multiplier: number) => void;
 }
 
 export default function CostSummary({
   totalCost,
   servings,
+  batchMultiplier,
   onServingsChange,
+  onBatchMultiplierChange,
 }: CostSummaryProps) {
   const [animatedTotal, setAnimatedTotal] = useState(totalCost);
   const [animatedPerServing, setAnimatedPerServing] = useState(
     servings > 0 ? totalCost / servings : 0
   );
 
-  const costPerServing = servings > 0 ? totalCost / servings : 0;
+  const scaledTotalCost = totalCost * batchMultiplier;
+  const totalServings = servings * batchMultiplier;
+  const costPerServing = totalServings > 0 ? scaledTotalCost / totalServings : 0;
 
   // Animate number changes
   useEffect(() => {
@@ -80,32 +86,52 @@ export default function CostSummary({
         />
         <div className="relative z-10">
           <div className="text-sm font-semibold text-primary uppercase tracking-wide mb-2">
-            Total Recipe Cost
+            Total Cost {batchMultiplier > 1 ? `(×${batchMultiplier})` : ''}
           </div>
           <div className="text-6xl font-display font-bold text-primary mb-1">
-            ${animatedTotal.toFixed(2)}
+            ${(animatedTotal * batchMultiplier).toFixed(2)}
           </div>
           <div className="text-sm text-muted-foreground">
-            Sum of all ingredients
+            {batchMultiplier > 1 ? `${totalServings} servings (${batchMultiplier} batches)` : 'Sum of all ingredients'}
           </div>
         </div>
       </div>
 
       {/* Servings Input */}
-      <div className="bg-card rounded-[1.25rem] p-6 shadow-soft border border-border/50">
-        <Label htmlFor="servings" className="text-sm font-semibold text-foreground/80 mb-3 block">
-          Number of Servings
-        </Label>
-        <Input
-          id="servings"
-          type="number"
-          min="1"
-          step="1"
-          value={servings || ''}
-          onChange={(e) => onServingsChange(parseInt(e.target.value) || 1)}
-          placeholder="1"
-          className="text-lg font-medium"
-        />
+      <div className="bg-card rounded-[1.25rem] p-6 shadow-soft border border-border/50 space-y-4">
+        <div>
+          <Label htmlFor="servings" className="text-sm font-semibold text-foreground/80 mb-3 block">
+            Servings Per Recipe
+          </Label>
+          <Input
+            id="servings"
+            type="number"
+            min="1"
+            step="1"
+            value={servings || ''}
+            onChange={(e) => onServingsChange(parseInt(e.target.value) || 1)}
+            placeholder="1"
+            className="text-lg font-medium"
+          />
+        </div>
+        <div>
+          <Label htmlFor="batch-multiplier" className="text-sm font-semibold text-foreground/80 mb-3 block">
+            Batches to Make
+          </Label>
+          <Input
+            id="batch-multiplier"
+            type="number"
+            min="1"
+            step="1"
+            value={batchMultiplier || ''}
+            onChange={(e) => onBatchMultiplierChange(parseInt(e.target.value) || 1)}
+            placeholder="1"
+            className="text-lg font-medium"
+          />
+          <p className="text-xs text-muted-foreground mt-2">
+            For caterers: multiply recipe for large events
+          </p>
+        </div>
       </div>
 
       {/* Cost Per Serving - Second Most Prominent */}
@@ -117,7 +143,7 @@ export default function CostSummary({
           ${animatedPerServing.toFixed(2)}
         </div>
         <div className="text-sm text-muted-foreground">
-          {servings > 0 ? `${totalCost.toFixed(2)} ÷ ${servings} servings` : 'Enter servings above'}
+          {totalServings > 0 ? `${scaledTotalCost.toFixed(2)} ÷ ${totalServings} servings` : 'Enter servings above'}
         </div>
       </div>
 

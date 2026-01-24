@@ -13,12 +13,13 @@ import {
 } from '@/components/ui/select';
 import { Ingredient } from '@/lib/types';
 import { formatUnit, Unit, unitCategories } from '@/lib/unitConversions';
-import { Trash2 } from 'lucide-react';
+import { Copy, Trash2 } from 'lucide-react';
 
 interface IngredientCardProps {
   ingredient: Ingredient;
   onUpdate: (id: string, updates: Partial<Ingredient>) => void;
   onDelete: (id: string) => void;
+  onDuplicate: (id: string) => void;
   index: number;
 }
 
@@ -26,6 +27,7 @@ export default function IngredientCard({
   ingredient,
   onUpdate,
   onDelete,
+  onDuplicate,
   index,
 }: IngredientCardProps) {
   const handleChange = (field: keyof Ingredient, value: string | number) => {
@@ -53,15 +55,26 @@ export default function IngredientCard({
             className="text-base font-medium"
           />
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => onDelete(ingredient.id)}
-          className="ml-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
-          aria-label="Delete ingredient"
-        >
-          <Trash2 className="h-4 w-4" />
-        </Button>
+        <div className="flex gap-1 ml-3">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onDuplicate(ingredient.id)}
+            className="text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+            aria-label="Duplicate ingredient"
+          >
+            <Copy className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => onDelete(ingredient.id)}
+            className="text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-colors"
+            aria-label="Delete ingredient"
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
