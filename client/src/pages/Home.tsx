@@ -59,9 +59,16 @@ export default function Home() {
     };
     setIngredients([...ingredients, newIngredient]);
     
-    // Log event
+    // Log event with complete ingredient details
     logEvent('ingredient_add', {
       ingredientId: newIngredient.id,
+      ingredientName: newIngredient.name,
+      usedQuantity: newIngredient.usedQuantity,
+      usedUnit: newIngredient.usedUnit,
+      packageCost: newIngredient.packageCost,
+      packageSize: newIngredient.packageSize,
+      packageUnit: newIngredient.packageUnit,
+      calculatedCost: newIngredient.calculatedCost,
       language: t('language'),
     });
   };
@@ -104,6 +111,20 @@ export default function Home() {
           updated.calculatedCost = 0;
         }
         
+        // Log ingredient edit event with complete details
+        logEvent('ingredient_edit', {
+          ingredientId: updated.id,
+          ingredientName: updated.name,
+          usedQuantity: updated.usedQuantity,
+          usedUnit: updated.usedUnit,
+          packageCost: updated.packageCost,
+          packageSize: updated.packageSize,
+          packageUnit: updated.packageUnit,
+          calculatedCost: updated.calculatedCost,
+          changedFields: Object.keys(updates),
+          language: t('language'),
+        });
+        
         return updated;
       })
     );
@@ -137,11 +158,17 @@ export default function Home() {
       });
       toast.success('Ingredient duplicated');
       
-      // Log event
+      // Log event with complete ingredient details
       logEvent('ingredient_duplicate', {
         originalId: id,
         duplicatedId: duplicated.id,
-        ingredientName: ingredient.name,
+        ingredientName: duplicated.name,
+        usedQuantity: duplicated.usedQuantity,
+        usedUnit: duplicated.usedUnit,
+        packageCost: duplicated.packageCost,
+        packageSize: duplicated.packageSize,
+        packageUnit: duplicated.packageUnit,
+        calculatedCost: duplicated.calculatedCost,
         language: t('language'),
       });
     }

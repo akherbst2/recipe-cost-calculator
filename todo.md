@@ -7,3 +7,8 @@
 - [x] Integrate event logging into ingredient add/edit actions
 - [x] Integrate event logging into recipe save actions
 - [x] Test event logging functionality
+
+## Event Logging Enhancement
+- [x] Update ingredient_add event to include complete ingredient details
+- [x] Update ingredient_edit event to track field changes with before/after values
+- [x] Test and verify ingredient data is fully readable in database
