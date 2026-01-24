@@ -1,0 +1,17 @@
+# Recipe Cost Calculator - Robots.txt
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+
+# Disallow crawling of API endpoints
+Disallow: /api/
+
+# Disallow crawling of analytics scripts
+Disallow: /umami
+
+# Crawl delay (optional, helps prevent server overload)
+# Crawl-delay: 1
+
+# Sitemap location (update with your actual domain when deployed)
+# Sitemap: https://yourdomain.com/sitemap.xml

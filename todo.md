@@ -41,3 +41,7 @@
 ## AdSense Setup
 - [x] Create ads.txt file with Google AdSense publisher ID
 - [x] Test ads.txt file accessibility at root URL
+
+## SEO - Robots.txt
+- [x] Create robots.txt file with proper directives
+- [x] Test robots.txt file accessibility at root URL
