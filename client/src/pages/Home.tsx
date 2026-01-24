@@ -128,11 +128,45 @@ export default function Home() {
     }
   }, []);
 
+  // Validate recipe data before saving
+  const validateRecipe = (): boolean => {
+    // Check if there are any ingredients
+    if (ingredients.length === 0) {
+      toast.error(t('toasts.noIngredients'));
+      return false;
+    }
+
+    // Check for empty ingredient names
+    const emptyNames = ingredients.filter(ing => !ing.name.trim());
+    if (emptyNames.length > 0) {
+      toast.error(t('toasts.emptyIngredientName'));
+      return false;
+    }
+
+    // Check for missing required fields
+    const invalidIngredients = ingredients.filter(ing => 
+      ing.usedQuantity <= 0 || 
+      ing.packageCost <= 0 || 
+      ing.packageSize <= 0
+    );
+    if (invalidIngredients.length > 0) {
+      toast.error(t('toasts.missingRequiredFields'));
+      return false;
+    }
+
+    return true;
+  };
+
   // Handle Save (update existing recipe)
   const handleSave = () => {
     if (!currentRecipeId || !currentRecipeName) {
       // No current recipe, open Save As dialog
       setSaveAsDialogOpen(true);
+      return;
+    }
+
+    // Validate before saving
+    if (!validateRecipe()) {
       return;
     }
 
@@ -156,6 +190,11 @@ export default function Home() {
 
   // Handle Save As (create new recipe)
   const handleSaveAs = (name: string) => {
+    // Validate before saving
+    if (!validateRecipe()) {
+      return;
+    }
+
     const recipe: SavedRecipe = {
       id: nanoid(),
       name,

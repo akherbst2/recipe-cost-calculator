@@ -89,7 +89,10 @@
     "recipeExportedExcel": "Recipe exported as Excel!",
     "allCleared": "All ingredients cleared",
     "saveFailed": "Failed to save recipe",
-    "deleteFailed": "Failed to delete recipe"
+    "deleteFailed": "Failed to delete recipe",
+    "noIngredients": "Please add at least one ingredient before saving",
+    "emptyIngredientName": "Please fill in all ingredient names",
+    "missingRequiredFields": "Please fill in quantity, cost, and package size for all ingredients"
   },
   "units": {
     "categoryVolume": "volume",

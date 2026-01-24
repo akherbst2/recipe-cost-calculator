@@ -89,7 +89,10 @@
     "recipeExportedExcel": "Recette exportée en Excel !",
     "allCleared": "Tous les ingrédients effacés",
     "saveFailed": "Échec de l'enregistrement de la recette",
-    "deleteFailed": "Échec de la suppression de la recette"
+    "deleteFailed": "Échec de la suppression de la recette",
+    "noIngredients": "Veuillez ajouter au moins un ingrédient avant d'enregistrer",
+    "emptyIngredientName": "Veuillez remplir tous les noms d'ingrédients",
+    "missingRequiredFields": "Veuillez remplir la quantité, le coût et la taille du paquet pour tous les ingrédients"
   },
   "units": {
     "categoryVolume": "volume",
