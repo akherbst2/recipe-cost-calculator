@@ -554,7 +554,19 @@ export default function Home() {
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-foreground tracking-tight">
               {t('hero.title')}
             </h1>
-            <LanguageSelector />
+            <div className="flex items-center gap-3">
+              {isAuthenticated && (
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => window.location.href = '/analytics'}
+                  className="hidden md:flex"
+                >
+                  Analytics
+                </Button>
+              )}
+              <LanguageSelector />
+            </div>
           </div>
           <p className="text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
             {t('hero.subtitle')}
