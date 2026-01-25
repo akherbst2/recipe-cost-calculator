@@ -45,3 +45,16 @@
 ## SEO - Robots.txt
 - [x] Create robots.txt file with proper directives
 - [x] Test robots.txt file accessibility at root URL
+
+## Anonymous User Tracking Enhancement
+- [x] Review current event logging for anonymous users
+- [x] Verify session tracking works for unauthenticated visitors
+- [x] Test anonymous user event logging
+- [x] Confirm usage patterns can be analyzed from event data
+
+## Event Log Analysis & Enhancement
+- [x] Analyze existing anonymous user events (28 sessions, all shallow engagement)
+- [x] Identify logging gaps (page views, session start/end, errors, etc.)
+- [x] Design new event types (20+ events documented)
+- [x] Implement high-priority event types (session_start, page_view, cost_calculated, session_end, first_ingredient_added, button_click)
+- [x] Test enhanced logging capabilities

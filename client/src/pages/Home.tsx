@@ -43,6 +43,10 @@ export default function Home() {
   const [loadDialogOpen, setLoadDialogOpen] = useState(false);
   const [currentRecipeId, setCurrentRecipeId] = useState<string | null>(null);
   const [currentRecipeName, setCurrentRecipeName] = useState<string>('');
+  const [sessionStartTime] = useState(() => Date.now());
+  const [hasLoggedFirstIngredient, setHasLoggedFirstIngredient] = useState(false);
+  const prevTotalCostRef = useRef<number>(0);
+  const hasLoggedSessionStart = useRef(false);
 
   // Calculate total cost whenever ingredients change
   const totalCost = ingredients.reduce((sum, ing) => sum + ing.calculatedCost, 0);
@@ -60,6 +64,15 @@ export default function Home() {
     };
     setIngredients([...ingredients, newIngredient]);
     
+    // Log first ingredient added
+    if (!hasLoggedFirstIngredient) {
+      const timeFromPageLoad = (Date.now() - sessionStartTime) / 1000;
+      logEvent('first_ingredient_added', {
+        timeFromPageLoad,
+      });
+      setHasLoggedFirstIngredient(true);
+    }
+    
     // Log event with complete ingredient details
     logEvent('ingredient_add', {
       ingredientId: newIngredient.id,
@@ -70,7 +83,6 @@ export default function Home() {
       packageSize: newIngredient.packageSize,
       packageUnit: newIngredient.packageUnit,
       calculatedCost: newIngredient.calculatedCost,
-      language: t('language'),
     });
   };
 
@@ -161,6 +173,45 @@ export default function Home() {
     }
   };
 
+  // Log session start and page view on mount (only once)
+  useEffect(() => {
+    if (hasLoggedSessionStart.current) return;
+    hasLoggedSessionStart.current = true;
+    
+    logEvent('session_start', {
+      referrer: document.referrer || 'direct',
+      userAgent: navigator.userAgent,
+      screenResolution: `${window.screen.width}x${window.screen.height}`,
+      viewportSize: `${window.innerWidth}x${window.innerHeight}`,
+    });
+    
+    logEvent('page_view', {
+      path: window.location.pathname,
+      title: document.title,
+      referrer: document.referrer || 'direct',
+    });
+  }, [logEvent]);
+
+  // Log session end on page unload
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const sessionDuration = (Date.now() - sessionStartTime) / 1000;
+      const completedIngredients = ingredients.filter(
+        ing => ing.name && ing.usedQuantity > 0 && ing.packageCost > 0 && ing.packageSize > 0
+      );
+      
+      logEvent('session_end', {
+        sessionDuration,
+        completedIngredients: completedIngredients.length,
+        totalIngredients: ingredients.length,
+        hadCalculatedCost: totalCost > 0,
+      });
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [logEvent, sessionStartTime, ingredients, totalCost]);
+
   // Load saved recipes on mount
   useEffect(() => {
     setSavedRecipes(getSavedRecipes());
@@ -172,6 +223,24 @@ export default function Home() {
       addIngredient();
     }
   }, []);
+
+  // Log when cost is calculated (changes from 0 to non-zero)
+  useEffect(() => {
+    if (prevTotalCostRef.current === 0 && totalCost > 0) {
+      const completedIngredients = ingredients.filter(
+        ing => ing.name && ing.usedQuantity > 0 && ing.packageCost > 0 && ing.packageSize > 0
+      );
+      
+      logEvent('cost_calculated', {
+        totalCost,
+        ingredientCount: ingredients.length,
+        completedIngredientCount: completedIngredients.length,
+        servings,
+        costPerServing: totalCost / servings,
+      });
+    }
+    prevTotalCostRef.current = totalCost;
+  }, [totalCost, ingredients, servings, logEvent]);
 
   // Log ingredient edits with debouncing to avoid logging every keystroke
   useEffect(() => {
@@ -392,6 +461,8 @@ export default function Home() {
 
   const handleClearAll = () => {
     const ingredientCount = ingredients.length;
+    const hadCost = totalCost > 0;
+    
     setIngredients([]);
     setServings(4);
     setBatchMultiplier(1);
@@ -402,7 +473,16 @@ export default function Home() {
     // Log event
     logEvent('clear_all', {
       ingredientCount,
-      language: t('language'),
+      hadCalculatedCost: hadCost,
+      totalCost,
+    });
+  };
+
+  const handleLoadDialogOpen = () => {
+    setLoadDialogOpen(true);
+    logEvent('button_click', {
+      buttonName: 'Load',
+      savedRecipesCount: savedRecipes.length,
     });
   };
 
@@ -537,7 +617,7 @@ export default function Home() {
                   </DropdownMenuContent>
                 </DropdownMenu>
                 <Button
-                  onClick={() => setLoadDialogOpen(true)}
+                  onClick={handleLoadDialogOpen}
                   variant="outline"
                   className="shadow-soft"
                 >
