@@ -77,3 +77,9 @@
 - [x] Update analytics queries to exclude owner sessions (by userId/openId)
 - [x] Exclude Manus test traffic (referrer contains manus.im)
 - [x] Test filtered analytics to verify only real user data is shown (31 sessions, filtered out 18 owner/test sessions)
+
+## Database Cleanup & Try Example Feature
+- [x] Delete all owner events from database (deleted 10,462 events)
+- [x] Add "Try Example" button to home page
+- [x] Pre-fill sample ingredient data when clicked (Butter, 2 tbsp, $3.99, etc.)
+- [x] Test Try Example functionality (verified: loads 3 ingredients with calculated costs)

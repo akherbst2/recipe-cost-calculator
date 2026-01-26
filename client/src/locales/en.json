@@ -7,6 +7,7 @@
     "title": "Ingredients",
     "subtitle": "Add all ingredients used in your recipe",
     "addButton": "Add Ingredient",
+    "tryExampleButton": "Try Example",
     "saveButton": "Save",
     "saveAs": "Save As...",
     "saveRecipe": "Save \"{{name}}\"",
@@ -80,6 +81,7 @@
     }
   },
   "toasts": {
+    "exampleLoaded": "Example recipe loaded!",
     "unitCategorySwitched": "Switched to {{category}} units. Package unit updated to match.",
     "incompatibleUnit": "Package unit must match quantity used type.",
     "recipeSaved": "Recipe \"{{name}}\" saved!",

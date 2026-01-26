@@ -7,6 +7,7 @@
     "title": "Ingrédients",
     "subtitle": "Ajoutez tous les ingrédients utilisés dans votre recette",
     "addButton": "Ajouter un Ingrédient",
+    "tryExampleButton": "Essayer un Exemple",
     "saveButton": "Enregistrer",
     "saveAs": "Enregistrer Sous...",
     "saveRecipe": "Enregistrer \"{{name}}\"",
@@ -80,6 +81,7 @@
     }
   },
   "toasts": {
+    "exampleLoaded": "Exemple de recette chargé!",
     "unitCategorySwitched": "Basculé vers les unités de {{category}}. Unité du paquet mise à jour.",
     "incompatibleUnit": "L'unité du paquet doit correspondre au type de quantité utilisée.",
     "recipeSaved": "Recette \"{{name}}\" enregistrée !",

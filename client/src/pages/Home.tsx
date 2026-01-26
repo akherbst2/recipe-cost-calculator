@@ -51,6 +51,64 @@ export default function Home() {
   // Calculate total cost whenever ingredients change
   const totalCost = ingredients.reduce((sum, ing) => sum + ing.calculatedCost, 0);
 
+  const loadExampleRecipe = () => {
+    const exampleIngredients: Ingredient[] = [
+      {
+        id: nanoid(),
+        name: 'Butter',
+        usedQuantity: 2,
+        usedUnit: 'tbsp',
+        packageCost: 3.99,
+        packageSize: 16,
+        packageUnit: 'tbsp',
+        calculatedCost: 0,
+      },
+      {
+        id: nanoid(),
+        name: 'All-Purpose Flour',
+        usedQuantity: 2,
+        usedUnit: 'cup',
+        packageCost: 4.49,
+        packageSize: 10,
+        packageUnit: 'cup',
+        calculatedCost: 0,
+      },
+      {
+        id: nanoid(),
+        name: 'Eggs',
+        usedQuantity: 2,
+        usedUnit: 'unit',
+        packageCost: 5.99,
+        packageSize: 12,
+        packageUnit: 'unit',
+        calculatedCost: 0,
+      },
+    ];
+
+    // Calculate costs for each ingredient
+    const ingredientsWithCosts = exampleIngredients.map(ing => {
+      const cost = calculateIngredientCost(
+        ing.usedQuantity,
+        ing.usedUnit,
+        ing.packageCost,
+        ing.packageSize,
+        ing.packageUnit
+      );
+      return { ...ing, calculatedCost: cost };
+    });
+
+    setIngredients(ingredientsWithCosts);
+    setCurrentRecipeId(null);
+    setCurrentRecipeName('');
+    
+    logEvent('button_click', {
+      button: 'try_example',
+      ingredientCount: ingredientsWithCosts.length,
+    });
+    
+    toast.success(t('toasts.exampleLoaded') || 'Example recipe loaded!');
+  };
+
   const addIngredient = () => {
     const newIngredient: Ingredient = {
       id: nanoid(),
@@ -604,6 +662,14 @@ export default function Home() {
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   {t('ingredients.addButton')}
+                </Button>
+                <Button
+                  onClick={loadExampleRecipe}
+                  variant="outline"
+                  className="shadow-soft"
+                >
+                  <MessageSquare className="h-4 w-4 mr-2" />
+                  {t('ingredients.tryExampleButton') || 'Try Example'}
                 </Button>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

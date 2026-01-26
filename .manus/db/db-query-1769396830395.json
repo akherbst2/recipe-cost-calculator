@@ -1,0 +1,9 @@
+{
+  "query": "\n-- Get owner's userId first\nSELECT id FROM users WHERE openId = (SELECT OWNER_OPEN_ID FROM (SELECT '${OWNER_OPEN_ID}' as OWNER_OPEN_ID) as tmp);\n\n-- Delete all events from owner (replace USER_ID with the result from above)\nDELETE FROM events WHERE userId = (SELECT id FROM users WHERE openId = '${OWNER_OPEN_ID}' LIMIT 1);\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2vGuTCYzpyNQ1XN.root --database cUKXq5uw3eiWGpv5roCqyH --execute \n-- Get owner's userId first\nSELECT id FROM users WHERE openId = (SELECT OWNER_OPEN_ID FROM (SELECT '${OWNER_OPEN_ID}' as OWNER_OPEN_ID) as tmp);\n\n-- Delete all events from owner (replace USER_ID with the result from above)\nDELETE FROM events WHERE userId = (SELECT id FROM users WHERE openId = '${OWNER_OPEN_ID}' LIMIT 1);\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 435
+}
