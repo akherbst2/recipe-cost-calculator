@@ -1,5 +1,5 @@
-import { desc, eq } from "drizzle-orm";
-import { events, InsertEvent } from "../drizzle/schema";
+import { eq, desc } from "drizzle-orm";
+import { events, InsertEvent, users } from "../drizzle/schema";
 import { getDb } from "./db";
 
 /**
@@ -95,8 +95,9 @@ export async function getEventsBySessionId(sessionId: string, limit: number = 10
 
 /**
  * Get analytics data for admin dashboard
+ * Excludes owner sessions and Manus test traffic
  */
-export async function getAnalyticsData() {
+export async function getAnalyticsData(ownerOpenId?: string) {
   const db = await getDb();
   if (!db) {
     console.warn("[Events] Cannot get analytics: database not available");
@@ -110,15 +111,46 @@ export async function getAnalyticsData() {
       .from(events)
       .orderBy(desc(events.createdAt));
 
-    // Calculate metrics
-    const totalSessions = new Set(allEvents.map(e => e.sessionId).filter(Boolean)).size;
+    // Get owner's userId if ownerOpenId is provided
+    let ownerUserId: number | null = null;
+    if (ownerOpenId) {
+      const ownerUser = await db
+        .select()
+        .from(users)
+        .where(eq(users.openId, ownerOpenId))
+        .limit(1);
+      if (ownerUser.length > 0) {
+        ownerUserId = ownerUser[0].id;
+      }
+    }
+
+    // Filter out owner sessions and Manus test traffic
+    const filteredEvents = allEvents.filter(e => {
+      // Exclude events from owner
+      if (ownerUserId && e.userId === ownerUserId) {
+        return false;
+      }
+      
+      // Exclude Manus test traffic (referrer contains manus.im)
+      try {
+        const data = JSON.parse(e.eventData);
+        if (data.referrer && data.referrer.includes('manus.im')) {
+          return false;
+        }
+      } catch {}
+      
+      return true;
+    });
+
+    // Calculate metrics using filtered events
+    const totalSessions = new Set(filteredEvents.map(e => e.sessionId).filter(Boolean)).size;
     const anonymousSessions = new Set(
-      allEvents.filter(e => e.userId === null).map(e => e.sessionId).filter(Boolean)
+      filteredEvents.filter(e => e.userId === null).map(e => e.sessionId).filter(Boolean)
     ).size;
     
-    const sessionStartEvents = allEvents.filter(e => e.eventType === 'session_start');
-    const costCalculatedEvents = allEvents.filter(e => e.eventType === 'cost_calculated');
-    const sessionEndEvents = allEvents.filter(e => e.eventType === 'session_end');
+    const sessionStartEvents = filteredEvents.filter(e => e.eventType === 'session_start');
+    const costCalculatedEvents = filteredEvents.filter(e => e.eventType === 'cost_calculated');
+    const sessionEndEvents = filteredEvents.filter(e => e.eventType === 'session_end');
     
     // Conversion rate: sessions with cost_calculated / total sessions
     const sessionsWithCost = new Set(costCalculatedEvents.map(e => e.sessionId).filter(Boolean)).size;
@@ -151,7 +183,7 @@ export async function getAnalyticsData() {
     
     // Popular ingredients from ingredient_edit events
     const ingredientCounts: Record<string, number> = {};
-    allEvents
+    filteredEvents
       .filter(e => e.eventType === 'ingredient_edit')
       .forEach(e => {
         try {
@@ -196,7 +228,7 @@ export async function getAnalyticsData() {
         authenticatedSessions: totalSessions - anonymousSessions,
         conversionRate: Math.round(conversionRate * 10) / 10,
         avgSessionDuration: Math.round(avgSessionDuration),
-        totalEvents: allEvents.length,
+        totalEvents: filteredEvents.length,
       },
       trafficSources: Object.entries(trafficSources)
         .map(([source, count]) => ({ source, count }))

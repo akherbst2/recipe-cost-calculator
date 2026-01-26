@@ -21,8 +21,8 @@ export const appRouter = router({
 
   // Analytics router (owner only)
   analytics: router({
-    getOverview: ownerProcedure.query(async () => {
-      return await getAnalyticsData();
+    getOverview: ownerProcedure.query(async ({ ctx }) => {
+      return await getAnalyticsData(ctx.user?.openId);
     }),
   }),
 

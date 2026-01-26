@@ -72,3 +72,8 @@
 - [x] Hide Analytics button from non-owner users
 - [x] Add VITE_OWNER_OPEN_ID environment variable
 - [x] Test owner-only access restriction (verified: Analytics button hidden from non-owners, dashboard accessible to owner)
+
+## Analytics Dashboard - Exclude Owner/Test Traffic
+- [x] Update analytics queries to exclude owner sessions (by userId/openId)
+- [x] Exclude Manus test traffic (referrer contains manus.im)
+- [x] Test filtered analytics to verify only real user data is shown (31 sessions, filtered out 18 owner/test sessions)
