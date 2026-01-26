@@ -555,7 +555,7 @@ export default function Home() {
               {t('hero.title')}
             </h1>
             <div className="flex items-center gap-3">
-              {isAuthenticated && (
+              {isAuthenticated && user?.openId === import.meta.env.VITE_OWNER_OPEN_ID && (
                 <Button
                   variant="outline"
                   size="sm"

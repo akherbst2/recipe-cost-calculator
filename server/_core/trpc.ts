@@ -43,3 +43,21 @@ export const adminProcedure = t.procedure.use(
     });
   }),
 );
+
+export const ownerProcedure = t.procedure.use(
+  t.middleware(async opts => {
+    const { ctx, next } = opts;
+    const ownerOpenId = process.env.OWNER_OPEN_ID;
+
+    if (!ctx.user || ctx.user.openId !== ownerOpenId) {
+      throw new TRPCError({ code: "FORBIDDEN", message: "Access denied. Owner only." });
+    }
+
+    return next({
+      ctx: {
+        ...ctx,
+        user: ctx.user,
+      },
+    });
+  }),
+);

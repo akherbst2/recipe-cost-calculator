@@ -19,11 +19,28 @@ export default function Analytics() {
   }
 
   if (error || !data) {
+    const isAccessDenied = error?.message?.includes('Access denied') || error?.message?.includes('Owner only');
+    
     return (
       <div className="container py-12">
-        <div className="text-center">
-          <p className="text-destructive">Failed to load analytics data</p>
-          <p className="text-sm text-muted-foreground mt-2">{error?.message}</p>
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="text-center max-w-md">
+            <div className="text-6xl mb-4">{isAccessDenied ? '🔒' : '❌'}</div>
+            <h2 className="text-2xl font-bold text-foreground mb-2">
+              {isAccessDenied ? 'Access Denied' : 'Failed to Load'}
+            </h2>
+            <p className="text-muted-foreground">
+              {isAccessDenied 
+                ? 'This page is only accessible to the project owner.'
+                : error?.message || 'Failed to load analytics data'}
+            </p>
+            <button
+              onClick={() => window.location.href = '/'}
+              className="mt-6 px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+            >
+              Return to Home
+            </button>
+          </div>
         </div>
       </div>
     );

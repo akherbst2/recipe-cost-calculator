@@ -65,3 +65,10 @@
 - [x] Add admin route protection (analytics link only visible when authenticated)
 - [x] Add navigation link to admin dashboard
 - [x] Test dashboard with real event data (all 8 tests passing)
+
+## Owner-Only Analytics Access
+- [x] Add owner-only protection to analytics backend endpoint
+- [x] Update frontend to handle unauthorized access gracefully
+- [x] Hide Analytics button from non-owner users
+- [x] Add VITE_OWNER_OPEN_ID environment variable
+- [x] Test owner-only access restriction (verified: Analytics button hidden from non-owners, dashboard accessible to owner)

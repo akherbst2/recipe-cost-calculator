@@ -2,7 +2,7 @@ import { COOKIE_NAME } from "@shared/const";
 import { z } from "zod";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, router } from "./_core/trpc";
+import { ownerProcedure, publicProcedure, router } from "./_core/trpc";
 import { logEvent, getAnalyticsData } from "./events";
 
 export const appRouter = router({
@@ -19,9 +19,9 @@ export const appRouter = router({
     }),
   }),
 
-  // Analytics router (admin only)
+  // Analytics router (owner only)
   analytics: router({
-    getOverview: publicProcedure.query(async () => {
+    getOverview: ownerProcedure.query(async () => {
       return await getAnalyticsData();
     }),
   }),
