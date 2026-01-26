@@ -4,6 +4,10 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { ownerProcedure, publicProcedure, router } from "./_core/trpc";
 import { logEvent, getAnalyticsData } from "./events";
+import { sharedRecipes } from "../drizzle/schema";
+import { getDb } from "./db";
+import { eq } from "drizzle-orm";
+import { nanoid } from "nanoid";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -24,6 +28,60 @@ export const appRouter = router({
     getOverview: ownerProcedure.query(async ({ ctx }) => {
       return await getAnalyticsData(ctx.user?.openId);
     }),
+  }),
+
+  // Sharing router
+  sharing: router({
+    create: publicProcedure
+      .input(
+        z.object({
+          name: z.string(),
+          ingredients: z.array(z.any()),
+          servings: z.number(),
+          batchMultiplier: z.number(),
+          totalCost: z.number(),
+        })
+      )
+      .mutation(async ({ ctx, input }) => {
+        const shareId = nanoid(10); // Generate unique 10-character ID
+        const userId = ctx.user?.id ?? null;
+        const db = await getDb();
+        if (!db) throw new Error("Database not available");
+        
+        await db.insert(sharedRecipes).values({
+          shareId,
+          name: input.name,
+          ingredients: JSON.stringify(input.ingredients),
+          servings: input.servings,
+          batchMultiplier: input.batchMultiplier,
+          totalCost: Math.round(input.totalCost * 100), // Store as cents
+          userId,
+        });
+        
+        return { shareId };
+      }),
+    
+    get: publicProcedure
+      .input(z.object({ shareId: z.string() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database not available");
+        const recipe = await db.select().from(sharedRecipes).where(eq(sharedRecipes.shareId, input.shareId)).limit(1);
+        
+        if (recipe.length === 0) {
+          throw new Error("Recipe not found");
+        }
+        
+        const data = recipe[0];
+        return {
+          name: data.name,
+          ingredients: JSON.parse(data.ingredients),
+          servings: data.servings,
+          batchMultiplier: data.batchMultiplier,
+          totalCost: data.totalCost / 100, // Convert from cents
+          createdAt: data.createdAt,
+        };
+      }),
   }),
 
   // Event logging router

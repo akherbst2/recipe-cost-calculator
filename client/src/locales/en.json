@@ -16,6 +16,7 @@
     "exportCSV": "Export as CSV",
     "exportExcel": "Export as Excel",
     "clearButton": "Clear All",
+    "shareButton": "Share",
     "ingredientName": "Ingredient Name",
     "ingredientPlaceholder": "e.g., Pasta, Onions, Olive Oil",
     "quantityUsed": "Quantity Used",
@@ -60,7 +61,22 @@
     "shareFeedback": "Share Feedback"
   },
   "ingredient": "Ingredient",
+  "shared": {
+    "subtitle": "Shared recipe - view only",
+    "createOwn": "Create Your Own",
+    "notFound": {
+      "title": "Recipe Not Found",
+      "description": "This recipe link is invalid or has been removed.",
+      "backHome": "Back to Home"
+    }
+  },
   "dialogs": {
+    "share": {
+      "title": "Share Recipe",
+      "description": "Share this recipe with anyone using the link below.",
+      "hint": "Anyone with this link can view your recipe.",
+      "defaultName": "My Recipe"
+    },
     "saveAs": {
       "title": "Save Recipe As",
       "description": "Enter a new name for this recipe. This will create a new saved recipe.",
@@ -91,6 +107,10 @@
     "recipeDeleted": "Recipe \"{{name}}\" deleted",
     "recipeExportedCSV": "Recipe exported as CSV!",
     "recipeExportedExcel": "Recipe exported as Excel!",
+    "noIngredientsToShare": "Add ingredients before sharing",
+    "shareFailed": "Failed to create share link",
+    "linkCopied": "Link copied to clipboard!",
+    "copyFailed": "Failed to copy link",
     "allCleared": "All ingredients cleared",
     "saveFailed": "Failed to save recipe",
     "deleteFailed": "Failed to delete recipe",

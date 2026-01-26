@@ -15,6 +15,13 @@
       "when": 1769290957641,
       "tag": "0001_common_lockheed",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1769397576025,
+      "tag": "0002_strange_iron_fist",
+      "breakpoints": true
     }
   ]
 }

@@ -45,3 +45,30 @@ export const events = mysqlTable("events", {
 
 export type Event = typeof events.$inferSelect;
 export type InsertEvent = typeof events.$inferInsert;
+
+/**
+ * Shared recipes table for social sharing functionality.
+ * Stores recipe data with a unique shareable ID.
+ */
+export const sharedRecipes = mysqlTable("sharedRecipes", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Unique short ID for the shareable URL (e.g., "abc123") */
+  shareId: varchar("shareId", { length: 16 }).notNull().unique(),
+  /** Recipe name */
+  name: varchar("name", { length: 255 }).notNull(),
+  /** JSON data containing ingredients array */
+  ingredients: text("ingredients").notNull(),
+  /** Number of servings */
+  servings: int("servings").notNull(),
+  /** Batch multiplier */
+  batchMultiplier: int("batchMultiplier").notNull(),
+  /** Total cost calculated */
+  totalCost: int("totalCost").notNull(), // Store as cents to avoid floating point issues
+  /** User ID if authenticated, null for anonymous shares */
+  userId: int("userId"),
+  /** Timestamp when the recipe was shared */
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type SharedRecipe = typeof sharedRecipes.$inferSelect;
+export type InsertSharedRecipe = typeof sharedRecipes.$inferInsert;

@@ -16,16 +16,18 @@ import IngredientCard from '@/components/IngredientCard';
 import LoadRecipeDialog from '@/components/LoadRecipeDialog';
 import SaveAsDialog from '@/components/SaveAsDialog';
 import SaveRecipeDialog from '@/components/SaveRecipeDialog';
+import ShareRecipeDialog from '@/components/ShareRecipeDialog';
 import { exportToCSV, exportToExcel } from '@/lib/exportRecipe';
 import { deleteRecipe, getSavedRecipes, saveRecipe } from '@/lib/recipeStorage';
 import { Ingredient, SavedRecipe } from '@/lib/types';
 import { calculateIngredientCost, canConvert } from '@/lib/unitConversions';
-import { ChevronDown, Download, FolderOpen, MessageSquare, Plus, Save, Trash2 } from 'lucide-react';
+import { ChevronDown, Download, FolderOpen, MessageSquare, Plus, Save, Share2, Trash2 } from 'lucide-react';
 import { nanoid } from 'nanoid';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { useEventLogger } from '@/hooks/useEventLogger';
+import { trpc } from '@/lib/trpc';
 
 export default function Home() {
   // The userAuth hooks provides authentication state
@@ -43,6 +45,9 @@ export default function Home() {
   const [loadDialogOpen, setLoadDialogOpen] = useState(false);
   const [currentRecipeId, setCurrentRecipeId] = useState<string | null>(null);
   const [currentRecipeName, setCurrentRecipeName] = useState<string>('');
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [isGeneratingShare, setIsGeneratingShare] = useState(false);
   const [sessionStartTime] = useState(() => Date.now());
   const [hasLoggedFirstIngredient, setHasLoggedFirstIngredient] = useState(false);
   const prevTotalCostRef = useRef<number>(0);
@@ -594,6 +599,48 @@ export default function Home() {
     });
   };
 
+  const createShareMutation = trpc.sharing.create.useMutation();
+
+  const handleShare = async () => {
+    if (ingredients.length === 0) {
+      toast.error(t('toasts.noIngredientsToShare') || 'Add ingredients before sharing');
+      return;
+    }
+
+    const recipeName = currentRecipeName || t('dialogs.share.defaultName') || 'My Recipe';
+    
+    setIsGeneratingShare(true);
+    setShareDialogOpen(true);
+    setShareUrl(null);
+
+    try {
+      const result = await createShareMutation.mutateAsync({
+        name: recipeName,
+        ingredients,
+        servings,
+        batchMultiplier,
+        totalCost,
+      });
+
+      const url = `${window.location.origin}/shared/${result.shareId}`;
+      setShareUrl(url);
+      
+      // Log event
+      logEvent('recipe_share', {
+        recipeName,
+        shareId: result.shareId,
+        ingredientCount: ingredients.length,
+        totalCost,
+        language: t('language'),
+      });
+    } catch (error) {
+      toast.error(t('toasts.shareFailed') || 'Failed to create share link');
+      setShareDialogOpen(false);
+    } finally {
+      setIsGeneratingShare(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       {/* Hero Section with Textured Background */}
@@ -723,6 +770,15 @@ export default function Home() {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
+                <Button
+                  onClick={handleShare}
+                  variant="outline"
+                  className="shadow-soft"
+                  disabled={ingredients.length === 0}
+                >
+                  <Share2 className="h-4 w-4 mr-2" />
+                  {t('ingredients.shareButton') || 'Share'}
+                </Button>
                 <Button
                   onClick={handleClearAll}
                   variant="outline"
@@ -854,6 +910,14 @@ export default function Home() {
         onLoad={handleLoadRecipe}
         onDelete={handleDeleteRecipe}
         onDuplicate={handleDuplicateRecipe}
+      />
+
+      {/* Share Recipe Dialog */}
+      <ShareRecipeDialog
+        open={shareDialogOpen}
+        onOpenChange={setShareDialogOpen}
+        shareUrl={shareUrl}
+        isGenerating={isGeneratingShare}
       />
 
       {/* Keyframe animation for cards */}

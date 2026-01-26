@@ -83,3 +83,13 @@
 - [x] Add "Try Example" button to home page
 - [x] Pre-fill sample ingredient data when clicked (Butter, 2 tbsp, $3.99, etc.)
 - [x] Test Try Example functionality (verified: loads 3 ingredients with calculated costs)
+
+## Social Sharing Feature
+- [x] Create database table for shared recipes
+- [x] Add backend API endpoints for creating and retrieving shared recipes
+- [x] Add "Share Recipe" button to UI
+- [x] Generate shareable link with unique ID
+- [x] Create shared recipe view page
+- [x] Add Open Graph meta tags for social media previews
+- [x] Add copy-to-clipboard functionality for share link (implemented in ShareRecipeDialog)
+- [x] Test sharing functionality end-to-end (all 19 tests passing, browser test confirmed)
