@@ -58,7 +58,34 @@
   },
   "footer": {
     "text": "Built for home cooks, food bloggers, and small food businesses. Automatic unit conversions make recipe costing faster than pen and paper.",
-    "shareFeedback": "Share Feedback"
+    "shareFeedback": "Share Feedback",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "about": {
+    "title": "About Us",
+    "subtitle": "Learn about the creator and the story behind Recipe Cost Calculator",
+    "backHome": "Back to Home",
+    "greeting": "Hi, I'm Alyssa! 👋",
+    "intro": "I'm a software engineer who loves building useful tools. I created Recipe Cost Calculator as a fun side project to solve a real problem I encountered while cooking and meal planning.",
+    "whyTitle": "Why I Built This",
+    "whyContent1": "As someone who enjoys cooking, I found myself constantly trying to figure out how much recipes actually cost. Calculating partial costs from packages was tedious with pen and paper, and I couldn't find a simple tool that handled unit conversions automatically.",
+    "whyContent2": "So I built this! It's designed to be faster and easier than manual calculations, with automatic conversions between cups, ounces, grams, and more.",
+    "hopeTitle": "I Hope It's Useful!",
+    "hopeContent": "Whether you're a home cook trying to budget, a food blogger calculating recipe costs, or a small business pricing your products, I hope this tool makes your life a little easier. If you have feedback or ideas, I'd love to hear from you!",
+    "tryCalculator": "Try the Calculator",
+    "getInTouch": "Get in Touch"
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Have questions, feedback, or suggestions? I'd love to hear from you!",
+    "backHome": "Back to Home",
+    "getInTouch": "Get in Touch",
+    "description": "Whether you've found a bug, have a feature request, or just want to say hello, feel free to reach out via email.",
+    "sendEmail": "Send Email",
+    "responseTime": "I'll do my best to respond within a few days.",
+    "learnMore": "Learn More About Us",
+    "backToCalculator": "Back to Calculator"
   },
   "ingredient": "Ingredient",
   "shared": {

@@ -57,7 +57,34 @@
   },
   "footer": {
     "text": "Creado para cocineros caseros, blogueros de comida y peque\u00f1os negocios de alimentos. Las conversiones autom\u00e1ticas de unidades hacen que calcular costos de recetas sea m\u00e1s r\u00e1pido que con papel y calculadora.",
-    "shareFeedback": "Compartir Comentarios"
+    "shareFeedback": "Compartir Comentarios",
+    "about": "Acerca de",
+    "contact": "Contacto"
+  },
+  "about": {
+    "title": "Acerca de Nosotros",
+    "subtitle": "Conoce a la creadora y la historia detrás de la Calculadora de Costos de Recetas",
+    "backHome": "Volver al Inicio",
+    "greeting": "¡Hola, soy Alyssa! 👋",
+    "intro": "Soy ingeniera de software y me encanta crear herramientas útiles. Creé la Calculadora de Costos de Recetas como un proyecto divertido para resolver un problema real que encontré mientras cocinaba y planificaba comidas.",
+    "whyTitle": "Por Qué Construí Esto",
+    "whyContent1": "Como alguien que disfruta cocinar, me encontraba constantemente tratando de calcular cuánto cuestan realmente las recetas. Calcular costos parciales de paquetes era tedioso con papel y lápiz, y no pude encontrar una herramienta simple que manejara conversiones de unidades automáticamente.",
+    "whyContent2": "¡Así que construí esto! Está diseñado para ser más rápido y fácil que los cálculos manuales, con conversiones automáticas entre tazas, onzas, gramos y más.",
+    "hopeTitle": "¡Espero Que Sea Útil!",
+    "hopeContent": "Ya seas un cocinero casero tratando de presupuestar, un bloguero de comida calculando costos de recetas, o un pequeño negocio poniendo precio a tus productos, espero que esta herramienta haga tu vida un poco más fácil. ¡Si tienes comentarios o ideas, me encantaría escucharte!",
+    "tryCalculator": "Probar la Calculadora",
+    "getInTouch": "Ponerse en Contacto"
+  },
+  "contact": {
+    "title": "Contáctanos",
+    "subtitle": "¿Tienes preguntas, comentarios o sugerencias? ¡Me encantaría escucharte!",
+    "backHome": "Volver al Inicio",
+    "getInTouch": "Ponerse en Contacto",
+    "description": "Ya sea que hayas encontrado un error, tengas una solicitud de función, o simplemente quieras saludar, no dudes en contactarme por correo electrónico.",
+    "sendEmail": "Enviar Correo",
+    "responseTime": "Haré mi mejor esfuerzo para responder en unos días.",
+    "learnMore": "Conoce Más Sobre Nosotros",
+    "backToCalculator": "Volver a la Calculadora"
   },
   "ingredient": "Ingrediente",
   "dialogs": {

@@ -57,7 +57,34 @@
   },
   "footer": {
     "text": "Con\u00e7u pour les cuisiniers amateurs, les blogueurs culinaires et les petites entreprises alimentaires. Les conversions d'unit\u00e9s automatiques rendent le calcul des co\u00fbts de recettes plus rapide que le papier et la calculatrice.",
-    "shareFeedback": "Partager des Commentaires"
+    "shareFeedback": "Partager des Commentaires",
+    "about": "À Propos",
+    "contact": "Contact"
+  },
+  "about": {
+    "title": "À Propos de Nous",
+    "subtitle": "Découvrez la créatrice et l'histoire derrière le Calculateur de Coût de Recettes",
+    "backHome": "Retour à l'Accueil",
+    "greeting": "Bonjour, je suis Alyssa ! 👋",
+    "intro": "Je suis ingénieure logicielle et j'adore créer des outils utiles. J'ai créé le Calculateur de Coût de Recettes comme un projet amusant pour résoudre un vrai problème que j'ai rencontré en cuisinant et en planifiant mes repas.",
+    "whyTitle": "Pourquoi J'ai Construit Cela",
+    "whyContent1": "En tant que personne qui aime cuisiner, je me retrouvais constamment à essayer de calculer combien coûtent réellement les recettes. Calculer les coûts partiels des paquets était fastidieux avec du papier et un crayon, et je ne trouvais pas d'outil simple qui gérait les conversions d'unités automatiquement.",
+    "whyContent2": "Alors j'ai construit cela ! C'est conçu pour être plus rapide et plus facile que les calculs manuels, avec des conversions automatiques entre tasses, onces, grammes et plus.",
+    "hopeTitle": "J'espère Que C'est Utile !",
+    "hopeContent": "Que vous soyez un cuisinier amateur essayant de budgétiser, un blogueur culinaire calculant les coûts de recettes, ou une petite entreprise fixant le prix de vos produits, j'espère que cet outil vous facilitera un peu la vie. Si vous avez des commentaires ou des idées, j'aimerais beaucoup vous entendre !",
+    "tryCalculator": "Essayer le Calculateur",
+    "getInTouch": "Prendre Contact"
+  },
+  "contact": {
+    "title": "Contactez-Nous",
+    "subtitle": "Vous avez des questions, des commentaires ou des suggestions ? J'aimerais beaucoup vous entendre !",
+    "backHome": "Retour à l'Accueil",
+    "getInTouch": "Prendre Contact",
+    "description": "Que vous ayez trouvé un bug, que vous ayez une demande de fonctionnalité, ou que vous vouliez simplement dire bonjour, n'hésitez pas à me contacter par e-mail.",
+    "sendEmail": "Envoyer un E-mail",
+    "responseTime": "Je ferai de mon mieux pour répondre dans quelques jours.",
+    "learnMore": "En Savoir Plus Sur Nous",
+    "backToCalculator": "Retour au Calculateur"
   },
   "ingredient": "Ingrédient",
   "dialogs": {

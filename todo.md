@@ -93,3 +93,10 @@
 - [x] Add Open Graph meta tags for social media previews
 - [x] Add copy-to-clipboard functionality for share link (implemented in ShareRecipeDialog)
 - [x] Test sharing functionality end-to-end (all 19 tests passing, browser test confirmed)
+
+## About Us and Contact Us Pages
+- [x] Create About Us page with personal introduction (Alyssa, software engineer)
+- [x] Create Contact Us page with email link to alyssaherbst@gmail.com
+- [x] Add navigation links to footer or header
+- [x] Add translations for About and Contact pages (English, Spanish, French)
+- [x] Test both pages and navigation (all tests passing)

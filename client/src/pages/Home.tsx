@@ -22,6 +22,7 @@ import { deleteRecipe, getSavedRecipes, saveRecipe } from '@/lib/recipeStorage';
 import { Ingredient, SavedRecipe } from '@/lib/types';
 import { calculateIngredientCost, canConvert } from '@/lib/unitConversions';
 import { ChevronDown, Download, FolderOpen, MessageSquare, Plus, Save, Share2, Trash2 } from 'lucide-react';
+import { Link } from 'wouter';
 import { nanoid } from 'nanoid';
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -876,21 +877,25 @@ export default function Home() {
 
       {/* Footer */}
       <div className="border-t border-border/50 mt-16">
-        <div className="container py-8 text-center">
-          <p className="text-sm text-muted-foreground mb-4">
-            {t('footer.text')}
-          </p>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => {
-              window.location.href = 'mailto:alyssaherbst+recipcalc@gmail.com?subject=Recipcalc:%20';
-            }}
-            className="text-xs"
-          >
-            <MessageSquare className="h-3.5 w-3.5 mr-2" />
-            {t('footer.shareFeedback')}
-          </Button>
+        <div className="container py-8">
+          <div className="flex flex-col items-center gap-4">
+            <div className="flex items-center gap-4 text-sm">
+              <Link href="/about">
+                <a className="text-muted-foreground hover:text-foreground transition-colors">
+                  {t('footer.about')}
+                </a>
+              </Link>
+              <span className="text-border">•</span>
+              <Link href="/contact">
+                <a className="text-muted-foreground hover:text-foreground transition-colors">
+                  {t('footer.contact')}
+                </a>
+              </Link>
+            </div>
+            <p className="text-sm text-muted-foreground text-center">
+              {t('footer.text')}
+            </p>
+          </div>
         </div>
       </div>
 
