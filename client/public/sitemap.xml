@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <!-- Home Page - Highest Priority -->
+  <url>
+    <loc>https://recipe-cost-calculator.manus.space/</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://recipe-cost-calculator.manus.space/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://recipe-cost-calculator.manus.space/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://recipe-cost-calculator.manus.space/" />
+  </url>
+  
+  <!-- About Page -->
+  <url>
+    <loc>https://recipe-cost-calculator.manus.space/about</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://recipe-cost-calculator.manus.space/about" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://recipe-cost-calculator.manus.space/about" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://recipe-cost-calculator.manus.space/about" />
+  </url>
+  
+  <!-- Contact Page -->
+  <url>
+    <loc>https://recipe-cost-calculator.manus.space/contact</loc>
+    <lastmod>2026-01-27</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://recipe-cost-calculator.manus.space/contact" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://recipe-cost-calculator.manus.space/contact" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://recipe-cost-calculator.manus.space/contact" />
+  </url>
+  
+</urlset>

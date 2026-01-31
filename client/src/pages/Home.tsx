@@ -36,6 +36,19 @@ export default function Home() {
   let { user, loading, error, isAuthenticated, logout } = useAuth();
 
   const { t } = useTranslation();
+
+  // Reset meta tags to home page defaults
+  useEffect(() => {
+    document.title = 'Recipe Cost Calculator - Free Ingredient Price Tool';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Calculate recipe costs with automatic unit conversions. Perfect for home cooks, food bloggers, and small food businesses. Free and easy to use.');
+    }
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (canonicalLink) {
+      canonicalLink.setAttribute('href', 'https://recipe-cost-calculator.manus.space/');
+    }
+  }, []);
   const { logEvent } = useEventLogger();
   const [ingredients, setIngredients] = useState<Ingredient[]>([]);
   const prevIngredientsRef = useRef<Ingredient[]>([]);

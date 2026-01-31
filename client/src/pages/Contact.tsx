@@ -2,10 +2,24 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
 import { ArrowLeft, Mail, MessageCircle, Send } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 export default function Contact() {
   const { t } = useTranslation();
   const email = 'alyssaherbst@gmail.com';
+
+  // Update meta tags for SEO
+  useEffect(() => {
+    document.title = 'Contact Us - Recipe Cost Calculator';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Get in touch with questions, feedback, or suggestions about Recipe Cost Calculator. Email alyssaherbst@gmail.com for support or feature requests.');
+    }
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (canonicalLink) {
+      canonicalLink.setAttribute('href', 'https://recipe-cost-calculator.manus.space/contact');
+    }
+  }, []);
 
   const handleEmailClick = () => {
     window.location.href = `mailto:${email}`;

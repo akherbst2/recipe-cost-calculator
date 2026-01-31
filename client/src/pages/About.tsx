@@ -2,9 +2,23 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'wouter';
 import { ArrowLeft, Code2, Heart, Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 
 export default function About() {
   const { t } = useTranslation();
+
+  // Update meta tags for SEO
+  useEffect(() => {
+    document.title = 'About Us - Recipe Cost Calculator';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Learn about Alyssa, the software engineer who created Recipe Cost Calculator as a fun project to help home cooks, food bloggers, and small businesses calculate recipe costs.');
+    }
+    const canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (canonicalLink) {
+      canonicalLink.setAttribute('href', 'https://recipe-cost-calculator.manus.space/about');
+    }
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

@@ -13,5 +13,5 @@ Disallow: /umami
 # Crawl delay (optional, helps prevent server overload)
 # Crawl-delay: 1
 
-# Sitemap location (update with your actual domain when deployed)
-# Sitemap: https://yourdomain.com/sitemap.xml
+# Sitemap location
+Sitemap: https://recipe-cost-calculator.manus.space/sitemap.xml
