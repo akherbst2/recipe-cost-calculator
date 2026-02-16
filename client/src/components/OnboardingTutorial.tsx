@@ -33,7 +33,7 @@ export default function OnboardingTutorial({ onComplete, onSkip }: OnboardingTut
       id: 'add_ingredient',
       title: t('onboarding.addIngredient.title', 'Step 1: Add an Ingredient'),
       description: t('onboarding.addIngredient.description', 'Click "Add Ingredient" to start. Each ingredient needs a name, quantity used, package cost, and package size.'),
-      targetElement: 'button:has-text("Add Ingredient")',
+      targetElement: '[data-onboarding="add-ingredient-button"]',
       position: 'bottom',
     },
     {
@@ -61,7 +61,7 @@ export default function OnboardingTutorial({ onComplete, onSkip }: OnboardingTut
       id: 'save_share',
       title: t('onboarding.saveShare.title', 'Step 5: Save & Share'),
       description: t('onboarding.saveShare.description', 'Save your recipe to load it later, or share it with others via a link. You can also export to CSV or Excel for your records.'),
-      targetElement: 'button:has-text("Save")',
+      targetElement: '[data-onboarding="save-button"]',
       position: 'bottom',
     },
     {

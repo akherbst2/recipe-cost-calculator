@@ -791,6 +791,7 @@ export default function Home() {
                 <Button
                   onClick={addIngredient}
                   className="bg-primary hover:bg-primary/90 text-primary-foreground shadow-soft"
+                  data-onboarding="add-ingredient-button"
                 >
                   <Plus className="h-4 w-4 mr-2" />
                   {t('ingredients.addButton')}
@@ -819,6 +820,7 @@ export default function Home() {
                       variant="outline"
                       className="shadow-soft"
                       disabled={ingredients.length === 0}
+                      data-onboarding="save-button"
                     >
                       <Save className="h-4 w-4 mr-2" />
                       {t('ingredients.saveButton')}

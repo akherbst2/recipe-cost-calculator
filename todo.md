@@ -165,3 +165,8 @@
 - [ ] Test recipe templates and quick start
 - [ ] Test progressive disclosure UX
 - [ ] Verify all improvements work on mobile and desktop
+
+## Onboarding Tutorial Bug Fix
+- [x] Fix querySelector syntax error in OnboardingTutorial component (line 65)
+- [x] Replace invalid Playwright selectors with valid DOM selectors
+- [x] Test complete onboarding flow (all 7 steps) - verified working
