@@ -81,7 +81,7 @@ export default function CostSummary({
         <div
           className="absolute -right-12 -bottom-12 w-48 h-48 opacity-30"
           style={{
-            backgroundImage: 'url(/images/cost-badge-decoration.png)',
+            backgroundImage: 'url(https://files.manuscdn.com/user_upload_by_module/session_file/310519663312622837/QbxjhSeddAQoWpeK.png)',
             backgroundSize: 'contain',
             backgroundRepeat: 'no-repeat',
           }}

@@ -196,7 +196,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background-image: url('/images/pattern-texture.png');
+    background-image: url('https://files.manuscdn.com/user_upload_by_module/session_file/310519663312622837/sjyPMYMccLEzJEWY.png');
     opacity: 0.4;
     pointer-events: none;
   }

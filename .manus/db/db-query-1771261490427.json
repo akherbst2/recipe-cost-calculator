@@ -1,0 +1,105 @@
+{
+  "query": "\nSELECT \n  COUNT(DISTINCT sessionId) as total_sessions,\n  COUNT(DISTINCT userId) as unique_users,\n  COUNT(*) as total_events\nFROM events;\n\nSELECT \n  eventType,\n  COUNT(*) as event_count,\n  COUNT(DISTINCT sessionId) as sessions_with_event\nFROM events\nGROUP BY eventType\nORDER BY event_count DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2vGuTCYzpyNQ1XN.root --database cUKXq5uw3eiWGpv5roCqyH --execute \nSELECT \n  COUNT(DISTINCT sessionId) as total_sessions,\n  COUNT(DISTINCT userId) as unique_users,\n  COUNT(*) as total_events\nFROM events;\n\nSELECT \n  eventType,\n  COUNT(*) as event_count,\n  COUNT(DISTINCT sessionId) as sessions_with_event\nFROM events\nGROUP BY eventType\nORDER BY event_count DESC;\n",
+  "rows": [
+    {
+      "total_sessions": "324",
+      "unique_users": "1",
+      "total_events": "5025"
+    },
+    {
+      "total_sessions": "eventType",
+      "unique_users": "event_count",
+      "total_events": "sessions_with_event"
+    },
+    {
+      "total_sessions": "ingredient_edit",
+      "unique_users": "1648",
+      "total_events": "31"
+    },
+    {
+      "total_sessions": "session_start",
+      "unique_users": "921",
+      "total_events": "287"
+    },
+    {
+      "total_sessions": "page_view",
+      "unique_users": "921",
+      "total_events": "287"
+    },
+    {
+      "total_sessions": "ingredient_add",
+      "unique_users": "714",
+      "total_events": "324"
+    },
+    {
+      "total_sessions": "first_ingredient_added",
+      "unique_users": "480",
+      "total_events": "287"
+    },
+    {
+      "total_sessions": "session_end",
+      "unique_users": "86",
+      "total_events": "56"
+    },
+    {
+      "total_sessions": "button_click",
+      "unique_users": "73",
+      "total_events": "28"
+    },
+    {
+      "total_sessions": "cost_calculated",
+      "unique_users": "64",
+      "total_events": "36"
+    },
+    {
+      "total_sessions": "ingredient_delete",
+      "unique_users": "26",
+      "total_events": "5"
+    },
+    {
+      "total_sessions": "recipe_load",
+      "unique_users": "23",
+      "total_events": "10"
+    },
+    {
+      "total_sessions": "recipe_save_as",
+      "unique_users": "19",
+      "total_events": "12"
+    },
+    {
+      "total_sessions": "ingredient_duplicate",
+      "unique_users": "17",
+      "total_events": "6"
+    },
+    {
+      "total_sessions": "recipe_save",
+      "unique_users": "11",
+      "total_events": "5"
+    },
+    {
+      "total_sessions": "clear_all",
+      "unique_users": "7",
+      "total_events": "6"
+    },
+    {
+      "total_sessions": "recipe_share",
+      "unique_users": "6",
+      "total_events": "4"
+    },
+    {
+      "total_sessions": "export_excel",
+      "unique_users": "6",
+      "total_events": "4"
+    },
+    {
+      "total_sessions": "export_csv",
+      "unique_users": "3",
+      "total_events": "2"
+    }
+  ],
+  "messages": [],
+  "stdout": "total_sessions\tunique_users\ttotal_events\n324\t1\t5025\neventType\tevent_count\tsessions_with_event\ningredient_edit\t1648\t31\nsession_start\t921\t287\npage_view\t921\t287\ningredient_add\t714\t324\nfirst_ingredient_added\t480\t287\nsession_end\t86\t56\nbutton_click\t73\t28\ncost_calculated\t64\t36\ningredient_delete\t26\t5\nrecipe_load\t23\t10\nrecipe_save_as\t19\t12\ningredient_duplicate\t17\t6\nrecipe_save\t11\t5\nclear_all\t7\t6\nrecipe_share\t6\t4\nexport_excel\t6\t4\nexport_csv\t3\t2\n",
+  "stderr": "",
+  "execution_time_ms": 420
+}

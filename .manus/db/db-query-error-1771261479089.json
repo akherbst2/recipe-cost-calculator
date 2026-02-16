@@ -1,0 +1,8 @@
+{
+  "query": "\nSELECT \n  COUNT(DISTINCT sessionId) as total_sessions,\n  COUNT(DISTINCT userId) as unique_users,\n  COUNT(*) as total_events\nFROM events\nWHERE referrer NOT LIKE '%manus.im%';\n\nSELECT \n  eventType,\n  COUNT(*) as event_count,\n  COUNT(DISTINCT sessionId) as sessions_with_event\nFROM events\nWHERE referrer NOT LIKE '%manus.im%'\nGROUP BY eventType\nORDER BY event_count DESC\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2vGuTCYzpyNQ1XN.root --database cUKXq5uw3eiWGpv5roCqyH --execute \nSELECT \n  COUNT(DISTINCT sessionId) as total_sessions,\n  COUNT(DISTINCT userId) as unique_users,\n  COUNT(*) as total_events\nFROM events\nWHERE referrer NOT LIKE '%manus.im%';\n\nSELECT \n  eventType,\n  COUNT(*) as event_count,\n  COUNT(DISTINCT sessionId) as sessions_with_event\nFROM events\nWHERE referrer NOT LIKE '%manus.im%'\nGROUP BY eventType\nORDER BY event_count DESC\nLIMIT 20;\n",
+  "returncode": 1,
+  "logs": [
+    "ERROR 1054 (42S22) at line 2: Unknown column 'referrer' in 'where clause'"
+  ]
+}

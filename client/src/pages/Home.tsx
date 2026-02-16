@@ -12,7 +12,7 @@ import {
 import AdSenseAd from '@/components/AdSenseAd';
 import CostSummary from '@/components/CostSummary';
 import LanguageSelector from '@/components/LanguageSelector';
-import IngredientCard from '@/components/IngredientCard';
+import EnhancedIngredientCard from '@/components/EnhancedIngredientCard';
 import LoadRecipeDialog from '@/components/LoadRecipeDialog';
 import SaveAsDialog from '@/components/SaveAsDialog';
 import SaveRecipeDialog from '@/components/SaveRecipeDialog';
@@ -28,7 +28,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { useEventLogger } from '@/hooks/useEventLogger';
+import { useEnhancedEventLogger } from '@/hooks/useEnhancedEventLogger';
 import { trpc } from '@/lib/trpc';
+import OnboardingTutorial from '@/components/OnboardingTutorial';
 
 export default function Home() {
   // The userAuth hooks provides authentication state
@@ -66,30 +68,79 @@ export default function Home() {
   const [hasLoggedFirstIngredient, setHasLoggedFirstIngredient] = useState(false);
   const prevTotalCostRef = useRef<number>(0);
   const hasLoggedSessionStart = useRef(false);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const enhancedLogger = useEnhancedEventLogger();
+
+  // Check if user has completed onboarding
+  useEffect(() => {
+    const hasCompletedOnboarding = localStorage.getItem('onboardingCompleted');
+    if (!hasCompletedOnboarding) {
+      // Show onboarding after a short delay
+      const timer = setTimeout(() => {
+        setShowOnboarding(true);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleOnboardingComplete = () => {
+    localStorage.setItem('onboardingCompleted', 'true');
+    setShowOnboarding(false);
+    logEvent('onboarding_complete', {});
+    enhancedLogger.logJourneyStep('onboarding_complete');
+  };
+
+  const handleOnboardingSkip = () => {
+    localStorage.setItem('onboardingCompleted', 'true');
+    setShowOnboarding(false);
+    logEvent('onboarding_skipped', {});
+    enhancedLogger.logJourneyAbandon('onboarding_skipped');
+  };
 
   // Calculate total cost whenever ingredients change
   const totalCost = ingredients.reduce((sum, ing) => sum + ing.calculatedCost, 0);
 
   const loadExampleRecipe = () => {
+    // Complete Chocolate Chip Cookie recipe example
     const exampleIngredients: Ingredient[] = [
       {
         id: nanoid(),
         name: 'Butter',
-        usedQuantity: 2,
-        usedUnit: 'tbsp',
+        usedQuantity: 0.5,
+        usedUnit: 'cup',
         packageCost: 3.99,
-        packageSize: 16,
-        packageUnit: 'tbsp',
+        packageSize: 1,
+        packageUnit: 'lb',
         calculatedCost: 0,
       },
       {
         id: nanoid(),
         name: 'All-Purpose Flour',
-        usedQuantity: 2,
+        usedQuantity: 2.25,
         usedUnit: 'cup',
         packageCost: 4.49,
-        packageSize: 10,
-        packageUnit: 'cup',
+        packageSize: 5,
+        packageUnit: 'lb',
+        calculatedCost: 0,
+      },
+      {
+        id: nanoid(),
+        name: 'Granulated Sugar',
+        usedQuantity: 0.75,
+        usedUnit: 'cup',
+        packageCost: 2.99,
+        packageSize: 4,
+        packageUnit: 'lb',
+        calculatedCost: 0,
+      },
+      {
+        id: nanoid(),
+        name: 'Brown Sugar',
+        usedQuantity: 0.75,
+        usedUnit: 'cup',
+        packageCost: 3.49,
+        packageSize: 2,
+        packageUnit: 'lb',
         calculatedCost: 0,
       },
       {
@@ -100,6 +151,26 @@ export default function Home() {
         packageCost: 5.99,
         packageSize: 12,
         packageUnit: 'unit',
+        calculatedCost: 0,
+      },
+      {
+        id: nanoid(),
+        name: 'Vanilla Extract',
+        usedQuantity: 2,
+        usedUnit: 'tsp',
+        packageCost: 6.99,
+        packageSize: 4,
+        packageUnit: 'oz',
+        calculatedCost: 0,
+      },
+      {
+        id: nanoid(),
+        name: 'Chocolate Chips',
+        usedQuantity: 2,
+        usedUnit: 'cup',
+        packageCost: 4.99,
+        packageSize: 12,
+        packageUnit: 'oz',
         calculatedCost: 0,
       },
     ];
@@ -125,7 +196,7 @@ export default function Home() {
       ingredientCount: ingredientsWithCosts.length,
     });
     
-    toast.success(t('toasts.exampleLoaded') || 'Example recipe loaded!');
+    toast.success(t('toasts.exampleLoaded') || 'Chocolate Chip Cookie recipe loaded! Edit any values to see costs update in real-time.');
   };
 
   const addIngredient = () => {
@@ -661,7 +732,7 @@ export default function Home() {
       <div
         className="relative bg-gradient-to-br from-primary/10 via-accent/5 to-background border-b border-border/50 overflow-hidden"
         style={{
-          backgroundImage: 'url(/images/hero-background.png)',
+          backgroundImage: 'url(https://files.manuscdn.com/user_upload_by_module/session_file/310519663312622837/aaOzBMLufloEfuCW.png)',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundBlendMode: 'soft-light',
@@ -727,11 +798,21 @@ export default function Home() {
                 <Button
                   onClick={loadExampleRecipe}
                   variant="outline"
-                  className="shadow-soft"
+                  className="shadow-soft bg-primary/10 hover:bg-primary/20 border-primary/30"
                 >
                   <MessageSquare className="h-4 w-4 mr-2" />
-                  {t('ingredients.tryExampleButton') || 'Try Example'}
+                  {t('ingredients.tryExampleButton') || 'Try Example Recipe'}
                 </Button>
+                {ingredients.length > 0 && (
+                  <Button
+                    onClick={handleClearAll}
+                    variant="outline"
+                    className="shadow-soft text-muted-foreground hover:text-destructive hover:border-destructive"
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    {t('ingredients.clearButton')}
+                  </Button>
+                )}
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button
@@ -827,7 +908,7 @@ export default function Home() {
             ) : (
               <div className="space-y-4">
                 {ingredients.map((ingredient, index) => (
-                  <IngredientCard
+                  <EnhancedIngredientCard
                     key={ingredient.id}
                     ingredient={ingredient}
                     onUpdate={updateIngredient}
@@ -951,6 +1032,14 @@ export default function Home() {
           }
         }
       `}</style>
+
+      {/* Onboarding Tutorial */}
+      {showOnboarding && (
+        <OnboardingTutorial
+          onComplete={handleOnboardingComplete}
+          onSkip={handleOnboardingSkip}
+        />
+      )}
     </div>
   );
 }

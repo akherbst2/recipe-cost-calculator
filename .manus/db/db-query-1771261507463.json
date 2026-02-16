@@ -1,0 +1,25 @@
+{
+  "query": "\n-- Get button click distribution\nSELECT \n  JSON_UNQUOTE(JSON_EXTRACT(eventData, '$.buttonName')) as button_name,\n  COUNT(*) as click_count,\n  COUNT(DISTINCT sessionId) as unique_sessions\nFROM events\nWHERE eventType = 'button_click'\n  AND JSON_EXTRACT(eventData, '$.buttonName') IS NOT NULL\nGROUP BY button_name\nORDER BY click_count DESC;\n\n-- Get error patterns\nSELECT \n  JSON_UNQUOTE(JSON_EXTRACT(eventData, '$.errorType')) as error_type,\n  JSON_UNQUOTE(JSON_EXTRACT(eventData, '$.errorMessage')) as error_message,\n  COUNT(*) as error_count\nFROM events\nWHERE eventType = 'error'\nGROUP BY error_type, error_message\nORDER BY error_count DESC\nLIMIT 10;\n\n-- Get average session depth (events per session)\nSELECT \n  AVG(event_count) as avg_events_per_session,\n  MIN(event_count) as min_events,\n  MAX(event_count) as max_events\nFROM (\n  SELECT sessionId, COUNT(*) as event_count\n  FROM events\n  GROUP BY sessionId\n) session_stats;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2vGuTCYzpyNQ1XN.root --database cUKXq5uw3eiWGpv5roCqyH --execute \n-- Get button click distribution\nSELECT \n  JSON_UNQUOTE(JSON_EXTRACT(eventData, '$.buttonName')) as button_name,\n  COUNT(*) as click_count,\n  COUNT(DISTINCT sessionId) as unique_sessions\nFROM events\nWHERE eventType = 'button_click'\n  AND JSON_EXTRACT(eventData, '$.buttonName') IS NOT NULL\nGROUP BY button_name\nORDER BY click_count DESC;\n\n-- Get error patterns\nSELECT \n  JSON_UNQUOTE(JSON_EXTRACT(eventData, '$.errorType')) as error_type,\n  JSON_UNQUOTE(JSON_EXTRACT(eventData, '$.errorMessage')) as error_message,\n  COUNT(*) as error_count\nFROM events\nWHERE eventType = 'error'\nGROUP BY error_type, error_message\nORDER BY error_count DESC\nLIMIT 10;\n\n-- Get average session depth (events per session)\nSELECT \n  AVG(event_count) as avg_events_per_session,\n  MIN(event_count) as min_events,\n  MAX(event_count) as max_events\nFROM (\n  SELECT sessionId, COUNT(*) as event_count\n  FROM events\n  GROUP BY sessionId\n) session_stats;\n",
+  "rows": [
+    {
+      "button_name": "Load",
+      "click_count": "57",
+      "unique_sessions": "18"
+    },
+    {
+      "button_name": "avg_events_per_session",
+      "click_count": "min_events",
+      "unique_sessions": "max_events"
+    },
+    {
+      "button_name": "15.5093",
+      "click_count": "1",
+      "unique_sessions": "886"
+    }
+  ],
+  "messages": [],
+  "stdout": "button_name\tclick_count\tunique_sessions\nLoad\t57\t18\navg_events_per_session\tmin_events\tmax_events\n15.5093\t1\t886\n",
+  "stderr": "",
+  "execution_time_ms": 452
+}

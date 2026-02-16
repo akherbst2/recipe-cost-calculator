@@ -1,0 +1,113 @@
+{
+  "query": "\n-- Get ingredient usage patterns\nSELECT \n  JSON_UNQUOTE(JSON_EXTRACT(eventData, '$.ingredientName')) as ingredient_name,\n  COUNT(*) as usage_count\nFROM events\nWHERE eventType = 'ingredient_add'\n  AND JSON_EXTRACT(eventData, '$.ingredientName') IS NOT NULL\nGROUP BY ingredient_name\nORDER BY usage_count DESC\nLIMIT 15;\n\n-- Get conversion funnel metrics\nSELECT \n  SUM(CASE WHEN eventType = 'session_start' THEN 1 ELSE 0 END) as sessions_started,\n  SUM(CASE WHEN eventType = 'first_ingredient_added' THEN 1 ELSE 0 END) as users_added_ingredient,\n  SUM(CASE WHEN eventType = 'cost_calculated' THEN 1 ELSE 0 END) as users_calculated_cost,\n  SUM(CASE WHEN eventType = 'recipe_save' THEN 1 ELSE 0 END) as users_saved_recipe,\n  SUM(CASE WHEN eventType = 'recipe_share' THEN 1 ELSE 0 END) as users_shared_recipe\nFROM events;\n\n-- Get language distribution\nSELECT \n  JSON_UNQUOTE(JSON_EXTRACT(eventData, '$.language')) as language,\n  COUNT(DISTINCT sessionId) as sessions\nFROM events\nWHERE eventType = 'session_start'\n  AND JSON_EXTRACT(eventData, '$.language') IS NOT NULL\nGROUP BY language\nORDER BY sessions DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2vGuTCYzpyNQ1XN.root --database cUKXq5uw3eiWGpv5roCqyH --execute \n-- Get ingredient usage patterns\nSELECT \n  JSON_UNQUOTE(JSON_EXTRACT(eventData, '$.ingredientName')) as ingredient_name,\n  COUNT(*) as usage_count\nFROM events\nWHERE eventType = 'ingredient_add'\n  AND JSON_EXTRACT(eventData, '$.ingredientName') IS NOT NULL\nGROUP BY ingredient_name\nORDER BY usage_count DESC\nLIMIT 15;\n\n-- Get conversion funnel metrics\nSELECT \n  SUM(CASE WHEN eventType = 'session_start' THEN 1 ELSE 0 END) as sessions_started,\n  SUM(CASE WHEN eventType = 'first_ingredient_added' THEN 1 ELSE 0 END) as users_added_ingredient,\n  SUM(CASE WHEN eventType = 'cost_calculated' THEN 1 ELSE 0 END) as users_calculated_cost,\n  SUM(CASE WHEN eventType = 'recipe_save' THEN 1 ELSE 0 END) as users_saved_recipe,\n  SUM(CASE WHEN eventType = 'recipe_share' THEN 1 ELSE 0 END) as users_shared_recipe\nFROM events;\n\n-- Get language distribution\nSELECT \n  JSON_UNQUOTE(JSON_EXTRACT(eventData, '$.language')) as language,\n  COUNT(DISTINCT sessionId) as sessions\nFROM events\nWHERE eventType = 'session_start'\n  AND JSON_EXTRACT(eventData, '$.language') IS NOT NULL\nGROUP BY language\nORDER BY sessions DESC;\n",
+  "rows": [
+    {
+      "ingredient_name": "",
+      "usage_count": "708"
+    },
+    {
+      "ingredient_name": "language",
+      "usage_count": "sessions"
+    },
+    {
+      "ingredient_name": "en-US",
+      "usage_count": "195"
+    },
+    {
+      "ingredient_name": "en-US@posix",
+      "usage_count": "60"
+    },
+    {
+      "ingredient_name": "ko-KR",
+      "usage_count": "5"
+    },
+    {
+      "ingredient_name": "en",
+      "usage_count": "3"
+    },
+    {
+      "ingredient_name": "en-GB",
+      "usage_count": "2"
+    },
+    {
+      "ingredient_name": "en-AU",
+      "usage_count": "2"
+    },
+    {
+      "ingredient_name": "fi-FI",
+      "usage_count": "2"
+    },
+    {
+      "ingredient_name": "fr-FR",
+      "usage_count": "2"
+    },
+    {
+      "ingredient_name": "zh-CN",
+      "usage_count": "2"
+    },
+    {
+      "ingredient_name": "en-CA",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "nl-NL",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "zh-CA",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "en-IN",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "de-DE",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "es-MX",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "es-US",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "es-AR",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "ja-JP",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "en-PH",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "es-ES",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "es-419",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "it-IT",
+      "usage_count": "1"
+    },
+    {
+      "ingredient_name": "es",
+      "usage_count": "1"
+    }
+  ],
+  "messages": [
+    "sessions_started\tusers_added_ingredient\tusers_calculated_cost\tusers_saved_recipe\tusers_shared_recipe",
+    "921\t480\t64\t11\t6"
+  ],
+  "stdout": "ingredient_name\tusage_count\n\t708\nsessions_started\tusers_added_ingredient\tusers_calculated_cost\tusers_saved_recipe\tusers_shared_recipe\n921\t480\t64\t11\t6\nlanguage\tsessions\nen-US\t195\nen-US@posix\t60\nko-KR\t5\nen\t3\nen-GB\t2\nen-AU\t2\nfi-FI\t2\nfr-FR\t2\nzh-CN\t2\nen-CA\t1\nnl-NL\t1\nzh-CA\t1\nen-IN\t1\nde-DE\t1\nes-MX\t1\nes-US\t1\nes-AR\t1\nja-JP\t1\nen-PH\t1\nes-ES\t1\nes-419\t1\nit-IT\t1\nes\t1\n",
+  "stderr": "",
+  "execution_time_ms": 519
+}
