@@ -31,6 +31,7 @@ import { useEventLogger } from '@/hooks/useEventLogger';
 import { useEnhancedEventLogger } from '@/hooks/useEnhancedEventLogger';
 import { trpc } from '@/lib/trpc';
 import OnboardingTutorial from '@/components/OnboardingTutorial';
+import { useABTest, trackABTestEvent } from '@/hooks/useABTest';
 
 export default function Home() {
   // The userAuth hooks provides authentication state
@@ -70,24 +71,41 @@ export default function Home() {
   const hasLoggedSessionStart = useRef(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const enhancedLogger = useEnhancedEventLogger();
+  
+  // A/B Test: Onboarding Tutorial Impact
+  // Group A (control): No tutorial shown
+  // Group B (treatment): Tutorial shown
+  const abTestGroup = useABTest({
+    testName: 'onboarding_tutorial',
+    storageKey: 'ab_test_onboarding',
+  });
 
-  // Check if user has completed onboarding
+  // Check if user has completed onboarding and is in treatment group
   useEffect(() => {
     const hasCompletedOnboarding = localStorage.getItem('onboardingCompleted');
-    if (!hasCompletedOnboarding) {
+    
+    // Only show onboarding if user is in treatment group
+    if (!hasCompletedOnboarding && abTestGroup === 'treatment') {
       // Show onboarding after a short delay
       const timer = setTimeout(() => {
         setShowOnboarding(true);
+        trackABTestEvent('onboarding_tutorial', abTestGroup, 'tutorial_shown');
       }, 1000);
       return () => clearTimeout(timer);
     }
-  }, []);
+    
+    // Track that control group did not see tutorial
+    if (!hasCompletedOnboarding && abTestGroup === 'control') {
+      trackABTestEvent('onboarding_tutorial', abTestGroup, 'no_tutorial');
+    }
+  }, [abTestGroup]);
 
   const handleOnboardingComplete = () => {
     localStorage.setItem('onboardingCompleted', 'true');
     setShowOnboarding(false);
     logEvent('onboarding_complete', {});
     enhancedLogger.logJourneyStep('onboarding_complete');
+    trackABTestEvent('onboarding_tutorial', abTestGroup, 'tutorial_completed');
   };
 
   const handleOnboardingSkip = () => {
@@ -95,6 +113,7 @@ export default function Home() {
     setShowOnboarding(false);
     logEvent('onboarding_skipped', {});
     enhancedLogger.logJourneyAbandon('onboarding_skipped');
+    trackABTestEvent('onboarding_tutorial', abTestGroup, 'tutorial_skipped');
   };
 
   // Calculate total cost whenever ingredients change
@@ -216,6 +235,9 @@ export default function Home() {
     if (!hasLoggedFirstIngredient) {
       const timeFromPageLoad = (Date.now() - sessionStartTime) / 1000;
       logEvent('first_ingredient_added', {
+        timeFromPageLoad,
+      });
+      trackABTestEvent('onboarding_tutorial', abTestGroup, 'first_ingredient_added', {
         timeFromPageLoad,
       });
       setHasLoggedFirstIngredient(true);
@@ -557,6 +579,10 @@ export default function Home() {
         servings,
         batchMultiplier,
         language: t('language'),
+      });
+      trackABTestEvent('onboarding_tutorial', abTestGroup, 'recipe_saved', {
+        ingredientCount: ingredients.length,
+        totalCost,
       });
     } catch (error) {
       toast.error(t('toasts.saveFailed'));

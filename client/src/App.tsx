@@ -9,6 +9,7 @@ import Analytics from "./pages/Analytics";
 import SharedRecipe from "./pages/SharedRecipe";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import ABTestResults from "./pages/ABTestResults";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -19,6 +20,7 @@ function Router() {
       <Route path={"/shared/:shareId"} component={SharedRecipe} />
       <Route path={"/about"} component={About} />
       <Route path={"/contact"} component={Contact} />
+      <Route path={"/ab-test-results"} component={ABTestResults} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

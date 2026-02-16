@@ -170,3 +170,14 @@
 - [x] Fix querySelector syntax error in OnboardingTutorial component (line 65)
 - [x] Replace invalid Playwright selectors with valid DOM selectors
 - [x] Test complete onboarding flow (all 7 steps) - verified working
+
+## A/B Test: Onboarding Tutorial Impact
+- [x] Create A/B test assignment system (50/50 split based on random)
+- [x] Store A/B test group in localStorage and analytics
+- [x] Track key metrics per group:
+  - [x] Tutorial completion rate (for treatment group only)
+  - [x] Ingredient addition rate
+  - [x] Recipe save rate
+  - [x] Time to first action
+- [x] Create A/B test results dashboard page at /ab-test-results
+- [x] Test A/B test assignment and tracking (verified working - events tracked in Umami)
