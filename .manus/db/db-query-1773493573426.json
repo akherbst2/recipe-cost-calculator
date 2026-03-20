@@ -1,0 +1,110 @@
+{
+  "query": "\nSELECT eventType, eventData, createdAt\nFROM events\nWHERE createdAt >= '2026-02-16 00:00:00'\nORDER BY createdAt DESC\nLIMIT 20;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2vGuTCYzpyNQ1XN.root --database cUKXq5uw3eiWGpv5roCqyH --execute \nSELECT eventType, eventData, createdAt\nFROM events\nWHERE createdAt >= '2026-02-16 00:00:00'\nORDER BY createdAt DESC\nLIMIT 20;\n",
+  "rows": [
+    {
+      "eventType": "session_end",
+      "eventData": "{\"sessionDuration\":74.541,\"completedIngredients\":0,\"totalIngredients\":1,\"hadCalculatedCost\":false,\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 13:04:40"
+    },
+    {
+      "eventType": "session_start",
+      "eventData": "{\"referrer\":\"https://manus.im/\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36\",\"screenResolution\":\"1728x1117\",\"viewportSize\":\"504x700\",\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 13:03:25"
+    },
+    {
+      "eventType": "page_view",
+      "eventData": "{\"path\":\"/\",\"title\":\"Recipe Cost Calculator - Free Ingredient Price Tool\",\"referrer\":\"https://manus.im/\",\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 13:03:25"
+    },
+    {
+      "eventType": "first_ingredient_added",
+      "eventData": "{\"timeFromPageLoad\":0.022,\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 13:03:25"
+    },
+    {
+      "eventType": "ingredient_add",
+      "eventData": "{\"ingredientId\":\"ey0IieoMqY2QwqtXM421y\",\"ingredientName\":\"\",\"usedQuantity\":0,\"usedUnit\":\"unit\",\"packageCost\":0,\"packageSize\":0,\"packageUnit\":\"unit\",\"calculatedCost\":0,\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 13:03:25"
+    },
+    {
+      "eventType": "first_ingredient_added",
+      "eventData": "{\"timeFromPageLoad\":0.043,\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 13:03:23"
+    },
+    {
+      "eventType": "session_start",
+      "eventData": "{\"referrer\":\"https://manus.im/\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36\",\"screenResolution\":\"1728x1117\",\"viewportSize\":\"504x700\",\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 13:03:23"
+    },
+    {
+      "eventType": "page_view",
+      "eventData": "{\"path\":\"/\",\"title\":\"Recipe Cost Calculator - Free Ingredient Price Tool\",\"referrer\":\"https://manus.im/\",\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 13:03:23"
+    },
+    {
+      "eventType": "ingredient_add",
+      "eventData": "{\"ingredientId\":\"tU-UJBQLGHWb-dujt5caZ\",\"ingredientName\":\"\",\"usedQuantity\":0,\"usedUnit\":\"unit\",\"packageCost\":0,\"packageSize\":0,\"packageUnit\":\"unit\",\"calculatedCost\":0,\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 13:03:23"
+    },
+    {
+      "eventType": "ingredient_add",
+      "eventData": "{\"ingredientId\":\"q5rzV_QP-Idr-KljRY_-s\",\"ingredientName\":\"\",\"usedQuantity\":0,\"usedUnit\":\"unit\",\"packageCost\":0,\"packageSize\":0,\"packageUnit\":\"unit\",\"calculatedCost\":0,\"language\":\"it-IT\"}",
+      "createdAt": "2026-03-14 12:56:19"
+    },
+    {
+      "eventType": "page_view",
+      "eventData": "{\"path\":\"/\",\"title\":\"Recipe Cost Calculator - Free Ingredient Price Tool\",\"referrer\":\"direct\",\"language\":\"it-IT\"}",
+      "createdAt": "2026-03-14 12:56:19"
+    },
+    {
+      "eventType": "session_start",
+      "eventData": "{\"referrer\":\"direct\",\"userAgent\":\"Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1\",\"screenResolution\":\"402x874\",\"viewportSize\":\"402x678\",\"language\":\"it-IT\"}",
+      "createdAt": "2026-03-14 12:56:19"
+    },
+    {
+      "eventType": "first_ingredient_added",
+      "eventData": "{\"timeFromPageLoad\":0.118,\"language\":\"it-IT\"}",
+      "createdAt": "2026-03-14 12:56:19"
+    },
+    {
+      "eventType": "session_end",
+      "eventData": "{\"sessionDuration\":5.197,\"completedIngredients\":0,\"totalIngredients\":1,\"hadCalculatedCost\":false,\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 09:43:59"
+    },
+    {
+      "eventType": "page_view",
+      "eventData": "{\"path\":\"/\",\"title\":\"Recipe Cost Calculator - Free Ingredient Price Tool\",\"referrer\":\"direct\",\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 09:43:56"
+    },
+    {
+      "eventType": "session_start",
+      "eventData": "{\"referrer\":\"direct\",\"userAgent\":\"Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1\",\"screenResolution\":\"390x844\",\"viewportSize\":\"390x844\",\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 09:43:56"
+    },
+    {
+      "eventType": "first_ingredient_added",
+      "eventData": "{\"timeFromPageLoad\":0.112,\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 09:43:56"
+    },
+    {
+      "eventType": "ingredient_add",
+      "eventData": "{\"ingredientId\":\"5LkFf8AcsurX0GMqxdyRY\",\"ingredientName\":\"\",\"usedQuantity\":0,\"usedUnit\":\"unit\",\"packageCost\":0,\"packageSize\":0,\"packageUnit\":\"unit\",\"calculatedCost\":0,\"language\":\"en-US\"}",
+      "createdAt": "2026-03-14 09:43:56"
+    },
+    {
+      "eventType": "ingredient_edit",
+      "eventData": "{\"ingredientId\":\"v4M_c5JlvVhBirYtiNvVg\",\"ingredientName\":\"Chicken\",\"usedQuantity\":1,\"usedUnit\":\"kg\",\"packageCost\":5.99,\"packageSize\":3,\"packageUnit\":\"lb\",\"calculatedCost\":4.401900092300276,\"language\":\"en-GB\"}",
+      "createdAt": "2026-03-14 07:31:12"
+    },
+    {
+      "eventType": "field_complete",
+      "eventData": "{\"fieldName\":\"packageSize\",\"valueType\":\"number\",\"ingredientId\":\"v4M_c5JlvVhBirYtiNvVg\",\"timestamp\":\"2026-03-14T07:31:11.124Z\",\"language\":\"en-GB\",\"sessionAge\":85}",
+      "createdAt": "2026-03-14 07:31:11"
+    }
+  ],
+  "messages": [],
+  "stdout": "eventType\teventData\tcreatedAt\nsession_end\t{\"sessionDuration\":74.541,\"completedIngredients\":0,\"totalIngredients\":1,\"hadCalculatedCost\":false,\"language\":\"en-US\"}\t2026-03-14 13:04:40\nsession_start\t{\"referrer\":\"https://manus.im/\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36\",\"screenResolution\":\"1728x1117\",\"viewportSize\":\"504x700\",\"language\":\"en-US\"}\t2026-03-14 13:03:25\npage_view\t{\"path\":\"/\",\"title\":\"Recipe Cost Calculator - Free Ingredient Price Tool\",\"referrer\":\"https://manus.im/\",\"language\":\"en-US\"}\t2026-03-14 13:03:25\nfirst_ingredient_added\t{\"timeFromPageLoad\":0.022,\"language\":\"en-US\"}\t2026-03-14 13:03:25\ningredient_add\t{\"ingredientId\":\"ey0IieoMqY2QwqtXM421y\",\"ingredientName\":\"\",\"usedQuantity\":0,\"usedUnit\":\"unit\",\"packageCost\":0,\"packageSize\":0,\"packageUnit\":\"unit\",\"calculatedCost\":0,\"language\":\"en-US\"}\t2026-03-14 13:03:25\nfirst_ingredient_added\t{\"timeFromPageLoad\":0.043,\"language\":\"en-US\"}\t2026-03-14 13:03:23\nsession_start\t{\"referrer\":\"https://manus.im/\",\"userAgent\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36\",\"screenResolution\":\"1728x1117\",\"viewportSize\":\"504x700\",\"language\":\"en-US\"}\t2026-03-14 13:03:23\npage_view\t{\"path\":\"/\",\"title\":\"Recipe Cost Calculator - Free Ingredient Price Tool\",\"referrer\":\"https://manus.im/\",\"language\":\"en-US\"}\t2026-03-14 13:03:23\ningredient_add\t{\"ingredientId\":\"tU-UJBQLGHWb-dujt5caZ\",\"ingredientName\":\"\",\"usedQuantity\":0,\"usedUnit\":\"unit\",\"packageCost\":0,\"packageSize\":0,\"packageUnit\":\"unit\",\"calculatedCost\":0,\"language\":\"en-US\"}\t2026-03-14 13:03:23\ningredient_add\t{\"ingredientId\":\"q5rzV_QP-Idr-KljRY_-s\",\"ingredientName\":\"\",\"usedQuantity\":0,\"usedUnit\":\"unit\",\"packageCost\":0,\"packageSize\":0,\"packageUnit\":\"unit\",\"calculatedCost\":0,\"language\":\"it-IT\"}\t2026-03-14 12:56:19\npage_view\t{\"path\":\"/\",\"title\":\"Recipe Cost Calculator - Free Ingredient Price Tool\",\"referrer\":\"direct\",\"language\":\"it-IT\"}\t2026-03-14 12:56:19\nsession_start\t{\"referrer\":\"direct\",\"userAgent\":\"Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1\",\"screenResolution\":\"402x874\",\"viewportSize\":\"402x678\",\"language\":\"it-IT\"}\t2026-03-14 12:56:19\nfirst_ingredient_added\t{\"timeFromPageLoad\":0.118,\"language\":\"it-IT\"}\t2026-03-14 12:56:19\nsession_end\t{\"sessionDuration\":5.197,\"completedIngredients\":0,\"totalIngredients\":1,\"hadCalculatedCost\":false,\"language\":\"en-US\"}\t2026-03-14 09:43:59\npage_view\t{\"path\":\"/\",\"title\":\"Recipe Cost Calculator - Free Ingredient Price Tool\",\"referrer\":\"direct\",\"language\":\"en-US\"}\t2026-03-14 09:43:56\nsession_start\t{\"referrer\":\"direct\",\"userAgent\":\"Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Mobile/15E148 Safari/604.1\",\"screenResolution\":\"390x844\",\"viewportSize\":\"390x844\",\"language\":\"en-US\"}\t2026-03-14 09:43:56\nfirst_ingredient_added\t{\"timeFromPageLoad\":0.112,\"language\":\"en-US\"}\t2026-03-14 09:43:56\ningredient_add\t{\"ingredientId\":\"5LkFf8AcsurX0GMqxdyRY\",\"ingredientName\":\"\",\"usedQuantity\":0,\"usedUnit\":\"unit\",\"packageCost\":0,\"packageSize\":0,\"packageUnit\":\"unit\",\"calculatedCost\":0,\"language\":\"en-US\"}\t2026-03-14 09:43:56\ningredient_edit\t{\"ingredientId\":\"v4M_c5JlvVhBirYtiNvVg\",\"ingredientName\":\"Chicken\",\"usedQuantity\":1,\"usedUnit\":\"kg\",\"packageCost\":5.99,\"packageSize\":3,\"packageUnit\":\"lb\",\"calculatedCost\":4.401900092300276,\"language\":\"en-GB\"}\t2026-03-14 07:31:12\nfield_complete\t{\"fieldName\":\"packageSize\",\"valueType\":\"number\",\"ingredientId\":\"v4M_c5JlvVhBirYtiNvVg\",\"timestamp\":\"2026-03-14T07:31:11.124Z\",\"language\":\"en-GB\",\"sessionAge\":85}\t2026-03-14 07:31:11\n",
+  "stderr": "",
+  "execution_time_ms": 358
+}

@@ -4,9 +4,9 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { ownerProcedure, publicProcedure, router } from "./_core/trpc";
 import { logEvent, getAnalyticsData } from "./events";
-import { sharedRecipes } from "../drizzle/schema";
+import { sharedRecipes, abEvents } from "../drizzle/schema";
 import { getDb } from "./db";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { nanoid } from "nanoid";
 
 export const appRouter = router({
@@ -81,6 +81,63 @@ export const appRouter = router({
           totalCost: data.totalCost / 100, // Convert from cents
           createdAt: data.createdAt,
         };
+      }),
+  }),
+
+  // A/B test tracking router
+  abTest: router({
+    track: publicProcedure
+      .input(
+        z.object({
+          testName: z.string(),
+          sessionId: z.string(),
+          abGroup: z.enum(["control", "treatment"]),
+          eventName: z.string(),
+          metadata: z.record(z.string(), z.any()).optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return { success: false };
+
+        await db.insert(abEvents).values({
+          testName: input.testName,
+          sessionId: input.sessionId,
+          abGroup: input.abGroup,
+          eventName: input.eventName,
+          metadata: input.metadata ? JSON.stringify(input.metadata) : null,
+        });
+
+        return { success: true };
+      }),
+
+    getResults: ownerProcedure
+      .input(z.object({ testName: z.string() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database not available");
+
+        // Get per-group event counts
+        const rows = await db
+          .select({
+            abGroup: abEvents.abGroup,
+            eventName: abEvents.eventName,
+            count: sql<number>`COUNT(DISTINCT sessionId)`,
+          })
+          .from(abEvents)
+          .where(eq(abEvents.testName, input.testName))
+          .groupBy(abEvents.abGroup, abEvents.eventName);
+
+        // Pivot into a structured result
+        const result: Record<string, Record<string, number>> = {
+          control: {},
+          treatment: {},
+        };
+        for (const row of rows) {
+          result[row.abGroup][row.eventName] = Number(row.count);
+        }
+
+        return result;
       }),
   }),
 

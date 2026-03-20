@@ -31,7 +31,7 @@ import { useEventLogger } from '@/hooks/useEventLogger';
 import { useEnhancedEventLogger } from '@/hooks/useEnhancedEventLogger';
 import { trpc } from '@/lib/trpc';
 import OnboardingTutorial from '@/components/OnboardingTutorial';
-import { useABTest, trackABTestEvent } from '@/hooks/useABTest';
+import { useABTest, trackABTestEvent, useABTestTracker } from '@/hooks/useABTest';
 
 export default function Home() {
   // The userAuth hooks provides authentication state
@@ -79,6 +79,7 @@ export default function Home() {
     testName: 'onboarding_tutorial',
     storageKey: 'ab_test_onboarding',
   });
+  const { trackEvent: trackABEvent } = useABTestTracker('onboarding_tutorial', 'ab_test_onboarding');
 
   // Check if user has completed onboarding and is in treatment group
   useEffect(() => {
@@ -90,6 +91,7 @@ export default function Home() {
       const timer = setTimeout(() => {
         setShowOnboarding(true);
         trackABTestEvent('onboarding_tutorial', abTestGroup, 'tutorial_shown');
+        trackABEvent(abTestGroup, 'tutorial_shown');
       }, 1000);
       return () => clearTimeout(timer);
     }
@@ -97,6 +99,7 @@ export default function Home() {
     // Track that control group did not see tutorial
     if (!hasCompletedOnboarding && abTestGroup === 'control') {
       trackABTestEvent('onboarding_tutorial', abTestGroup, 'no_tutorial');
+      trackABEvent(abTestGroup, 'no_tutorial');
     }
   }, [abTestGroup]);
 
@@ -106,6 +109,7 @@ export default function Home() {
     logEvent('onboarding_complete', {});
     enhancedLogger.logJourneyStep('onboarding_complete');
     trackABTestEvent('onboarding_tutorial', abTestGroup, 'tutorial_completed');
+    trackABEvent(abTestGroup, 'tutorial_completed');
   };
 
   const handleOnboardingSkip = () => {
@@ -114,6 +118,7 @@ export default function Home() {
     logEvent('onboarding_skipped', {});
     enhancedLogger.logJourneyAbandon('onboarding_skipped');
     trackABTestEvent('onboarding_tutorial', abTestGroup, 'tutorial_skipped');
+    trackABEvent(abTestGroup, 'tutorial_skipped');
   };
 
   // Calculate total cost whenever ingredients change
@@ -240,6 +245,7 @@ export default function Home() {
       trackABTestEvent('onboarding_tutorial', abTestGroup, 'first_ingredient_added', {
         timeFromPageLoad,
       });
+      trackABEvent(abTestGroup, 'first_ingredient_added', { timeFromPageLoad });
       setHasLoggedFirstIngredient(true);
     }
     
@@ -584,6 +590,7 @@ export default function Home() {
         ingredientCount: ingredients.length,
         totalCost,
       });
+      trackABEvent(abTestGroup, 'recipe_saved', { ingredientCount: ingredients.length, totalCost });
     } catch (error) {
       toast.error(t('toasts.saveFailed'));
     }

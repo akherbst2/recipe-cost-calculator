@@ -1,0 +1,192 @@
+{
+  "query": "\nSELECT \n  eventType,\n  COUNT(*) as count,\n  COUNT(DISTINCT sessionId) as sessions,\n  MIN(createdAt) as first,\n  MAX(createdAt) as last\nFROM events\nWHERE createdAt >= '2026-02-16 00:00:00'\nGROUP BY eventType\nORDER BY count DESC;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway03.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2vGuTCYzpyNQ1XN.root --database cUKXq5uw3eiWGpv5roCqyH --execute \nSELECT \n  eventType,\n  COUNT(*) as count,\n  COUNT(DISTINCT sessionId) as sessions,\n  MIN(createdAt) as first,\n  MAX(createdAt) as last\nFROM events\nWHERE createdAt >= '2026-02-16 00:00:00'\nGROUP BY eventType\nORDER BY count DESC;\n",
+  "rows": [
+    {
+      "eventType": "field_complete",
+      "count": "4198",
+      "sessions": "60",
+      "first": "2026-02-18 09:23:12",
+      "last": "2026-03-14 07:31:11"
+    },
+    {
+      "eventType": "ingredient_edit",
+      "count": "1650",
+      "sessions": "65",
+      "first": "2026-02-16 22:13:42",
+      "last": "2026-03-14 07:31:12"
+    },
+    {
+      "eventType": "field_focus",
+      "count": "1350",
+      "sessions": "69",
+      "first": "2026-02-18 09:23:06",
+      "last": "2026-03-14 07:31:10"
+    },
+    {
+      "eventType": "field_blur",
+      "count": "1327",
+      "sessions": "65",
+      "first": "2026-02-18 09:23:19",
+      "last": "2026-03-14 07:31:10"
+    },
+    {
+      "eventType": "ingredient_add",
+      "count": "542",
+      "sessions": "287",
+      "first": "2026-02-16 00:55:27",
+      "last": "2026-03-14 13:03:25"
+    },
+    {
+      "eventType": "page_view",
+      "count": "395",
+      "sessions": "288",
+      "first": "2026-02-16 00:55:28",
+      "last": "2026-03-14 13:03:25"
+    },
+    {
+      "eventType": "session_start",
+      "count": "394",
+      "sessions": "287",
+      "first": "2026-02-16 00:55:28",
+      "last": "2026-03-14 13:03:25"
+    },
+    {
+      "eventType": "first_ingredient_added",
+      "count": "393",
+      "sessions": "286",
+      "first": "2026-02-16 00:55:27",
+      "last": "2026-03-14 13:03:25"
+    },
+    {
+      "eventType": "unit_conversion_success",
+      "count": "174",
+      "sessions": "48",
+      "first": "2026-02-18 09:23:36",
+      "last": "2026-03-14 07:30:59"
+    },
+    {
+      "eventType": "unit_conversion_attempted",
+      "count": "174",
+      "sessions": "48",
+      "first": "2026-02-18 09:23:36",
+      "last": "2026-03-14 07:30:59"
+    },
+    {
+      "eventType": "cost_calculated",
+      "count": "160",
+      "sessions": "52",
+      "first": "2026-02-16 22:14:09",
+      "last": "2026-03-14 07:31:11"
+    },
+    {
+      "eventType": "session_end",
+      "count": "61",
+      "sessions": "58",
+      "first": "2026-02-16 00:55:29",
+      "last": "2026-03-14 13:04:40"
+    },
+    {
+      "eventType": "journey_abandon",
+      "count": "31",
+      "sessions": "31",
+      "first": "2026-02-19 02:14:54",
+      "last": "2026-03-12 14:27:04"
+    },
+    {
+      "eventType": "onboarding_skipped",
+      "count": "31",
+      "sessions": "31",
+      "first": "2026-02-19 02:14:54",
+      "last": "2026-03-12 14:27:04"
+    },
+    {
+      "eventType": "onboarding_complete",
+      "count": "17",
+      "sessions": "17",
+      "first": "2026-02-16 18:16:16",
+      "last": "2026-03-14 07:30:12"
+    },
+    {
+      "eventType": "journey_step",
+      "count": "17",
+      "sessions": "17",
+      "first": "2026-02-16 18:16:16",
+      "last": "2026-03-14 07:30:12"
+    },
+    {
+      "eventType": "ingredient_delete",
+      "count": "12",
+      "sessions": "9",
+      "first": "2026-02-17 00:37:20",
+      "last": "2026-03-06 04:18:44"
+    },
+    {
+      "eventType": "button_click",
+      "count": "10",
+      "sessions": "9",
+      "first": "2026-02-24 20:54:19",
+      "last": "2026-03-09 17:33:20"
+    },
+    {
+      "eventType": "export_excel",
+      "count": "8",
+      "sessions": "6",
+      "first": "2026-02-17 00:35:40",
+      "last": "2026-02-28 05:08:45"
+    },
+    {
+      "eventType": "recipe_save_as",
+      "count": "7",
+      "sessions": "7",
+      "first": "2026-02-17 00:35:25",
+      "last": "2026-03-09 17:36:31"
+    },
+    {
+      "eventType": "ingredient_duplicate",
+      "count": "5",
+      "sessions": "5",
+      "first": "2026-02-17 00:37:15",
+      "last": "2026-03-06 04:12:45"
+    },
+    {
+      "eventType": "clear_all",
+      "count": "4",
+      "sessions": "4",
+      "first": "2026-02-19 16:00:01",
+      "last": "2026-03-06 17:01:37"
+    },
+    {
+      "eventType": "recipe_share",
+      "count": "3",
+      "sessions": "3",
+      "first": "2026-02-25 06:25:23",
+      "last": "2026-03-02 15:51:58"
+    },
+    {
+      "eventType": "export_csv",
+      "count": "2",
+      "sessions": "2",
+      "first": "2026-02-24 20:54:57",
+      "last": "2026-02-28 05:08:41"
+    },
+    {
+      "eventType": "recipe_save",
+      "count": "1",
+      "sessions": "1",
+      "first": "2026-02-28 05:09:03",
+      "last": "2026-02-28 05:09:03"
+    },
+    {
+      "eventType": "recipe_load",
+      "count": "1",
+      "sessions": "1",
+      "first": "2026-03-02 15:51:54",
+      "last": "2026-03-02 15:51:54"
+    }
+  ],
+  "messages": [],
+  "stdout": "eventType\tcount\tsessions\tfirst\tlast\nfield_complete\t4198\t60\t2026-02-18 09:23:12\t2026-03-14 07:31:11\ningredient_edit\t1650\t65\t2026-02-16 22:13:42\t2026-03-14 07:31:12\nfield_focus\t1350\t69\t2026-02-18 09:23:06\t2026-03-14 07:31:10\nfield_blur\t1327\t65\t2026-02-18 09:23:19\t2026-03-14 07:31:10\ningredient_add\t542\t287\t2026-02-16 00:55:27\t2026-03-14 13:03:25\npage_view\t395\t288\t2026-02-16 00:55:28\t2026-03-14 13:03:25\nsession_start\t394\t287\t2026-02-16 00:55:28\t2026-03-14 13:03:25\nfirst_ingredient_added\t393\t286\t2026-02-16 00:55:27\t2026-03-14 13:03:25\nunit_conversion_success\t174\t48\t2026-02-18 09:23:36\t2026-03-14 07:30:59\nunit_conversion_attempted\t174\t48\t2026-02-18 09:23:36\t2026-03-14 07:30:59\ncost_calculated\t160\t52\t2026-02-16 22:14:09\t2026-03-14 07:31:11\nsession_end\t61\t58\t2026-02-16 00:55:29\t2026-03-14 13:04:40\njourney_abandon\t31\t31\t2026-02-19 02:14:54\t2026-03-12 14:27:04\nonboarding_skipped\t31\t31\t2026-02-19 02:14:54\t2026-03-12 14:27:04\nonboarding_complete\t17\t17\t2026-02-16 18:16:16\t2026-03-14 07:30:12\njourney_step\t17\t17\t2026-02-16 18:16:16\t2026-03-14 07:30:12\ningredient_delete\t12\t9\t2026-02-17 00:37:20\t2026-03-06 04:18:44\nbutton_click\t10\t9\t2026-02-24 20:54:19\t2026-03-09 17:33:20\nexport_excel\t8\t6\t2026-02-17 00:35:40\t2026-02-28 05:08:45\nrecipe_save_as\t7\t7\t2026-02-17 00:35:25\t2026-03-09 17:36:31\ningredient_duplicate\t5\t5\t2026-02-17 00:37:15\t2026-03-06 04:12:45\nclear_all\t4\t4\t2026-02-19 16:00:01\t2026-03-06 17:01:37\nrecipe_share\t3\t3\t2026-02-25 06:25:23\t2026-03-02 15:51:58\nexport_csv\t2\t2\t2026-02-24 20:54:57\t2026-02-28 05:08:41\nrecipe_save\t1\t1\t2026-02-28 05:09:03\t2026-02-28 05:09:03\nrecipe_load\t1\t1\t2026-03-02 15:51:54\t2026-03-02 15:51:54\n",
+  "stderr": "",
+  "execution_time_ms": 385
+}

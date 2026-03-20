@@ -72,3 +72,26 @@ export const sharedRecipes = mysqlTable("sharedRecipes", {
 
 export type SharedRecipe = typeof sharedRecipes.$inferSelect;
 export type InsertSharedRecipe = typeof sharedRecipes.$inferInsert;
+
+/**
+ * A/B test events table for tracking experiment assignments and conversions.
+ * Stores per-session group assignments and key conversion events for analysis.
+ */
+export const abEvents = mysqlTable("abEvents", {
+  id: int("id").autoincrement().primaryKey(),
+  /** Name of the A/B test (e.g., 'onboarding_tutorial') */
+  testName: varchar("testName", { length: 64 }).notNull(),
+  /** Session ID to link events from the same user */
+  sessionId: varchar("sessionId", { length: 64 }).notNull(),
+  /** A/B group: 'control' or 'treatment' */
+  abGroup: mysqlEnum("abGroup", ["control", "treatment"]).notNull(),
+  /** Event name: 'assigned', 'tutorial_shown', 'tutorial_completed', 'tutorial_skipped', 'first_ingredient_added', 'cost_calculated', 'recipe_saved' */
+  eventName: varchar("eventName", { length: 64 }).notNull(),
+  /** Optional JSON metadata for the event */
+  metadata: text("metadata"),
+  /** Timestamp when the event occurred */
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type AbEvent = typeof abEvents.$inferSelect;
+export type InsertAbEvent = typeof abEvents.$inferInsert;

@@ -181,3 +181,10 @@
   - [x] Time to first action
 - [x] Create A/B test results dashboard page at /ab-test-results
 - [x] Test A/B test assignment and tracking (verified working - events tracked in Umami)
+
+## A/B Test Database Tracking
+- [x] Add ab_events table to drizzle schema
+- [x] Run db:push to migrate schema
+- [x] Add tRPC procedure to store A/B events server-side (abTest.track + abTest.getResults)
+- [x] Update useABTest hook to call tRPC procedure on assignment and conversion
+- [x] Test A/B events are stored in database (4 vitest tests passing, 23 total)
